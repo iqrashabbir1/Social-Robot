@@ -1,0 +1,6 @@
+metric_id,metric_name,unit,objective_direction,status,current_value,notes
+CS3_M1,macro_f1,score,higher_is_better,implemented_real_baseline,,Current baseline should be benchmarked on standardized split
+CS3_M2,accuracy,score,higher_is_better,implemented_real_baseline,,Do not reuse ad hoc demo scores as publication claims
+CS3_M3,expected_calibration_error,score,lower_is_better,planned_experiment,,Needed for deep and transformer comparisons
+CS3_M4,inference_latency_ms,ms,lower_is_better,implemented_real_baseline,,Measure on consistent hardware
+CS3_M5,missing_modality_robustness,score,higher_is_better,planned_experiment,,Compare late fusion and transformer models

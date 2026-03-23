@@ -1,0 +1,2 @@
+case_study_id,title,evidence_status,existing_assets,baselines,expected_output
+CS6,HITL dashboard and override safety analysis,planned_experiment,"response layer, test logs, alert scaffolding","A7, A8",Dashboard safety-governance evaluation package

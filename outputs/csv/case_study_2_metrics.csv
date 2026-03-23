@@ -1,0 +1,6 @@
+metric_id,metric_name,unit,objective_direction,status,current_value,notes
+CS2_M1,synchronization_error_ms,ms,lower_is_better,simulation_based_evaluation,,Across multimodal windows
+CS2_M2,packet_completeness,ratio,higher_is_better,simulation_based_evaluation,,Fraction of windows with all expected packets
+CS2_M3,window_coverage,ratio,higher_is_better,simulation_based_evaluation,,Fraction of usable synchronized windows
+CS2_M4,dropout_robustness,ratio,higher_is_better,simulation_based_evaluation,,Performance stability under missing modality tests
+CS2_M5,ingestion_latency_ms,ms,lower_is_better,simulation_based_evaluation,,Edge ingestion timing

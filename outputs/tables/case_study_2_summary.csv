@@ -1,0 +1,2 @@
+case_study_id,title,evidence_status,existing_assets,baselines,expected_output
+CS2,Multimodal sensing and synchronization,simulation_based_evaluation,"webcam and speech assets, multimodal test logs","A1, A5, A8",Synchronization policy and robustness analysis

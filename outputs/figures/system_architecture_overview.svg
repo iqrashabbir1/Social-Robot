@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760">
+  <title>System Architecture Overview</title>
+  <desc>Source: outputs/csv/system_module_map.csv.</desc>
+  <rect width="1400" height="760" fill="#ffffff"/>
+  <text x="60" y="60" font-family="DejaVu Sans, Arial, sans-serif" font-size="30" font-weight="700" fill="#133c55">System Architecture Overview</text>
+  <text x="60" y="92" font-family="DejaVu Sans, Arial, sans-serif" font-size="16" fill="#4a5568">Five-layer cognitive caregiving robot architecture with preserved baseline and proposed full-stack path.</text>
+
+  <g font-family="DejaVu Sans, Arial, sans-serif">
+    <rect x="70" y="150" width="230" height="150" rx="18" fill="#133c55"/>
+    <text x="95" y="185" font-size="20" font-weight="700" fill="#ffffff">Layer 1</text>
+    <text x="95" y="215" font-size="17" fill="#ffffff">Sensor adapters</text>
+    <text x="95" y="242" font-size="15" fill="#e6f1f5">camera, speech, wearables, IoT</text>
+    <text x="95" y="267" font-size="15" fill="#e6f1f5">dashboard and telepresence events</text>
+
+    <rect x="340" y="150" width="230" height="150" rx="18" fill="#2a9d8f"/>
+    <text x="365" y="185" font-size="20" font-weight="700" fill="#ffffff">Layer 2</text>
+    <text x="365" y="215" font-size="17" fill="#ffffff">Synchronization and embeddings</text>
+    <text x="365" y="242" font-size="15" fill="#f0fffc">windowing, quality flags</text>
+    <text x="365" y="267" font-size="15" fill="#f0fffc">feature extractors and encoders</text>
+
+    <rect x="610" y="150" width="230" height="150" rx="18" fill="#e9c46a"/>
+    <text x="635" y="185" font-size="20" font-weight="700" fill="#1f2933">Layer 3</text>
+    <text x="635" y="215" font-size="17" fill="#1f2933">Task heads</text>
+    <text x="635" y="242" font-size="15" fill="#4f3f1f">MER, risk, anomaly, adherence</text>
+    <text x="635" y="267" font-size="15" fill="#4f3f1f">baseline and transformer path</text>
+
+    <rect x="880" y="150" width="230" height="150" rx="18" fill="#f4a261"/>
+    <text x="905" y="185" font-size="20" font-weight="700" fill="#1f2933">Layer 4</text>
+    <text x="905" y="215" font-size="17" fill="#1f2933">Reasoning and explanation</text>
+    <text x="905" y="242" font-size="15" fill="#4f3f1f">digital twin, knowledge graph</text>
+    <text x="905" y="267" font-size="15" fill="#4f3f1f">LLM explanation with provenance</text>
+
+    <rect x="1150" y="150" width="180" height="150" rx="18" fill="#e76f51"/>
+    <text x="1175" y="185" font-size="20" font-weight="700" fill="#ffffff">Layer 5</text>
+    <text x="1175" y="215" font-size="17" fill="#ffffff">Oversight and deployment</text>
+    <text x="1175" y="242" font-size="15" fill="#fff3ef">HITL, privacy, telepresence</text>
+    <text x="1175" y="267" font-size="15" fill="#fff3ef">edge routing and audit logs</text>
+  </g>
+
+  <g stroke="#486581" stroke-width="4" fill="none" marker-end="url(#arrow)">
+    <path d="M300 225 H340"/>
+    <path d="M570 225 H610"/>
+    <path d="M840 225 H880"/>
+    <path d="M1110 225 H1150"/>
+  </g>
+
+  <g font-family="DejaVu Sans, Arial, sans-serif">
+    <rect x="110" y="400" width="360" height="140" rx="18" fill="#f8fafc" stroke="#cbd2d9" stroke-width="2"/>
+    <text x="135" y="438" font-size="22" font-weight="700" fill="#133c55">Preserved Baseline Path</text>
+    <text x="135" y="472" font-size="16" fill="#334e68">camera -> DeepFace -> speech SVM -> rule fusion -> empathetic response -> TTS</text>
+    <text x="135" y="505" font-size="15" fill="#52606d">Role: implemented baseline MER model and ablation reference.</text>
+
+    <rect x="520" y="400" width="720" height="220" rx="18" fill="#fffaf1" stroke="#e9c46a" stroke-width="2"/>
+    <text x="548" y="438" font-size="22" font-weight="700" fill="#7c4a03">Proposed Full-Stack Path</text>
+    <text x="548" y="472" font-size="16" fill="#523f1b">multimodal sensing -> synchronization -> transformer and task heads -> digital twin</text>
+    <text x="548" y="502" font-size="16" fill="#523f1b">-> KG retrieval -> LLM explanation -> dashboard and telepresence -> privacy-aware routing</text>
+    <text x="548" y="544" font-size="15" fill="#6b4f1d">This path enables module-wise validation, deployment constraints, and publication-grade ablation studies.</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#486581"/>
+    </marker>
+  </defs>
+</svg>

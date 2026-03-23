@@ -1,0 +1,2 @@
+case_study_id,title,evidence_status,existing_assets,baselines,expected_output
+CS1,ROS2 plus digital twin validation,simulation_based_evaluation,"ros2_ws directory, baseline MER outputs","A3, A8",Replayable ROS2 scenario validation package

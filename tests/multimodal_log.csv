@@ -1,0 +1,33 @@
+timestamp,face_emotion,face_confidence,speech_emotion,fused_emotion,response_text,audio_file
+2025-12-09T17:15:16,sad,53.667572021484375,positive,sad,It’s okay to feel sad sometimes. You are not alone.,D:\emotion_assistant\data\speech\tmp\demo_f80c6622.wav
+2025-12-09T17:15:58,happy,89.34696960449219,positive,happy,I can sense some joy in you. Do you want to share what made you happy?,D:\emotion_assistant\data\speech\tmp\demo_a488b74e.wav
+2025-12-09T17:16:26,happy,71.36456298828125,positive,happy,I can sense some joy in you. Do you want to share what made you happy?,D:\emotion_assistant\data\speech\tmp\demo_f455e196.wav
+2025-12-09T17:16:44,sad,55.55225372314453,positive,sad,I sense some sadness. Do you want to tell me what’s bothering you?,D:\emotion_assistant\data\speech\tmp\demo_b6b17550.wav
+2025-12-09T17:17:03,neutral,64.02783203125,positive,happy,You look happy right now. That makes me glad!,D:\emotion_assistant\data\speech\tmp\demo_3e9f2eaa.wav
+2025-12-09T17:17:21,sad,57.81881332397461,positive,sad,It’s okay to feel sad sometimes. You are not alone.,D:\emotion_assistant\data\speech\tmp\demo_9c704352.wav
+2025-12-09T17:17:39,sad,73.70100402832031,positive,sad,You seem a bit down. I’m here for you if you’d like to talk.,D:\emotion_assistant\data\speech\tmp\demo_afb00616.wav
+2025-12-09T17:17:57,neutral,71.6741714477539,positive,happy,You look happy right now. That makes me glad!,D:\emotion_assistant\data\speech\tmp\demo_33d86674.wav
+2025-12-09T17:18:16,sad,66.85043334960938,positive,sad,It’s okay to feel sad sometimes. You are not alone.,D:\emotion_assistant\data\speech\tmp\demo_7025430d.wav
+2025-12-09T17:18:34,happy,71.31685638427734,positive,happy,I can sense some joy in you. Do you want to share what made you happy?,D:\emotion_assistant\data\speech\tmp\demo_6b83b0a7.wav
+2025-12-09T18:59:31,happy,75.15147399902344,neutral,happy,You seem in a good mood. It's nice to see you like this.,D:\emotion_assistant\data\speech\tmp\demo_e1df097b.wav
+2025-12-09T18:59:54,neutral,45.06294631958008,neutral,neutral,You seem calm. Is there anything you would like to do now?,D:\emotion_assistant\data\speech\tmp\demo_13c6b61e.wav
+2025-12-09T19:00:15,sad,36.446956634521484,neutral,sad,You look upset. Let’s take things slowly together.,D:\emotion_assistant\data\speech\tmp\demo_8d05839b.wav
+2025-12-09T19:06:01,sad,48.32013702392578,neutral,sad,You look upset. Let’s take things slowly together.,D:\emotion_assistant\data\speech\tmp\demo_4a162a53.wav
+2025-12-09T19:06:22,sad,61.988651275634766,neutral,sad,You seem a bit down. I’m here for you if you’d like to talk.,D:\emotion_assistant\data\speech\tmp\demo_7015d234.wav
+2025-12-09T19:31:36,happy,95.46499633789062,neutral,happy,You seem in a good mood. It's nice to see you like this.,D:\emotion_assistant\data\speech\tmp\demo_9553a7b3.wav
+2025-12-09T19:32:03,fear,38.596763610839844,neutral,fear,I sense some anxiety. Do you want to tell me what is making you nervous?,D:\emotion_assistant\data\speech\tmp\demo_4ded95c9.wav
+2025-12-09T19:47:38,neutral,49.62773895263672,positive,happy,You seem in a good mood. It's nice to see you like this.,D:\emotion_assistant\data\speech\tmp\demo_f8e4eded.wav
+2025-12-09T19:48:00,sad,63.61752700805664,positive,sad,You seem a bit down. I’m here for you if you’d like to talk.,D:\emotion_assistant\data\speech\tmp\demo_dc1cadb3.wav
+2025-12-09T19:48:26,neutral,74.92998504638672,positive,happy,I can sense some joy in you. Do you want to share what made you happy?,D:\emotion_assistant\data\speech\tmp\demo_0e99d12d.wav
+2025-12-09T19:48:57,neutral,70.65519714355469,positive,happy,You sound cheerful! I’m happy to be here with you.,D:\emotion_assistant\data\speech\tmp\demo_40a7792a.wav
+2025-12-09T19:49:23,sad,73.33464050292969,positive,sad,You look upset. Let’s take things slowly together.,D:\emotion_assistant\data\speech\tmp\demo_398b2f88.wav
+2025-12-09T19:49:47,happy,83.5499267578125,positive,happy,You sound cheerful! I’m happy to be here with you.,D:\emotion_assistant\data\speech\tmp\demo_05a424b1.wav
+2025-12-09T19:51:21,sad,82.99143981933594,positive,sad,You seem a bit down. I’m here for you if you’d like to talk.,D:\emotion_assistant\data\speech\tmp\demo_8b44ece5.wav
+2025-12-09T19:51:40,sad,62.884246826171875,positive,sad,You look upset. Let’s take things slowly together.,D:\emotion_assistant\data\speech\tmp\demo_8c4ca94b.wav
+2025-12-09T19:52:02,neutral,69.24169921875,positive,happy,You sound cheerful! I’m happy to be here with you.,D:\emotion_assistant\data\speech\tmp\demo_4744f0b7.wav
+2025-12-09T20:29:59,sad,59.13225173950195,negative,sad,It’s okay to feel sad sometimes. You are not alone.,D:\emotion_assistant\data\speech\tmp\demo_5ef3b2f2.wav
+2025-12-09T20:30:25,happy,73.48004913330078,positive,happy,You seem in a good mood. It's nice to see you like this.,D:\emotion_assistant\data\speech\tmp\demo_85395bed.wav
+2025-12-09T20:30:49,sad,62.9227294921875,negative,sad,You look upset. Let’s take things slowly together.,D:\emotion_assistant\data\speech\tmp\demo_d495d484.wav
+2025-12-09T20:31:08,neutral,81.30618286132812,negative,sad,You look upset. Let’s take things slowly together.,D:\emotion_assistant\data\speech\tmp\demo_d5f76b0d.wav
+2025-12-09T20:33:01,angry,97.15582275390625,positive,angry,You seem angry. It might help to talk about it.,D:\emotion_assistant\data\speech\tmp\demo_c73db965.wav
+2025-12-10T07:37:50,fear,40.825958251953125,,fear,It’s okay to feel scared. We can take it one step at a time.,

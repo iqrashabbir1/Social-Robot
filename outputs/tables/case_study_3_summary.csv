@@ -1,0 +1,2 @@
+case_study_id,title,evidence_status,existing_assets,baselines,expected_output
+CS3,Classical ML versus deep multimodal versus transformer MER benchmark,implemented_real_baseline plus planned extensions,"DeepFace webcam baseline, CREMA-D speech data, trained SVM assets","A5, A8",Reproducible MER benchmark package

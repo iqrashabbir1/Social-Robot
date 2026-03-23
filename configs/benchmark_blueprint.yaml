@@ -1,0 +1,35 @@
+project:
+  name: emotion_assistant_research_upgrade
+  title: Privacy-Aware Explainable Multimodal Digital-Twin Cognitive Caregiving Robot
+
+evidence_levels:
+  - implemented_real_baseline
+  - simulation_based_evaluation
+  - planned_experiment
+
+baseline_assets:
+  face_module: perception/face_emotion.py
+  speech_module: perception/speech_emotion.py
+  fusion_module: fusion/fusion_logic.py
+  response_module: response/response_rules.py
+
+outputs:
+  csv_dir: outputs/csv
+  figure_dir: outputs/figures
+  table_dir: outputs/tables
+  log_dir: outputs/logs
+
+case_studies:
+  - CS1
+  - CS2
+  - CS3
+  - CS4
+  - CS5
+  - CS6
+  - CS7
+  - CS8
+
+figure_exports:
+  - png
+  - svg
+  - pdf

@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+.pytest_cache/
+.mypy_cache/
+
+data/speech/tmp/
+data/speech/tmp_debug/
+
+Thumbs.db
+Desktop.ini

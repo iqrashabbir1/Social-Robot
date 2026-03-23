@@ -1,0 +1,9 @@
+approach_id,approach_name,category,evidence_type,sensing_modalities,predictive_health_risk_capability,emotion_awareness,medication_adherence_support,ros2_digital_twin_support,iot_edge_deployment,explainability,hitl_safety_governance,privacy_awareness,telepresence_cultural_adaptation,real_world_readiness,expected_computational_cost,expected_operational_usefulness
+A1,Classical wearable monitoring plus shallow ML risk prediction,physiology-first baseline,literature_aligned,"physiology, wearable activity",3,0,0,0,1,1,1,1,0,2,low,moderate
+A2,Medication-management robot only,adherence-only assistant,literature_aligned,"schedule, reminders, user prompts",1,0,3,1,1,1,1,1,1,2,medium,moderate
+A3,ROS2 or digital-twin robot without full cognition stack,simulation-first assistant,literature_aligned,"robot state, simulated sensors",1,1,1,3,1,0,1,1,1,2,high,moderate
+A4,IoT-edge healthcare monitoring without social reasoning,deployment-first monitoring,literature_aligned,"iot, wearables, edge analytics",2,1,1,0,3,0,1,2,0,2,medium,moderate_high
+A5,Multimodal emotion recognition system only,affect-only benchmark,implemented_real_baseline_reference,"vision, speech",0,3,0,0,1,1,0,1,1,1,medium,narrow
+A6,LLM-enabled socially assistive robot dialogue system,dialogue-first assistant,literature_aligned,"dialogue, optional speech, user context",1,2,2,1,1,1,1,0,2,1,high,moderate
+A7,Explainable KG and HITL healthcare robot,reasoning-first assistant,literature_aligned,"health records, selected sensors, clinician inputs",2,1,2,1,1,3,3,2,1,2,high,high
+A8,Proposed integrated caregiving system,full-stack cognitive caregiving robot,research_target,"vision, speech, physiology, behavior, medication, ros2, dashboard",3,3,3,3,3,3,3,3,3,3,very_high,very_high

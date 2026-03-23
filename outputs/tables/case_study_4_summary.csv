@@ -1,0 +1,2 @@
+case_study_id,title,evidence_status,existing_assets,baselines,expected_output
+CS4,Health-risk prediction and anomaly detection,simulation_based_evaluation,"no direct physiology pipeline yet; digital twin scaffold","A1, A4, A8",Simulation-backed risk and anomaly benchmark design

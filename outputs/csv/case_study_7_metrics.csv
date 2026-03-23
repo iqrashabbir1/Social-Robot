@@ -1,0 +1,6 @@
+metric_id,metric_name,unit,objective_direction,status,current_value,notes
+CS7_M1,faithfulness_score,score,higher_is_better,planned_experiment,,Link every explanation to KG evidence
+CS7_M2,citation_coverage,ratio,higher_is_better,planned_experiment,,Measure missing provenance
+CS7_M3,contradiction_rate,ratio,lower_is_better,planned_experiment,,Compare explanation text with structured facts
+CS7_M4,clinician_usefulness,score,higher_is_better,planned_experiment,,Human study needed
+CS7_M5,time_to_understanding_sec,seconds,lower_is_better,planned_experiment,,Derived from dashboard review sessions
