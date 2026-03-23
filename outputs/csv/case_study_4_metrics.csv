@@ -1,6 +1,6 @@
 metric_id,metric_name,unit,objective_direction,status,current_value,notes
-CS4_M1,auroc,score,higher_is_better,simulation_based_evaluation,,Simulation-based until physiology dataset is available
-CS4_M2,auprc,score,higher_is_better,simulation_based_evaluation,,Use event-imbalance aware reporting
+CS4_M1,auroc,score,higher_is_better,simulation_based_evaluation,0.9958,Simulation-based until physiology dataset is available
+CS4_M2,auprc,score,higher_is_better,simulation_based_evaluation,0.9552,Use event-imbalance aware reporting
 CS4_M3,time_to_warning_min,minutes,higher_is_better,simulation_based_evaluation,,Lead time before adverse event
-CS4_M4,false_alert_rate,ratio,lower_is_better,simulation_based_evaluation,,Needed for caregiver burden analysis
+CS4_M4,false_alert_rate,ratio,lower_is_better,simulation_based_evaluation,0.0083,Needed for caregiver burden analysis
 CS4_M5,anomaly_detection_delay,seconds,lower_is_better,simulation_based_evaluation,,Measure after twin personalization

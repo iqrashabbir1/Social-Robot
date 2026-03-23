@@ -15,31 +15,36 @@ This repository upgrades a baseline social-robot prototype into a publication-or
 - telepresence and cultural adaptation
 
 ## Current Status
-### Implemented and Pushed
+### Implemented and Executed
 - preserved baseline face-plus-speech emotion pipeline
 - modular research workspace under `docs/`, `src/`, `configs/`, and `outputs/`
 - research master plan, problem formulation, and system architecture documents
 - literature comparison package
 - 8 case-study designs with CSV-backed metrics and summary tables
-- reusable evaluation and visualization scaffolding
-- publication-style PNG and SVG figures
-
-### Not Yet Completed
-- full experimental execution for the advanced multimodal models
-- real physiological integration
-- populated knowledge graph and dashboard implementation
-- pilot deployment validation
-- PDF figure export in the current shell setup
+- executable benchmark pipeline in a project-local Python environment
+- generated CSV, PNG, SVG, and PDF outputs from the benchmark and figure pipelines
+- populated synthetic physiology, medication, and alert streams for simulation-backed evaluation
+- populated knowledge graph plus explanation outputs
+- lightweight human-in-the-loop dashboard prototype
+- pilot-style validation protocol and readiness package
+- ROS2 package skeleton for digital-twin topic integration
 
 No experimental performance was fabricated. The repository separates:
 - implemented real baseline
 - simulation-based evaluation
 - planned experiments
 
+### External Work Still Required
+- actual field deployment in an assisted-living or hospital setting
+- ethics and consent approval
+- live wearable and bedside hardware integration
+- clinician-validated pilot study execution
+
 ## Key Documents
 - [Research master plan](docs/research_master_plan.md)
 - [Problem formulation](docs/problem_formulation.md)
 - [System architecture](docs/system_architecture.md)
+- [Pilot validation protocol](docs/pilot_validation_protocol.md)
 - [Next actions](docs/next_actions.md)
 
 ## Case Studies
@@ -65,6 +70,7 @@ No experimental performance was fabricated. The repository separates:
 - `outputs/figures/literature_radar_or_bar_comparison.png`
 - `outputs/figures/system_architecture_overview.png`
 - `outputs/figures/case_study_summary_dashboard.png`
+- `outputs/figures/*.pdf`
 
 ## Repository Structure
 ```text
@@ -82,7 +88,12 @@ data/                speech datasets and baseline models
 ## Baseline That Was Preserved
 The existing webcam and DeepFace-style 4-class emotion pipeline is preserved as the baseline MER reference, along with speech emotion and rule-based fusion components.
 
+## Executable Entry Points
+- `src/evaluation/run_benchmarks.py`
+- `src/visualization/generate_all_figures.py`
+- `src/dashboard/build_dashboard.py`
+
 ## Recommended Next Step
-Expose a standard Python runtime in the shell and then run the benchmark and plotting pipeline from:
+Run the benchmark and plotting pipeline from:
 - `src/evaluation/run_benchmarks.py`
 - `src/visualization/generate_all_figures.py`

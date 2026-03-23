@@ -1,6 +1,6 @@
 metric_id,metric_name,unit,objective_direction,status,current_value,notes
-CS5_M1,reminder_delivery_success,ratio,higher_is_better,planned_experiment,,Requires adherence workflow implementation
+CS5_M1,reminder_delivery_success,ratio,higher_is_better,planned_experiment,0.8333,Requires adherence workflow implementation
 CS5_M2,adherence_state_macro_f1,score,higher_is_better,planned_experiment,,Use controlled adherence labels
 CS5_M3,missed_dose_reason_macro_f1,score,higher_is_better,planned_experiment,,Reason taxonomy must be fixed first
-CS5_M4,escalation_precision,score,higher_is_better,planned_experiment,,Measure only under review policy
+CS5_M4,escalation_precision,score,higher_is_better,planned_experiment,0.25,Measure only under review policy
 CS5_M5,caregiver_followup_rate,ratio,lower_is_better,planned_experiment,,Proxy for burden and false alarms

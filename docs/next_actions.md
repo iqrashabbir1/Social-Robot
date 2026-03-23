@@ -23,20 +23,22 @@
 - Python scaffolding for benchmarks, ablations, CSV export, and figure generation
 - research smoke tests for core metrics utilities
 
-## What Is Still Missing For Full Experiments
-- a standard Python runtime in the active shell for executing the new scripts
-- synchronized multimodal datasets that include physiology, motion, and medication context
-- ROS2 digital-twin implementation details and scenario logs
-- dashboard frontend and telepresence integration
-- KG population and explanation quality annotation data
-- pilot-study protocol, ethics path, and deployment hardware plan
+## What Is Now Executable
+- a project-local Python runtime via `.venv`
+- benchmark execution through `src/evaluation/run_benchmarks.py`
+- figure generation including PDF export through `src/visualization/generate_all_figures.py`
+- synthetic physiology, adherence, and alert generation
+- populated care knowledge graph export
+- lightweight dashboard generation at `outputs/dashboard/index.html`
+- pilot-style validation protocol and readiness table
+- ROS2 package skeleton in `ros2_ws/src/cognitive_caregiver`
 
-## Recommended Immediate Next Steps
-1. Install or expose a standard Python runtime in the shell so the new benchmark and plotting scripts can be executed.
-2. Validate the preserved baseline end-to-end and export standardized benchmark logs.
-3. Populate the digital-twin and physiology simulation feeds for CS1, CS2, CS4, and CS8.
+## External Steps Still Required
+1. Validate the preserved baseline with live webcam and microphone hardware on the target machine.
+2. Connect real physiological or wearable streams to replace the current simulation-backed adapters.
+3. Integrate the ROS2 package into an actual simulation or robot stack.
 4. Decide the first publication target:
    - MER benchmark paper
    - integrated architecture paper
    - explainability and oversight paper
-5. Add a lightweight caregiver dashboard prototype to ground CS6 and CS7 with executable evidence.
+5. Complete ethics, site approval, and clinician coordination for a real pilot study.

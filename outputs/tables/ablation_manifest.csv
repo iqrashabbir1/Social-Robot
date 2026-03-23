@@ -1,0 +1,7 @@
+ablation_id,description,comparison_target,evidence_level
+ABL1,Face-only baseline versus speech-only baseline versus existing rule fusion,CS3,implemented_real_baseline
+ABL2,Late fusion versus cross-attention transformer for MER,CS3,planned_experiment
+ABL3,Health-risk prediction with and without digital-twin context,CS4,simulation_based_evaluation
+ABL4,Adherence reasoning with and without missed-dose reason modeling,CS5,planned_experiment
+ABL5,LLM explanations with and without KG grounding,CS7,planned_experiment
+ABL6,Edge-only versus hybrid routing under privacy constraints,CS8,simulation_based_evaluation

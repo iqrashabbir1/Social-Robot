@@ -1,0 +1,11 @@
+check,status,owner
+Reproducible benchmark pipeline,complete,repo
+Baseline MER execution,complete,repo
+Simulation-backed risk evaluation,complete,repo
+Medication adherence workflow,complete,repo
+Dashboard prototype,complete,repo
+Knowledge graph population,complete,repo
+Telepresence escalation path,complete,repo
+Privacy policy configuration,complete,repo
+Ethics and consent package,pending_external,deployment_team
+Clinical site agreement,pending_external,deployment_team

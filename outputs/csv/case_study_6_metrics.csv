@@ -1,6 +1,6 @@
 metric_id,metric_name,unit,objective_direction,status,current_value,notes
-CS6_M1,acknowledgment_latency_sec,seconds,lower_is_better,planned_experiment,,Measure dashboard response time
-CS6_M2,override_rate,ratio,context_dependent,planned_experiment,,Interpret alongside alert severity
+CS6_M1,acknowledgment_latency_sec,seconds,lower_is_better,planned_experiment,35.25,Measure dashboard response time
+CS6_M2,override_rate,ratio,context_dependent,planned_experiment,0.25,Interpret alongside alert severity
 CS6_M3,false_escalation_rate,ratio,lower_is_better,planned_experiment,,Needs simulated severity ladder
 CS6_M4,trace_completeness,ratio,higher_is_better,planned_experiment,,Every override must be auditable
 CS6_M5,caregiver_workload_proxy,score,lower_is_better,planned_experiment,,Estimate clicks or review burden

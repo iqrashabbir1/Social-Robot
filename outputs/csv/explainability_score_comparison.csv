@@ -1,0 +1,4 @@
+method,faithfulness_score,citation_coverage,contradiction_rate,clinician_usefulness,evidence_level
+Template-only baseline,0.68,0.62,0.08,0.64,simulation_based_evaluation
+Ungrounded LLM,0.55,0.21,0.27,0.72,simulation_based_evaluation
+KG plus LLM proposed,0.89,0.97,0.04,0.87,simulation_based_evaluation

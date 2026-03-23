@@ -1,9 +1,9 @@
 case_study_id,title,layer_focus,evidence_status,existing_assets,reusable_inputs,baselines,figure_source
 CS1,ROS2 plus digital twin validation,"Layers 1, 4, 5",simulation_based_evaluation,"ros2_ws directory, baseline modules","simulated topics, baseline emotion outputs","A3, A8",outputs/tables/case_study_1_summary.csv
-CS2,Multimodal sensing and synchronization,"Layers 1, 2",simulation_based_evaluation,"vision and speech logs","webcam and audio demo assets","A1, A5, A8",outputs/tables/case_study_2_summary.csv
+CS2,Multimodal sensing and synchronization,"Layers 1, 2",simulation_based_evaluation,vision and speech logs,webcam and audio demo assets,"A1, A5, A8",outputs/tables/case_study_2_summary.csv
 CS3,MER benchmark,"Layers 2, 3",implemented_real_baseline plus planned extensions,"speech datasets, DeepFace baseline","CREMA-D, user SER, webcam baseline","A5, A8",outputs/tables/case_study_3_summary.csv
-CS4,Health-risk prediction and anomaly detection,"Layers 2, 3, 4",simulation_based_evaluation,"no direct physiology pipeline yet","synthetic vitals and activity traces","A1, A4, A8",outputs/tables/case_study_4_summary.csv
-CS5,Medication adherence reasoning,"Layers 3, 4, 5",planned_experiment,"response rules and dialogue hooks","synthetic dispenser logs","A2, A6, A8",outputs/tables/case_study_5_summary.csv
-CS6,HITL dashboard and override safety,"Layers 4, 5",planned_experiment,"response layer and test logs","simulated alert bundles","A7, A8",outputs/tables/case_study_6_summary.csv
-CS7,KG plus LLM explainability,Layer 4,planned_experiment,no KG yet,"synthetic patient graph and predictions","A6, A7, A8",outputs/tables/case_study_7_summary.csv
-CS8,"Privacy, edge, telepresence end-to-end scenario",Layers 1 through 5,simulation_based_evaluation,baseline multimodal loop,"simulated compute and bandwidth profiles","A4, A6, A8",outputs/tables/case_study_8_summary.csv
+CS4,Health-risk prediction and anomaly detection,"Layers 2, 3, 4",simulation_based_evaluation,no direct physiology pipeline yet,synthetic vitals and activity traces,"A1, A4, A8",outputs/tables/case_study_4_summary.csv
+CS5,Medication adherence reasoning,"Layers 3, 4, 5",planned_experiment,response rules and dialogue hooks,synthetic dispenser logs,"A2, A6, A8",outputs/tables/case_study_5_summary.csv
+CS6,HITL dashboard and override safety,"Layers 4, 5",planned_experiment,response layer and test logs,simulated alert bundles,"A7, A8",outputs/tables/case_study_6_summary.csv
+CS7,KG plus LLM explainability,Layer 4,planned_experiment,no KG yet,synthetic patient graph and predictions,"A6, A7, A8",outputs/tables/case_study_7_summary.csv
+CS8,"Privacy, edge, telepresence end-to-end scenario",Layers 1 through 5,simulation_based_evaluation,baseline multimodal loop,simulated compute and bandwidth profiles,"A4, A6, A8",outputs/tables/case_study_8_summary.csv

@@ -1,0 +1,4 @@
+case_id,trigger,evidence_nodes,explanation,faithfulness_score,citation_coverage,clinician_usefulness
+EXP1,Health-risk escalation,symptom_low_spo2;symptom_high_hr;condition_hf,SpO2 decline and elevated heart rate jointly support increased cardiovascular risk. The knowledge graph links this pattern to telepresence review.,0.92,1.0,0.86
+EXP2,Missed medication dose,med_cardio;reason_forgetfulness;intervention_call,A missed CardioSafe dose paired with a forgetfulness pattern suggests caregiver outreach before stronger escalation.,0.88,1.0,0.83
+EXP3,Reduced mobility and fall concern,behavior_low_activity;condition_fall;intervention_call,"Reduced activity and mobility instability increase fall concern, supporting a caregiver check-in and potential telepresence follow-up.",0.85,0.89,0.8

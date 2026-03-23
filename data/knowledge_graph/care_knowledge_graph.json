@@ -1,0 +1,111 @@
+{
+  "nodes": [
+    {
+      "id": "patient_001",
+      "type": "patient",
+      "label": "Elderly homecare resident"
+    },
+    {
+      "id": "condition_hf",
+      "type": "condition",
+      "label": "Heart failure risk"
+    },
+    {
+      "id": "condition_fall",
+      "type": "condition",
+      "label": "Fall risk"
+    },
+    {
+      "id": "med_cardio",
+      "type": "medication",
+      "label": "CardioSafe-10mg"
+    },
+    {
+      "id": "symptom_low_spo2",
+      "type": "signal",
+      "label": "SpO2 decline"
+    },
+    {
+      "id": "symptom_high_hr",
+      "type": "signal",
+      "label": "Heart rate elevation"
+    },
+    {
+      "id": "behavior_low_activity",
+      "type": "behavior",
+      "label": "Reduced activity"
+    },
+    {
+      "id": "reason_forgetfulness",
+      "type": "adherence_reason",
+      "label": "Forgetfulness"
+    },
+    {
+      "id": "reason_side_effects",
+      "type": "adherence_reason",
+      "label": "Side effects"
+    },
+    {
+      "id": "intervention_call",
+      "type": "intervention",
+      "label": "Caregiver call"
+    },
+    {
+      "id": "intervention_telepresence",
+      "type": "intervention",
+      "label": "Telepresence review"
+    }
+  ],
+  "edges": [
+    {
+      "source": "patient_001",
+      "target": "condition_hf",
+      "relation": "monitored_for"
+    },
+    {
+      "source": "patient_001",
+      "target": "condition_fall",
+      "relation": "monitored_for"
+    },
+    {
+      "source": "patient_001",
+      "target": "med_cardio",
+      "relation": "prescribed"
+    },
+    {
+      "source": "symptom_low_spo2",
+      "target": "condition_hf",
+      "relation": "supports_risk"
+    },
+    {
+      "source": "symptom_high_hr",
+      "target": "condition_hf",
+      "relation": "supports_risk"
+    },
+    {
+      "source": "behavior_low_activity",
+      "target": "condition_fall",
+      "relation": "supports_risk"
+    },
+    {
+      "source": "reason_forgetfulness",
+      "target": "intervention_call",
+      "relation": "suggests"
+    },
+    {
+      "source": "reason_side_effects",
+      "target": "intervention_telepresence",
+      "relation": "suggests"
+    },
+    {
+      "source": "condition_hf",
+      "target": "intervention_telepresence",
+      "relation": "requires_review"
+    },
+    {
+      "source": "condition_fall",
+      "target": "intervention_call",
+      "relation": "requires_review"
+    }
+  ]
+}

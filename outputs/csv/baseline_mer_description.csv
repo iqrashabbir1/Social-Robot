@@ -1,0 +1,6 @@
+field,value
+name,DeepFace plus speech SVM baseline
+inputs,"['webcam_frame', 'speech_clip']"
+components,"['perception.face_emotion.detect_face_emotion_from_frame', 'perception.speech_emotion.predict_speech_emotion_robust_3class', 'fusion.fusion_logic.fuse_emotions', 'response.response_rules.get_response_for_emotion']"
+role,baseline MER model and ablation reference
+limitations,"['no physiology', 'no digital twin', 'no medication reasoning', 'no explainability layer']"

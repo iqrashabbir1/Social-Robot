@@ -1,0 +1,5 @@
+profile,privacy_score,utility_score,edge_latency_ms,cloud_dependency_ratio
+minimal,0.96,0.52,88,0.08
+balanced,0.82,0.74,103,0.18
+clinical,0.63,0.86,124,0.29
+rich_multimodal,0.44,0.93,162,0.42

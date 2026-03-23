@@ -1,0 +1,17 @@
+timestamp,alert_type,severity,confidence,requires_override,ack_latency_sec,override_action
+2026-01-01 08:00:00,health_risk,low,0.1062,False,24,reviewed
+2026-01-01 10:30:00,health_risk,low,0.0259,False,24,reviewed
+2026-01-01 13:00:00,health_risk,low,0.0081,False,24,reviewed
+2026-01-01 15:30:00,health_risk,low,0.0,False,24,reviewed
+2026-01-01 18:00:00,health_risk,low,0.0235,False,24,reviewed
+2026-01-01 20:30:00,health_risk,low,0.0789,False,24,reviewed
+2026-01-01 23:00:00,health_risk,low,0.1064,False,24,reviewed
+2026-01-02 01:30:00,health_risk,low,0.2592,False,24,reviewed
+2026-01-02 08:00:00,medication_adherence,moderate,0.71,False,55,reminder_confirmed
+2026-01-03 20:00:00,medication_adherence,high,0.85,True,38,clinician_review
+2026-01-05 08:00:00,medication_adherence,high,0.85,True,38,clinician_review
+2026-01-06 20:00:00,medication_adherence,moderate,0.71,False,55,reminder_confirmed
+2026-01-08 08:00:00,medication_adherence,high,0.85,True,38,clinician_review
+2026-01-08 20:00:00,medication_adherence,moderate,0.71,False,55,reminder_confirmed
+2026-01-10 20:00:00,medication_adherence,high,0.85,True,38,clinician_review
+2026-01-11 20:00:00,medication_adherence,moderate,0.71,False,55,reminder_confirmed
