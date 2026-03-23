@@ -28,6 +28,17 @@ This repository upgrades a baseline social-robot prototype into a publication-or
 - lightweight human-in-the-loop dashboard prototype
 - pilot-style validation protocol and readiness package
 - ROS2 package skeleton for digital-twin topic integration
+- live hardware validation utility and real-stream adapter manifest
+
+## Publication Target
+The primary publication target for this repository is the integrated architecture paper.
+
+Working target:
+- privacy-aware, explainable, multimodal digital-twin cognitive caregiving robot with closed-loop risk prediction, adherence reasoning, affect-aware interaction, and human oversight
+
+Follow-on publication candidates:
+- MER benchmark paper
+- explainability and oversight paper
 
 No experimental performance was fabricated. The repository separates:
 - implemented real baseline
@@ -92,8 +103,9 @@ The existing webcam and DeepFace-style 4-class emotion pipeline is preserved as 
 - `src/evaluation/run_benchmarks.py`
 - `src/visualization/generate_all_figures.py`
 - `src/dashboard/build_dashboard.py`
+- `src/orchestration/run_full_local_pipeline.py`
+- `src/hardware/live_validation.py`
 
 ## Recommended Next Step
-Run the benchmark and plotting pipeline from:
-- `src/evaluation/run_benchmarks.py`
-- `src/visualization/generate_all_figures.py`
+Run the full local workflow from:
+- `src/orchestration/run_full_local_pipeline.py`

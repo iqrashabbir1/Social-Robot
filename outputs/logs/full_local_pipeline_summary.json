@@ -1,0 +1,8 @@
+{
+  "benchmarks": "D:\\emotion_assistant\\outputs\\tables\\benchmark_summary.csv",
+  "figures_dir": "D:\\emotion_assistant\\outputs\\figures",
+  "dashboard": "D:\\emotion_assistant\\outputs\\dashboard\\index.html",
+  "hardware_validation": "D:\\emotion_assistant\\outputs\\logs\\hardware_validation_summary.json",
+  "ros2_bridge_jsonl": "D:\\emotion_assistant\\outputs\\logs\\physiology_ros2_bridge.jsonl",
+  "real_adapter_manifest": "D:\\emotion_assistant\\outputs\\tables\\real_adapter_manifest.csv"
+}

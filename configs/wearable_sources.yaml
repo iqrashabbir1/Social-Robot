@@ -1,0 +1,17 @@
+sources:
+  csv_tail_adapter:
+    description: "Import timestamped physiology data exported from a wearable vendor app or monitoring gateway."
+    required_columns:
+      - timestamp
+      - heart_rate_bpm
+      - systolic_bp_mmHg
+      - diastolic_bp_mmHg
+      - spo2_percent
+      - gait_variability
+      - activity_index
+  serial_ble_adapter:
+    description: "Reserved bridge for site-specific BLE or serial wearable integration."
+    status: "stub_for_site_integration"
+  ros2_bridge:
+    description: "Replay normalized JSONL packets into ROS2 topic publishers."
+    output_topic: "/caregiver/sensors/physiology"

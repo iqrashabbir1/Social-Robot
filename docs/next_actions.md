@@ -27,18 +27,22 @@
 - a project-local Python runtime via `.venv`
 - benchmark execution through `src/evaluation/run_benchmarks.py`
 - figure generation including PDF export through `src/visualization/generate_all_figures.py`
+- full one-command execution through `src/orchestration/run_full_local_pipeline.py`
 - synthetic physiology, adherence, and alert generation
 - populated care knowledge graph export
 - lightweight dashboard generation at `outputs/dashboard/index.html`
 - pilot-style validation protocol and readiness table
 - ROS2 package skeleton in `ros2_ws/src/cognitive_caregiver`
+- live webcam and microphone validation on this machine through `outputs/logs/hardware_validation_summary.json`
+- ROS2 replay bridge export through `outputs/logs/physiology_ros2_bridge.jsonl`
+- real-stream adapter manifest at `outputs/tables/real_adapter_manifest.csv`
 
 ## External Steps Still Required
-1. Validate the preserved baseline with live webcam and microphone hardware on the target machine.
-2. Connect real physiological or wearable streams to replace the current simulation-backed adapters.
-3. Integrate the ROS2 package into an actual simulation or robot stack.
-4. Decide the first publication target:
-   - MER benchmark paper
+1. Replace the current CSV-backed physiology import with site-specific live wearable or bedside device integration.
+2. Connect the ROS2 package to a full simulator or robot runtime with ROS2 installed.
+3. Proceed with the chosen first publication target:
    - integrated architecture paper
+4. Reserve follow-on publication targets:
+   - MER benchmark paper
    - explainability and oversight paper
 5. Complete ethics, site approval, and clinician coordination for a real pilot study.

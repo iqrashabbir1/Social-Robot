@@ -1,0 +1,4 @@
+adapter,input_type,status,notes
+csv_tail_adapter,wearable_csv,implemented,Loads timestamped physiology traces from exported wearable CSV files.
+jsonl_ros2_bridge,stream_packets,implemented,Exports stream packets into JSONL for ROS2 replay or bridge publishers.
+serial_ble_adapter,wearable_live_stream,stub_for_site_integration,Integration point reserved for actual device SDK or BLE gateway code.

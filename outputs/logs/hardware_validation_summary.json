@@ -1,0 +1,158 @@
+{
+  "python_runtime": "D:\\emotion_assistant\\src\\hardware\\live_validation.py",
+  "webcam_accessible": true,
+  "microphone_accessible": true,
+  "webcam_frame_saved": true,
+  "microphone_sample_saved": true,
+  "deepface_available": true,
+  "speech_model_available": true,
+  "baseline_vision_executed": true,
+  "baseline_speech_executed": true,
+  "face_emotion": "angry",
+  "speech_emotion": "negative",
+  "notes": [],
+  "input_devices": [
+    {
+      "index": 0,
+      "name": "Microsoft Sound Mapper - Input",
+      "max_input_channels": 2,
+      "max_output_channels": 0,
+      "default_samplerate": 44100.0
+    },
+    {
+      "index": 1,
+      "name": "Microphone Array (AMD Audio Dev",
+      "max_input_channels": 2,
+      "max_output_channels": 0,
+      "default_samplerate": 44100.0
+    },
+    {
+      "index": 4,
+      "name": "Primary Sound Capture Driver",
+      "max_input_channels": 2,
+      "max_output_channels": 0,
+      "default_samplerate": 44100.0
+    },
+    {
+      "index": 5,
+      "name": "Microphone Array (AMD Audio Device)",
+      "max_input_channels": 2,
+      "max_output_channels": 0,
+      "default_samplerate": 44100.0
+    },
+    {
+      "index": 9,
+      "name": "Microphone Array (AMD Audio Device)",
+      "max_input_channels": 2,
+      "max_output_channels": 0,
+      "default_samplerate": 48000.0
+    },
+    {
+      "index": 10,
+      "name": "Stereo Mix (Realtek HD Audio Stereo input)",
+      "max_input_channels": 2,
+      "max_output_channels": 0,
+      "default_samplerate": 48000.0
+    },
+    {
+      "index": 13,
+      "name": "PC Speaker (Realtek HD Audio output with HAP)",
+      "max_input_channels": 2,
+      "max_output_channels": 0,
+      "default_samplerate": 48000.0
+    },
+    {
+      "index": 16,
+      "name": "PC Speaker (Realtek HD Audio 2nd output with HAP)",
+      "max_input_channels": 2,
+      "max_output_channels": 0,
+      "default_samplerate": 48000.0
+    },
+    {
+      "index": 17,
+      "name": "Microphone (Realtek HD Audio Mic input)",
+      "max_input_channels": 2,
+      "max_output_channels": 0,
+      "default_samplerate": 44100.0
+    },
+    {
+      "index": 18,
+      "name": "Microphone Array 1 (AMDAfdInstall Wave Microphone - 0)",
+      "max_input_channels": 2,
+      "max_output_channels": 0,
+      "default_samplerate": 48000.0
+    },
+    {
+      "index": 19,
+      "name": "Microphone Array 2 (AMDAfdInstall Wave Microphone - 0)",
+      "max_input_channels": 1,
+      "max_output_channels": 0,
+      "default_samplerate": 16000.0
+    }
+  ],
+  "output_devices": [
+    {
+      "index": 2,
+      "name": "Microsoft Sound Mapper - Output",
+      "max_input_channels": 0,
+      "max_output_channels": 2,
+      "default_samplerate": 44100.0
+    },
+    {
+      "index": 3,
+      "name": "Speaker (Realtek(R) Audio)",
+      "max_input_channels": 0,
+      "max_output_channels": 2,
+      "default_samplerate": 44100.0
+    },
+    {
+      "index": 6,
+      "name": "Primary Sound Driver",
+      "max_input_channels": 0,
+      "max_output_channels": 2,
+      "default_samplerate": 44100.0
+    },
+    {
+      "index": 7,
+      "name": "Speaker (Realtek(R) Audio)",
+      "max_input_channels": 0,
+      "max_output_channels": 2,
+      "default_samplerate": 44100.0
+    },
+    {
+      "index": 8,
+      "name": "Speaker (Realtek(R) Audio)",
+      "max_input_channels": 0,
+      "max_output_channels": 2,
+      "default_samplerate": 48000.0
+    },
+    {
+      "index": 11,
+      "name": "Speakers 1 (Realtek HD Audio output with HAP)",
+      "max_input_channels": 0,
+      "max_output_channels": 2,
+      "default_samplerate": 48000.0
+    },
+    {
+      "index": 12,
+      "name": "Speakers 2 (Realtek HD Audio output with HAP)",
+      "max_input_channels": 0,
+      "max_output_channels": 2,
+      "default_samplerate": 44100.0
+    },
+    {
+      "index": 14,
+      "name": "Headphones 1 (Realtek HD Audio 2nd output with HAP)",
+      "max_input_channels": 0,
+      "max_output_channels": 2,
+      "default_samplerate": 48000.0
+    },
+    {
+      "index": 15,
+      "name": "Headphones 2 (Realtek HD Audio 2nd output with HAP)",
+      "max_input_channels": 0,
+      "max_output_channels": 2,
+      "default_samplerate": 44100.0
+    }
+  ]
+}
