@@ -9,6 +9,8 @@ __pycache__/
 
 data/speech/tmp/
 data/speech/tmp_debug/
+outputs/logs/*
+!outputs/logs/README.md
 
 Thumbs.db
 Desktop.ini

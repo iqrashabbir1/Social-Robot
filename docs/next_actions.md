@@ -33,8 +33,8 @@
 - lightweight dashboard generation at `outputs/dashboard/index.html`
 - pilot-style validation protocol and readiness table
 - ROS2 package skeleton in `ros2_ws/src/cognitive_caregiver`
-- live webcam and microphone validation on this machine through `outputs/logs/hardware_validation_summary.json`
-- ROS2 replay bridge export through `outputs/logs/physiology_ros2_bridge.jsonl`
+- live webcam and microphone validation on this machine when the local workflow is run, with summary written to `outputs/logs/hardware_validation_summary.json`
+- ROS2 replay bridge export generated locally when the workflow is run, written to `outputs/logs/physiology_ros2_bridge.jsonl`
 - real-stream adapter manifest at `outputs/tables/real_adapter_manifest.csv`
 
 ## External Steps Still Required

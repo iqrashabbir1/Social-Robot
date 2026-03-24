@@ -1,8 +1,0 @@
-{
-  "benchmarks": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\outputs\\tables\\benchmark_summary.csv",
-  "figures_dir": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\outputs\\figures",
-  "dashboard": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\outputs\\dashboard\\index.html",
-  "hardware_validation": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\outputs\\logs\\hardware_validation_summary.json",
-  "ros2_bridge_jsonl": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\outputs\\logs\\physiology_ros2_bridge.jsonl",
-  "real_adapter_manifest": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\outputs\\tables\\real_adapter_manifest.csv"
-}

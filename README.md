@@ -29,6 +29,7 @@ This repository upgrades a baseline social-robot prototype into a publication-or
 - pilot-style validation protocol and readiness package
 - ROS2 package skeleton for digital-twin topic integration
 - live hardware validation utility and real-stream adapter manifest
+- full local workflow already executed successfully through `src/orchestration/run_full_local_pipeline.py`
 
 ## Publication Target
 The primary publication target for this repository is the integrated architecture paper.
@@ -106,6 +107,6 @@ The existing webcam and DeepFace-style 4-class emotion pipeline is preserved as 
 - `src/orchestration/run_full_local_pipeline.py`
 - `src/hardware/live_validation.py`
 
-## Recommended Next Step
-Run the full local workflow from:
-- `src/orchestration/run_full_local_pipeline.py`
+## Repository Hygiene
+- `outputs/csv/`, `outputs/tables/`, and `outputs/figures/` contain the publication-oriented artifacts meant to be tracked
+- `outputs/logs/` is reserved for local transient run logs and hardware-capture artifacts and is not intended to be a primary review surface

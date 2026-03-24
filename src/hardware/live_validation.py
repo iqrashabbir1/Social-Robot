@@ -53,7 +53,11 @@ def _list_devices() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     return inputs, outputs
 
 
-def validate_live_baseline(project_root: Path, audio_seconds: int = 2) -> HardwareValidationResult:
+def validate_live_baseline(
+    project_root: Path,
+    audio_seconds: int = 2,
+    save_raw_artifacts: bool = False,
+) -> HardwareValidationResult:
     notes: list[str] = []
     input_devices, output_devices = _list_devices()
     webcam_path = project_root / "outputs" / "logs" / "hardware_webcam_frame.jpg"
@@ -68,8 +72,9 @@ def validate_live_baseline(project_root: Path, audio_seconds: int = 2) -> Hardwa
         ret, frame = cap.read()
         webcam_accessible = bool(ret and frame is not None)
         if webcam_accessible:
-            cv2.imwrite(str(webcam_path), frame)
-            webcam_frame_saved = True
+            if save_raw_artifacts:
+                cv2.imwrite(str(webcam_path), frame)
+                webcam_frame_saved = True
         else:
             notes.append("Webcam opened but no frame could be captured.")
         cap.release()
@@ -118,6 +123,14 @@ def validate_live_baseline(project_root: Path, audio_seconds: int = 2) -> Hardwa
         except Exception as exc:
             notes.append(f"Speech baseline execution failed: {exc}")
 
+    if not save_raw_artifacts:
+        if webcam_path.exists():
+            webcam_path.unlink()
+        if audio_path.exists():
+            audio_path.unlink()
+        webcam_frame_saved = False
+        microphone_sample_saved = False
+
     return HardwareValidationResult(
         python_runtime=str(Path(__file__).resolve()),
         webcam_accessible=webcam_accessible,
@@ -136,8 +149,8 @@ def validate_live_baseline(project_root: Path, audio_seconds: int = 2) -> Hardwa
     )
 
 
-def write_validation_artifacts(project_root: Path) -> Path:
-    result = validate_live_baseline(project_root)
+def write_validation_artifacts(project_root: Path, save_raw_artifacts: bool = False) -> Path:
+    result = validate_live_baseline(project_root, save_raw_artifacts=save_raw_artifacts)
     output_path = project_root / "outputs" / "logs" / "hardware_validation_summary.json"
     output_path.write_text(json.dumps(asdict(result), indent=2), encoding="utf-8")
     return output_path

@@ -1,6 +1,0 @@
-{
-  "project_root": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot",
-  "dashboard": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\outputs\\dashboard\\index.html",
-  "benchmark_summary": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\outputs\\tables\\benchmark_summary.csv",
-  "speech_model": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\data\\speech\\speech_svm_crema_balanced.joblib"
-}
