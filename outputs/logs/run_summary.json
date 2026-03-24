@@ -1,6 +1,6 @@
 {
-  "project_root": "D:\\emotion_assistant",
-  "dashboard": "D:\\emotion_assistant\\outputs\\dashboard\\index.html",
-  "benchmark_summary": "D:\\emotion_assistant\\outputs\\tables\\benchmark_summary.csv",
-  "speech_model": "D:\\emotion_assistant\\data\\speech\\speech_svm_crema_balanced.joblib"
+  "project_root": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot",
+  "dashboard": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\outputs\\dashboard\\index.html",
+  "benchmark_summary": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\outputs\\tables\\benchmark_summary.csv",
+  "speech_model": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\data\\speech\\speech_svm_crema_balanced.joblib"
 }

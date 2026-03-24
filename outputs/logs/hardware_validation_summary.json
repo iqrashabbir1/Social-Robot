@@ -1,5 +1,5 @@
 {
-  "python_runtime": "D:\\emotion_assistant\\src\\hardware\\live_validation.py",
+  "python_runtime": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\src\\hardware\\live_validation.py",
   "webcam_accessible": true,
   "microphone_accessible": true,
   "webcam_frame_saved": true,
@@ -8,7 +8,7 @@
   "speech_model_available": true,
   "baseline_vision_executed": true,
   "baseline_speech_executed": true,
-  "face_emotion": "angry",
+  "face_emotion": "fear",
   "speech_emotion": "negative",
   "notes": [],
   "input_devices": [

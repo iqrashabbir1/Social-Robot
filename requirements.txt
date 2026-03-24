@@ -11,3 +11,5 @@ opencv-python>=4.13
 sounddevice>=0.5
 soundfile>=0.13
 librosa>=0.11
+deepface>=0.0.99
+tf-keras>=2.21.0
