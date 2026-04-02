@@ -1,0 +1,23 @@
+seed: 42
+inputs:
+  source_mode: synthetic_placeholder_streams
+outputs:
+  session_metadata: outputs/csv/cs2/session_metadata.csv
+  window_index: outputs/csv/cs2/window_index.csv
+  modality_availability: outputs/csv/cs2/modality_availability.csv
+  sync_quality_metrics: outputs/csv/cs2/sync_quality_metrics.csv
+session:
+  duration_ms: 24000
+alignment:
+  tolerance_ms: 120
+windowing:
+  window_ms: 2000
+  hop_ms: 1000
+modalities:
+  - video
+  - audio
+  - context
+  - physiology
+plot:
+  save_png: true
+  save_svg: true

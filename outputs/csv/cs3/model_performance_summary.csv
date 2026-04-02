@@ -1,0 +1,5 @@
+model_id,model_family,modality_setting,accuracy,macro_f1,weighted_f1,uar,inference_latency_ms,robustness_missing_modality_macro_f1,evidence_level,data_regime,notes
+B0,existing_repo_baseline,video_only,0.835,0.8155,0.8378,0.8668,,,implemented_real_baseline,real_visual_log,Preserved DeepFace-style visual baseline evaluated from tests/emotion_log_labeled.csv.
+B1,classical_svm,video_audio_context,1.0,1.0,1.0,1.0,0.3981,0.927,synthetic_placeholder_benchmark,synthetic_aligned_multimodal_windows,Handcrafted multimodal features with SVM.
+B2,deep_late_fusion_mlp,video_audio_context,0.9417,0.7929,0.9277,0.7755,0.2441,0.6581,synthetic_placeholder_benchmark,synthetic_aligned_multimodal_windows,"Late-fusion MLP over concatenated video, audio, and context features."
+B3,lightweight_fusion_transformer,video_audio_context,0.9583,0.9647,0.9585,0.9669,0.136,0.863,synthetic_placeholder_benchmark,synthetic_aligned_multimodal_windows,Cross-modal attention surrogate with linear online classifier.

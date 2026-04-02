@@ -1,0 +1,29 @@
+seed: 42
+inputs:
+  baseline_visual_log: tests/emotion_log_labeled.csv
+  baseline_audio_dataset: data/speech/speech_dataset_crema.npz
+outputs:
+  model_performance_summary: outputs/csv/cs3/model_performance_summary.csv
+  ablation_results: outputs/csv/cs3/ablation_results.csv
+  training_curves: outputs/csv/cs3/training_curves.csv
+dataset:
+  n_samples: 480
+  test_size: 0.25
+label_space:
+  - happy
+  - sad
+  - neutral
+  - fear
+models:
+  classical: svm
+  deep: late_fusion_mlp
+  transformer: lightweight_cross_attention
+ablations:
+  - video_only
+  - audio_only
+  - context_only
+  - video_audio
+  - video_audio_context
+plot:
+  save_png: true
+  save_svg: true
