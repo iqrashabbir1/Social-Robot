@@ -58,6 +58,8 @@ No experimental performance was fabricated. The repository separates:
 - [System architecture](docs/system_architecture.md)
 - [Pilot validation protocol](docs/pilot_validation_protocol.md)
 - [Next actions](docs/next_actions.md)
+- [Paper 1 full manuscript](docs/paper1/PAPER1_FULL.md)
+- [Paper 1 model descriptions](docs/paper1/model_descriptions.md)
 
 ## Case Studies
 - [CS1: ROS2 plus digital twin validation](docs/case_studies/case_study_1.md)

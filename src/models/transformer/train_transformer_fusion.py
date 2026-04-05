@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Callable
 
 import numpy as np
 import pandas as pd
+import joblib
 from sklearn.linear_model import SGDClassifier
 from sklearn.preprocessing import StandardScaler
 
@@ -17,16 +20,25 @@ class TransformerFusionResult:
     metrics: dict[str, float]
     confusion: pd.DataFrame
     training_curve: pd.DataFrame
+    predictions: list[str]
 
 
 class LightweightFusionTransformer:
-    def __init__(self, video_dim: int, audio_dim: int, context_dim: int, hidden_dim: int = 16, seed: int = 42) -> None:
+    def __init__(
+        self,
+        video_dim: int,
+        audio_dim: int,
+        context_dim: int,
+        hidden_dim: int = 16,
+        alpha: float = 0.0001,
+        seed: int = 42,
+    ) -> None:
         rng = np.random.default_rng(seed)
         self.video_proj = rng.normal(0.0, 0.35, (video_dim, hidden_dim))
         self.audio_proj = rng.normal(0.0, 0.35, (audio_dim, hidden_dim))
         self.context_proj = rng.normal(0.0, 0.35, (context_dim, hidden_dim))
         self.scaler = StandardScaler()
-        self.classifier = SGDClassifier(loss="log_loss", random_state=seed)
+        self.classifier = SGDClassifier(loss="log_loss", alpha=alpha, random_state=seed)
         self._is_fitted = False
 
     @staticmethod
@@ -90,6 +102,12 @@ def train_and_evaluate_transformer_fusion(
     modalities: tuple[str, ...] = ("video", "audio", "context"),
     seed: int = 42,
     epochs: int = 14,
+    model_id: str = "B3",
+    checkpoint_dir: Path | None = None,
+    checkpoint_every: int = 0,
+    hidden_dim: int = 16,
+    alpha: float = 0.0001,
+    progress_callback: Callable[[dict[str, object]], None] | None = None,
 ) -> TransformerFusionResult:
     video_train = np.asarray(train_bundle["video"]).copy()
     audio_train = np.asarray(train_bundle["audio"]).copy()
@@ -114,6 +132,8 @@ def train_and_evaluate_transformer_fusion(
         video_dim=video_train.shape[1],
         audio_dim=audio_train.shape[1],
         context_dim=context_train.shape[1],
+        hidden_dim=hidden_dim,
+        alpha=alpha,
         seed=seed,
     )
 
@@ -127,18 +147,30 @@ def train_and_evaluate_transformer_fusion(
         val_pred = transformer.predict_from_modalities(video_test, audio_test, context_test)
         train_metrics = compute_metrics(y_train.tolist(), train_pred.tolist())
         val_metrics = compute_metrics(y_test.tolist(), val_pred.tolist())
-        curve_rows.append(
-            {
-                "model_id": "B3",
+        epoch_row = {
+            "model_id": model_id,
+            "epoch": epoch,
+            "total_epochs": epochs,
+            "train_accuracy": round(train_metrics.accuracy, 4),
+            "val_accuracy": round(val_metrics.accuracy, 4),
+            "train_macro_f1": round(train_metrics.macro_f1, 4),
+            "val_macro_f1": round(val_metrics.macro_f1, 4),
+            "loss": round(float(max(1.0 - val_metrics.accuracy, 0.0001)), 6),
+            "evidence_level": "synthetic_placeholder_benchmark",
+        }
+        curve_rows.append(epoch_row)
+        if progress_callback is not None:
+            progress_callback(epoch_row)
+        if checkpoint_dir and checkpoint_every > 0 and epoch % checkpoint_every == 0:
+            checkpoint_dir.mkdir(parents=True, exist_ok=True)
+            checkpoint_payload = {
                 "epoch": epoch,
-                "train_accuracy": round(train_metrics.accuracy, 4),
-                "val_accuracy": round(val_metrics.accuracy, 4),
-                "train_macro_f1": round(train_metrics.macro_f1, 4),
-                "val_macro_f1": round(val_metrics.macro_f1, 4),
-                "loss": round(float(max(1.0 - val_metrics.accuracy, 0.0001)), 6),
-                "evidence_level": "synthetic_placeholder_benchmark",
+                "modalities": modalities,
+                "labels": labels,
+                "transformer": transformer,
             }
-        )
+            joblib.dump(checkpoint_payload, checkpoint_dir / f"{model_id.lower()}_epoch_{epoch:04d}.joblib")
+            pd.DataFrame(curve_rows).to_csv(checkpoint_dir / f"{model_id.lower()}_curve_until_{epoch:04d}.csv", index=False)
 
     test_fused = transformer.transform(video_test, audio_test, context_test)
     y_pred = transformer.predict(test_fused).tolist()
@@ -157,4 +189,5 @@ def train_and_evaluate_transformer_fusion(
         metrics=metrics,
         confusion=confusion,
         training_curve=pd.DataFrame(curve_rows),
+        predictions=y_pred,
     )

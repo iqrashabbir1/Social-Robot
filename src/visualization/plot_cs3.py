@@ -24,14 +24,20 @@ def _plot_confusion(csv_path: Path, output_base: Path, title: str) -> None:
 
 def plot_model_comparison(summary_csv: Path, output_base: Path) -> None:
     df = pd.read_csv(summary_csv)
-    plot_df = df[["model_id", "accuracy", "macro_f1", "weighted_f1"]].melt(id_vars="model_id", var_name="metric", value_name="value")
+    label_col = "algorithm_name" if "algorithm_name" in df.columns else "model_id"
+    plot_source = df.copy()
+    plot_source["display_name"] = plot_source[label_col].fillna(plot_source["model_id"])
+    if "macro_f1" in plot_source.columns:
+        plot_source = plot_source.sort_values("macro_f1", ascending=False)
+    plot_df = plot_source[["display_name", "accuracy", "macro_f1", "weighted_f1"]].melt(id_vars="display_name", var_name="metric", value_name="value")
     apply_publication_style(plt.matplotlib)
-    fig, ax = plt.subplots(figsize=(9, 5))
-    sns.barplot(data=plot_df, x="model_id", y="value", hue="metric", ax=ax, palette="Set2")
+    fig, ax = plt.subplots(figsize=(10.5, 5.5))
+    sns.barplot(data=plot_df, x="display_name", y="value", hue="metric", ax=ax, palette="Set2")
     ax.set_title("CS3 Model Performance Comparison")
-    ax.set_xlabel("Model family")
+    ax.set_xlabel("Algorithm")
     ax.set_ylabel("Score")
     ax.set_ylim(0, 1.05)
+    ax.tick_params(axis="x", rotation=20)
     save_figure_bundle(fig, output_base)
     plt.close(fig)
 
@@ -52,9 +58,13 @@ def plot_ablation(ablation_csv: Path, output_base: Path) -> None:
 
 def plot_training_curves(curves_csv: Path, output_base: Path) -> None:
     df = pd.read_csv(curves_csv)
+    if "algorithm_name" in df.columns:
+        df["display_name"] = df["algorithm_name"].fillna(df["model_id"])
+    else:
+        df["display_name"] = df["model_id"]
     apply_publication_style(plt.matplotlib)
     fig, ax = plt.subplots(figsize=(8.5, 5))
-    sns.lineplot(data=df, x="epoch", y="val_macro_f1", hue="model_id", linewidth=2.2, ax=ax)
+    sns.lineplot(data=df, x="epoch", y="val_macro_f1", hue="display_name", linewidth=2.2, ax=ax)
     ax.set_title("CS3 Training Curves")
     ax.set_xlabel("Epoch")
     ax.set_ylabel("Validation macro F1")

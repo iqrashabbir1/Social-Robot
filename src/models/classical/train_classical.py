@@ -3,7 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import numpy as np
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import ExtraTreesClassifier, GradientBoostingClassifier, RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
@@ -17,6 +18,27 @@ class ClassicalResult:
     model: Pipeline
     metrics: dict[str, float]
     confusion: object
+    predictions: list[str]
+
+
+def _build_estimator(model_name: str, seed: int):
+    normalized = model_name.strip().lower()
+    if normalized == "svm":
+        return SVC(kernel="rbf", probability=True, class_weight="balanced", random_state=seed), True
+    if normalized == "random_forest":
+        return RandomForestClassifier(n_estimators=180, random_state=seed, class_weight="balanced"), False
+    if normalized == "logistic_regression":
+        return LogisticRegression(
+            max_iter=1000,
+            solver="lbfgs",
+            class_weight="balanced",
+            random_state=seed,
+        ), True
+    if normalized == "extra_trees":
+        return ExtraTreesClassifier(n_estimators=220, random_state=seed, class_weight="balanced"), False
+    if normalized == "gradient_boosting":
+        return GradientBoostingClassifier(random_state=seed), False
+    raise ValueError(f"Unsupported classical model '{model_name}'.")
 
 
 def train_and_evaluate_classical(
@@ -32,12 +54,8 @@ def train_and_evaluate_classical(
     y_train = train_bundle["labels"]
     y_test = test_bundle["labels"]
 
-    estimator = (
-        SVC(kernel="rbf", probability=True, class_weight="balanced", random_state=seed)
-        if model_name == "svm"
-        else RandomForestClassifier(n_estimators=180, random_state=seed, class_weight="balanced")
-    )
-    if model_name == "svm":
+    estimator, use_scaler = _build_estimator(model_name, seed)
+    if use_scaler:
         model = Pipeline([("scaler", StandardScaler()), ("model", estimator)])
     else:
         model = Pipeline([("model", estimator)])
@@ -53,4 +71,4 @@ def train_and_evaluate_classical(
         "inference_latency_ms": round(measure_inference_latency(model, x_test), 4),
     }
     confusion = confusion_dataframe(y_test, y_pred, labels)
-    return ClassicalResult(model=model, metrics=metrics, confusion=confusion)
+    return ClassicalResult(model=model, metrics=metrics, confusion=confusion, predictions=y_pred)

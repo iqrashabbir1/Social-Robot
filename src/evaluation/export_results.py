@@ -24,7 +24,7 @@ def export_paper1_tables(project_root: Path) -> dict[str, str]:
         [
             {"component_group": "ROS2 interfaces", "count": len(interface_df), "description": "Paper 1 topic and interface specification."},
             {"component_group": "Sessions", "count": len(session_df), "description": "Multimodal synchronization sessions generated for CS2."},
-            {"component_group": "Benchmark families", "count": len(performance_df), "description": "B0 through B3 evaluation rows."},
+            {"component_group": "Benchmark candidates", "count": len(performance_df), "description": "Configured CS3 algorithm and ensemble comparison rows."},
         ]
     )
     metrics_rows: list[dict[str, object]] = []

@@ -3,12 +3,12 @@ inputs:
   baseline_visual_log: tests/emotion_log_labeled.csv
   baseline_audio_dataset: data/speech/speech_dataset_crema.npz
 outputs:
-  output_subdir: ""
-  model_performance_summary: outputs/csv/cs3/model_performance_summary.csv
-  ablation_results: outputs/csv/cs3/ablation_results.csv
-  training_curves: outputs/csv/cs3/training_curves.csv
+  output_subdir: comparison_run
+  model_performance_summary: outputs/csv/cs3/comparison_run/model_performance_summary.csv
+  ablation_results: outputs/csv/cs3/comparison_run/ablation_results.csv
+  training_curves: outputs/csv/cs3/comparison_run/training_curves.csv
 dataset:
-  n_samples: 480
+  n_samples: 720
   test_size: 0.25
 label_space:
   - happy
@@ -20,38 +20,44 @@ models:
     - svm
     - random_forest
     - logistic_regression
+    - extra_trees
   deep_variants:
     - name: late_fusion_mlp_small
       hidden_layers: [64, 32]
       learning_rate_init: 0.001
-      epochs: 20
+      epochs: 80
+    - name: late_fusion_mlp_medium
+      hidden_layers: [96, 48]
+      learning_rate_init: 0.001
+      epochs: 120
     - name: late_fusion_mlp_wide
-      hidden_layers: [128, 64]
+      hidden_layers: [160, 80]
       learning_rate_init: 0.0008
-      epochs: 20
+      epochs: 150
   transformer_variants:
     - name: fusion_transformer_light
       hidden_dim: 16
       alpha: 0.0001
-      epochs: 20
+      epochs: 100
     - name: fusion_transformer_wide
       hidden_dim: 24
       alpha: 0.0002
-      epochs: 20
+      epochs: 150
   hybrid:
     enabled: true
-    name: classical_deep_transformer_vote
+    name: comparison_majority_vote
     members:
       - B1_SVM
-      - B2_1
-      - B3_1
+      - B1_RF
+      - B2_2
+      - B3_2
 training:
-  deep_epochs: 20
-  transformer_epochs: 20
-  ablation_epochs: 14
-  checkpoint_every: 0
-  log_every: 5
-  checkpoint_dir: outputs/logs/cs3_checkpoints/default
+  deep_epochs: 120
+  transformer_epochs: 120
+  ablation_epochs: 40
+  checkpoint_every: 50
+  log_every: 10
+  checkpoint_dir: outputs/logs/cs3_checkpoints/comparison_run
 execution:
   include_baseline_b0: true
   include_classical_b1: true
@@ -65,8 +71,9 @@ execution:
     - context
   ablation_model_ids:
     - B1_SVM
-    - B2_1
-    - B3_1
+    - B1_RF
+    - B2_2
+    - B3_2
   ablation_names:
     - video_only
     - audio_only
