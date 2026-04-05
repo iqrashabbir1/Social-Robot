@@ -1,0 +1,11 @@
+# Install a CUDA-enabled PyTorch build that matches your local NVIDIA/CUDA setup.
+# Example for recent NVIDIA drivers on Windows:
+#   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+#
+# After installing the CUDA-enabled PyTorch build, install the standard project requirements:
+#   pip install -r requirements.txt
+#
+# Keep this file as a lightweight marker for the optional GPU stack.
+torch
+torchvision
+torchaudio

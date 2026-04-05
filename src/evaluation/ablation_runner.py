@@ -16,13 +16,16 @@ from src.evaluation.metrics_classification import compute_metrics, confusion_dat
 from src.features.video_features import load_visual_baseline_log
 from src.models.classical.train_classical import train_and_evaluate_classical
 from src.models.deep.train_deep_fusion import train_and_evaluate_deep_fusion
+from src.models.deep.train_deep_fusion_gpu import train_and_evaluate_deep_fusion_gpu
 from src.models.inference_benchmark import (
     LABELS,
     apply_missing_modality,
     build_synthetic_multimodal_dataset,
     split_feature_bundle,
 )
+from src.models.torch_runtime import TorchRuntime, resolve_torch_runtime
 from src.models.transformer.train_transformer_fusion import train_and_evaluate_transformer_fusion
+from src.models.transformer.train_transformer_fusion_gpu import train_and_evaluate_transformer_fusion_gpu
 
 
 ABLATIONS = {
@@ -221,6 +224,7 @@ def _run_ablation_set(
     execution_cfg: dict[str, Any],
     training_cfg: dict[str, Any],
     selection_cfg: dict[str, Any],
+    runtime: TorchRuntime,
     tracker: RunTracker | None = None,
 ) -> tuple[pd.DataFrame, list[dict[str, object]], dict[str, pd.DataFrame], pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     performance_rows: list[dict[str, object]] = []
@@ -240,6 +244,7 @@ def _run_ablation_set(
     include_missing_modality = bool(execution_cfg.get("include_missing_modality", True))
     include_ablations = bool(execution_cfg.get("include_ablations", True))
     include_hybrid = bool(models_cfg.get("hybrid", {}).get("enabled", False))
+    use_gpu_backend = runtime.active_backend == "gpu"
 
     missing_test_bundle = (
         apply_missing_modality(test_bundle, main_modalities, 0.2, seed + 101)
@@ -303,6 +308,29 @@ def _run_ablation_set(
                         metrics=epoch_row,
                     )
                 ) if tracker is not None else None,
+            ) if not use_gpu_backend else train_and_evaluate_deep_fusion_gpu(
+                train_bundle,
+                test_bundle,
+                main_modalities,
+                LABELS,
+                device=runtime.device,
+                seed=seed,
+                epochs=int(spec["epochs"]),
+                model_id=model_id,
+                checkpoint_dir=checkpoint_dir,
+                checkpoint_every=checkpoint_every,
+                hidden_layers=tuple(spec["hidden_layers"]),
+                learning_rate_init=float(spec["learning_rate_init"]),
+                progress_callback=(
+                    lambda epoch_row, tracker=tracker, model_id=model_id, spec=spec: tracker.epoch_progress(
+                        model_id=model_id,
+                        model_family="deep",
+                        algorithm_name=str(spec["name"]),
+                        epoch=int(epoch_row["epoch"]),
+                        total_epochs=int(epoch_row["total_epochs"]),
+                        metrics=epoch_row,
+                    )
+                ) if tracker is not None else None,
             )
             missing_result = (
                 train_and_evaluate_deep_fusion(
@@ -310,6 +338,17 @@ def _run_ablation_set(
                     missing_test_bundle,
                     main_modalities,
                     LABELS,
+                    seed=seed,
+                    epochs=int(spec["epochs"]),
+                    model_id=model_id,
+                    hidden_layers=tuple(spec["hidden_layers"]),
+                    learning_rate_init=float(spec["learning_rate_init"]),
+                ) if not use_gpu_backend else train_and_evaluate_deep_fusion_gpu(
+                    train_bundle,
+                    missing_test_bundle,
+                    main_modalities,
+                    LABELS,
+                    device=runtime.device,
                     seed=seed,
                     epochs=int(spec["epochs"]),
                     model_id=model_id,
@@ -328,7 +367,7 @@ def _run_ablation_set(
                 modalities=main_modalities,
                 metrics=result.metrics,
                 evidence_level="synthetic_placeholder_benchmark",
-                notes=f"Late-fusion MLP with hidden layers {tuple(spec['hidden_layers'])}.",
+                notes=f"Late-fusion MLP with hidden layers {tuple(spec['hidden_layers'])} on {runtime.active_backend.upper()} backend.",
                 epochs=int(spec["epochs"]),
                 missing_macro_f1=missing_result.metrics["macro_f1"],
             )
@@ -365,12 +404,46 @@ def _run_ablation_set(
                         metrics=epoch_row,
                     )
                 ) if tracker is not None else None,
+            ) if not use_gpu_backend else train_and_evaluate_transformer_fusion_gpu(
+                train_bundle,
+                test_bundle,
+                LABELS,
+                device=runtime.device,
+                modalities=main_modalities,
+                seed=seed,
+                epochs=int(spec["epochs"]),
+                model_id=model_id,
+                checkpoint_dir=checkpoint_dir,
+                checkpoint_every=checkpoint_every,
+                hidden_dim=int(spec["hidden_dim"]),
+                alpha=float(spec["alpha"]),
+                progress_callback=(
+                    lambda epoch_row, tracker=tracker, model_id=model_id, spec=spec: tracker.epoch_progress(
+                        model_id=model_id,
+                        model_family="transformer",
+                        algorithm_name=str(spec["name"]),
+                        epoch=int(epoch_row["epoch"]),
+                        total_epochs=int(epoch_row["total_epochs"]),
+                        metrics=epoch_row,
+                    )
+                ) if tracker is not None else None,
             )
             missing_result = (
                 train_and_evaluate_transformer_fusion(
                     train_bundle,
                     missing_test_bundle,
                     LABELS,
+                    modalities=main_modalities,
+                    seed=seed,
+                    epochs=int(spec["epochs"]),
+                    model_id=model_id,
+                    hidden_dim=int(spec["hidden_dim"]),
+                    alpha=float(spec["alpha"]),
+                ) if not use_gpu_backend else train_and_evaluate_transformer_fusion_gpu(
+                    train_bundle,
+                    missing_test_bundle,
+                    LABELS,
+                    device=runtime.device,
                     modalities=main_modalities,
                     seed=seed,
                     epochs=int(spec["epochs"]),
@@ -390,7 +463,7 @@ def _run_ablation_set(
                 modalities=main_modalities,
                 metrics=result.metrics,
                 evidence_level="synthetic_placeholder_benchmark",
-                notes=f"Lightweight fusion transformer with hidden_dim={int(spec['hidden_dim'])}.",
+                notes=f"Lightweight fusion transformer with hidden_dim={int(spec['hidden_dim'])} on {runtime.active_backend.upper()} backend.",
                 epochs=int(spec["epochs"]),
                 missing_macro_f1=missing_result.metrics["macro_f1"],
             )
@@ -502,6 +575,17 @@ def _run_ablation_set(
                             model_id=row["model_id"],
                             hidden_layers=tuple(spec["hidden_layers"]),
                             learning_rate_init=float(spec["learning_rate_init"]),
+                        ).metrics if not use_gpu_backend else train_and_evaluate_deep_fusion_gpu(
+                            train_bundle,
+                            condition_bundle,
+                            modalities,
+                            LABELS,
+                            device=runtime.device,
+                            seed=seed,
+                            epochs=min(int(spec["epochs"]), ablation_epochs),
+                            model_id=row["model_id"],
+                            hidden_layers=tuple(spec["hidden_layers"]),
+                            learning_rate_init=float(spec["learning_rate_init"]),
                         ).metrics
                     elif row["model_family"] == "transformer":
                         spec = next(spec for spec in _transformer_specs(models_cfg, training_cfg) if spec["name"] == row["algorithm_name"])
@@ -509,6 +593,17 @@ def _run_ablation_set(
                             train_bundle,
                             condition_bundle,
                             LABELS,
+                            modalities=modalities,
+                            seed=seed,
+                            epochs=min(int(spec["epochs"]), ablation_epochs),
+                            model_id=row["model_id"],
+                            hidden_dim=int(spec["hidden_dim"]),
+                            alpha=float(spec["alpha"]),
+                        ).metrics if not use_gpu_backend else train_and_evaluate_transformer_fusion_gpu(
+                            train_bundle,
+                            condition_bundle,
+                            LABELS,
+                            device=runtime.device,
                             modalities=modalities,
                             seed=seed,
                             epochs=min(int(spec["epochs"]), ablation_epochs),
@@ -545,6 +640,10 @@ def run_cs3(project_root: Path, config_path: Path) -> dict[str, str]:
     execution_cfg = config.get("execution", {})
     training_cfg = config.get("training", {})
     selection_cfg = config.get("selection", {})
+    runtime = resolve_torch_runtime(
+        str(training_cfg.get("runtime_backend", "cpu")),
+        str(training_cfg.get("torch_device", "auto")),
+    )
     output_subdir = str(config.get("outputs", {}).get("output_subdir", "")).strip()
     run_tag = output_subdir or "default"
 
@@ -557,6 +656,7 @@ def run_cs3(project_root: Path, config_path: Path) -> dict[str, str]:
 
     logger = get_logger("paper1.cs3", paper1_paths.outputs_logs / f"paper1_cs3_{run_tag}.log")
     logger.info("Running CS3 emotion recognition benchmark with tag '%s'.", run_tag)
+    logger.info("Runtime backend resolved to %s on device %s. %s", runtime.active_backend, runtime.device, runtime.reason)
     tracker = RunTracker(
         run_tag=run_tag,
         progress_log_path=paper1_paths.outputs_logs / f"paper1_cs3_{run_tag}_progress.jsonl",
@@ -565,7 +665,15 @@ def run_cs3(project_root: Path, config_path: Path) -> dict[str, str]:
         logger=logger,
         log_every=int(training_cfg.get("log_every", 1)),
     )
-    tracker.event("run_started", config_path=str(config_path), csv_output_dir=str(csv_output_dir))
+    tracker.event(
+        "run_started",
+        config_path=str(config_path),
+        csv_output_dir=str(csv_output_dir),
+        runtime_backend=runtime.active_backend,
+        requested_backend=runtime.requested_backend,
+        device=runtime.device,
+        runtime_reason=runtime.reason,
+    )
 
     performance_frames: list[pd.DataFrame] = []
     include_baseline_b0 = bool(execution_cfg.get("include_baseline_b0", True))
@@ -590,6 +698,7 @@ def run_cs3(project_root: Path, config_path: Path) -> dict[str, str]:
         execution_cfg,
         training_cfg,
         selection_cfg,
+        runtime,
         tracker,
     )
 
@@ -618,6 +727,8 @@ def run_cs3(project_root: Path, config_path: Path) -> dict[str, str]:
         "config_path": str(config_path),
         "run_tag": run_tag,
         "csv_output_dir": str(csv_output_dir),
+        "runtime_backend": runtime.active_backend,
+        "device": runtime.device,
         "progress_log": str(paper1_paths.outputs_logs / f"paper1_cs3_{run_tag}_progress.jsonl"),
         "latest_status": str(paper1_paths.outputs_logs / f"paper1_cs3_{run_tag}_latest_status.json"),
         "epoch_progress": str(csv_output_dir / "epoch_progress.csv"),
@@ -651,6 +762,8 @@ def _apply_cli_overrides(config: dict[str, Any], args: argparse.Namespace) -> di
         ("training", "ablation_epochs"): args.ablation_epochs,
         ("training", "checkpoint_every"): args.checkpoint_every,
         ("training", "log_every"): args.log_every,
+        ("training", "runtime_backend"): args.runtime_backend,
+        ("training", "torch_device"): args.torch_device,
         ("outputs", "output_subdir"): args.output_subdir,
         ("dataset", "n_samples"): args.n_samples,
     }
@@ -673,6 +786,8 @@ def main() -> None:
     parser.add_argument("--ablation-epochs", type=int, default=None, help="Override ablation epochs from the command line.")
     parser.add_argument("--checkpoint-every", type=int, default=None, help="Override checkpoint frequency from the command line.")
     parser.add_argument("--log-every", type=int, default=None, help="Log training progress every N epochs.")
+    parser.add_argument("--runtime-backend", default=None, help="Choose CPU, GPU, or auto backend for deep and transformer models.")
+    parser.add_argument("--torch-device", default=None, help="Torch device such as cpu, cuda, or cuda:0.")
     parser.add_argument("--output-subdir", default=None, help="Write CSV outputs into outputs/csv/cs3/<output-subdir>.")
     parser.add_argument("--n-samples", type=int, default=None, help="Override synthetic CS3 sample count.")
     args = parser.parse_args()

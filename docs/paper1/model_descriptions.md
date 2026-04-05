@@ -181,6 +181,8 @@ This ranking policy is configurable from the YAML files.
 ## Training and Tracking
 Deep and transformer families now support:
 - command-line epoch overrides
+- optional CPU or GPU backend selection
+- CUDA-device selection for the GPU path
 - configurable checkpoint intervals
 - per-epoch progress logs
 - model elapsed time
@@ -189,6 +191,24 @@ Deep and transformer families now support:
 - CPU usage
 - memory usage
 - GPU usage when `nvidia-smi` is available
+
+## CPU and GPU Versions
+The repository now preserves two benchmark execution modes:
+
+### Standard CPU version
+- uses the original sklearn-based deep and transformer surrogates
+- requires only the standard `requirements.txt`
+- remains the default Paper 1 execution path
+
+### GPU version
+- keeps the same CS3 comparison structure
+- uses PyTorch-based deep and transformer implementations for CUDA execution
+- keeps classical baselines on CPU
+- is activated through the GPU config or command-line backend override
+
+Recommended usage:
+- use the CPU version for lightweight debugging and reproducibility checks
+- use the GPU version for longer deep/transformer training runs
 
 ## Honest Scope Statement
 The current CS3 comparison framework is research-grade and executable, but the evidence level must be interpreted carefully:

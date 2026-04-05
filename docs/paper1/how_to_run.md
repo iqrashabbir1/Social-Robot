@@ -33,6 +33,37 @@ Key outputs:
 - `outputs/csv/cs3/comparison_run/best_model_summary.csv`
 - `outputs/csv/cs3/comparison_run/training_curves.csv`
 
+## Run CS3 on GPU
+The repository now keeps two paths:
+- standard CPU benchmark path
+- optional GPU benchmark path for deep and transformer families
+
+Classical models remain CPU-based even in the GPU run, while deep and transformer variants switch to the PyTorch CUDA implementation.
+
+### 1. Install the GPU runtime
+Install a CUDA-enabled PyTorch build that matches your machine. One common Windows command is:
+
+```powershell
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+pip install -r requirements.txt
+```
+
+If your CUDA/PyTorch combination differs, adjust the PyTorch wheel source accordingly.
+
+### 2. Run the GPU benchmark version
+```powershell
+.\.venv\Scripts\python.exe -m src.evaluation.ablation_runner --project-root . --config configs/cs3/comparison_gpu.yaml
+```
+
+### 3. Override epochs on GPU from the command line
+```powershell
+.\.venv\Scripts\python.exe -m src.evaluation.ablation_runner --project-root . --config configs/cs3/comparison_gpu.yaml --runtime-backend gpu --torch-device cuda --deep-epochs 150 --transformer-epochs 220 --ablation-epochs 40 --log-every 10 --output-subdir comparison_gpu_ep150_220
+```
+
+GPU outputs are written to:
+- `outputs/csv/cs3/comparison_gpu_run/`
+- or the folder given by `--output-subdir`
+
 ## Override Epochs from the Command
 You can override the training length directly from PowerShell without editing YAML.
 
@@ -46,6 +77,8 @@ Available command-line overrides:
 - `--ablation-epochs`
 - `--checkpoint-every`
 - `--log-every`
+- `--runtime-backend`
+- `--torch-device`
 - `--output-subdir`
 - `--n-samples`
 

@@ -3,10 +3,10 @@ inputs:
   baseline_visual_log: tests/emotion_log_labeled.csv
   baseline_audio_dataset: data/speech/speech_dataset_crema.npz
 outputs:
-  output_subdir: long_train_comparison
-  model_performance_summary: outputs/csv/cs3/long_train_comparison/model_performance_summary.csv
-  ablation_results: outputs/csv/cs3/long_train_comparison/ablation_results.csv
-  training_curves: outputs/csv/cs3/long_train_comparison/training_curves.csv
+  output_subdir: gpu_only_long_train
+  model_performance_summary: outputs/csv/cs3/gpu_only_long_train/model_performance_summary.csv
+  ablation_results: outputs/csv/cs3/gpu_only_long_train/ablation_results.csv
+  training_curves: outputs/csv/cs3/gpu_only_long_train/training_curves.csv
 dataset:
   n_samples: 960
   test_size: 0.25
@@ -16,46 +16,46 @@ label_space:
   - neutral
   - fear
 models:
-  classical_algorithms:
-    - svm
-    - random_forest
   deep_variants:
-    - name: late_fusion_mlp_small
+    - name: late_fusion_mlp_gpu_small
       hidden_layers: [64, 32]
       learning_rate_init: 0.001
-      epochs: 400
-    - name: late_fusion_mlp_wide
-      hidden_layers: [128, 64]
+      epochs: 300
+    - name: late_fusion_mlp_gpu_medium
+      hidden_layers: [96, 48]
+      learning_rate_init: 0.001
+      epochs: 500
+    - name: late_fusion_mlp_gpu_wide
+      hidden_layers: [160, 80]
       learning_rate_init: 0.0008
       epochs: 700
   transformer_variants:
-    - name: fusion_transformer_light
+    - name: fusion_transformer_gpu_light
       hidden_dim: 16
       alpha: 0.0001
-      epochs: 500
-    - name: fusion_transformer_wide
+      epochs: 400
+    - name: fusion_transformer_gpu_medium
       hidden_dim: 24
+      alpha: 0.00015
+      epochs: 600
+    - name: fusion_transformer_gpu_wide
+      hidden_dim: 32
       alpha: 0.0002
-      epochs: 700
+      epochs: 800
   hybrid:
-    enabled: true
-    name: long_train_majority_vote
-    members:
-      - B1_SVM
-      - B2_2
-      - B3_2
+    enabled: false
 training:
-  runtime_backend: cpu
-  torch_device: auto
-  deep_epochs: 300
-  transformer_epochs: 300
-  ablation_epochs: 100
-  checkpoint_every: 100
-  log_every: 25
-  checkpoint_dir: outputs/logs/cs3_checkpoints/long_train_comparison
+  runtime_backend: gpu
+  torch_device: cuda
+  deep_epochs: 400
+  transformer_epochs: 500
+  ablation_epochs: 80
+  checkpoint_every: 50
+  log_every: 10
+  checkpoint_dir: outputs/logs/cs3_checkpoints/gpu_only_long_train
 execution:
   include_baseline_b0: false
-  include_classical_b1: true
+  include_classical_b1: false
   include_deep_b2: true
   include_transformer_b3: true
   include_missing_modality: false

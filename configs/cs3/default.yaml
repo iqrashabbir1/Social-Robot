@@ -46,6 +46,8 @@ models:
       - B2_1
       - B3_1
 training:
+  runtime_backend: cpu
+  torch_device: auto
   deep_epochs: 20
   transformer_epochs: 20
   ablation_epochs: 14
