@@ -1,0 +1,58 @@
+camera_node:
+  ros__parameters:
+    camera_input_mode: windows_stream_bridge
+    camera_index: 0
+    width: 640
+    height: 480
+    frame_rate: 10.0
+    camera_topic: /camera/image_raw
+    health_topic: /system_health
+    missing_frame_warning_interval_seconds: 5.0
+
+windows_camera_bridge_node:
+  ros__parameters:
+    windows_camera_host: 127.0.0.1
+    windows_camera_port: 5001
+    camera_topic: /camera/image_raw
+    health_topic: /system_health
+    retry_delay_seconds: 2.0
+    receive_timeout_seconds: 5.0
+    runtime_type: ros2_live_windows_stream_wsl_core
+
+audio_node:
+  ros__parameters:
+    enable_audio: true
+    audio_device_index: null
+    sample_rate: 16000
+    chunk_size: 1600
+    audio_topic: /audio/stream
+
+robot_state_node:
+  ros__parameters:
+    pose_topic: /robot_pose
+    health_topic: /system_health
+    publish_rate: 5.0
+    frame_id: laptop_demo_base
+    placeholder_label: laptop_demo_context
+    runtime_type: ros2_live_windows_stream_wsl_core
+
+digital_twin_node:
+  ros__parameters:
+    sync_publish_rate: 2.0
+    event_topic: /event_log
+    head_cmd_topic: /head_cmd
+    speech_cmd_topic: /speech_cmd
+    runtime_type: ros2_live_windows_stream_wsl_core
+
+emotion_inference_node:
+  ros__parameters:
+    enable_audio: true
+    publish_rate: 1.0
+    audio_sample_rate: 16000
+    runtime_type: ros2_live_windows_stream_wsl_core
+
+event_logger_node:
+  ros__parameters:
+    output_dir: outputs/logs/ros2_live_emotion_demo
+    runtime_type: ros2_live_windows_stream_wsl_core
+    evidence_label: pilot_demonstration

@@ -1,0 +1,29 @@
+experiment_name: control_loop
+case_study: CS1
+seed: 42
+inputs:
+  ros2_workspace: ros2_ws
+outputs:
+  csv_dir: outputs/csv/cs1/control_loop
+  figure_dir: outputs/figures/cs1/control_loop
+preprocessing:
+  timestamp_unit: ms
+evaluation:
+  metrics:
+    - end_to_end_latency
+    - synchronization_error
+    - message_drop_rate
+    - task_success_rate
+    - recovery_rate
+  data_source_type: synthetic
+  runtime_type: software_only
+  model_status: fully_runnable
+  evidence_level: framework_validation
+plot:
+  save_png: true
+  save_svg: true
+simulation:
+  mode: M2
+  steps: 84
+fault_injection:
+  enabled: false

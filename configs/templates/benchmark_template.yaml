@@ -1,0 +1,11 @@
+benchmark_name: cs3_benchmark_example
+case_study: CS3
+config_files:
+  - configs/cs3/baseline_visual.yaml
+  - configs/cs3/svm_video_audio.yaml
+outputs:
+  master_summary_csv: outputs/tables/cs3_master_model_summary.csv
+  ablation_summary_csv: outputs/tables/cs3_ablation_summary.csv
+  figure_dir: outputs/figures/cs3
+options:
+  continue_on_error: false

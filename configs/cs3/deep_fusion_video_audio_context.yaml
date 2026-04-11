@@ -1,0 +1,48 @@
+experiment_name: deep_fusion_video_audio_context
+case_study: CS3
+seed: 42
+inputs:
+  baseline_visual_log: tests/emotion_log_labeled.csv
+  baseline_audio_dataset: data/speech/speech_dataset_crema.npz
+outputs:
+  csv_dir: outputs/csv/cs3/deep_fusion_video_audio_context
+  figure_dir: outputs/figures/cs3/deep_fusion_video_audio_context
+modalities:
+  selected:
+    - video
+    - audio
+    - context
+preprocessing:
+  normalization: standard_scaler
+  missing_modality_strategy: zero_fill
+dataset:
+  name: synthetic_aligned_multimodal_windows
+  n_samples: 480
+  test_size: 0.25
+model:
+  family: deep
+  name: deep_fusion_mlp
+  model_id: B2_DEEP_VIDEO_AUDIO_CONTEXT
+  hyperparameters:
+    hidden_layers: [96, 48]
+    learning_rate_init: 0.001
+training:
+  runtime_backend: cpu
+  torch_device: auto
+  epochs: 60
+  batch_size: 128
+  checkpoint_every: 0
+evaluation:
+  metrics:
+    - accuracy
+    - macro_f1
+    - weighted_f1
+    - uar
+    - inference_latency_ms
+  data_source_type: synthetic
+  runtime_type: software_only
+  model_status: fully_runnable
+  evidence_level: benchmark_preliminary
+plot:
+  save_png: true
+  save_svg: true

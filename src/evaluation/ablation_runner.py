@@ -1,5 +1,16 @@
 from __future__ import annotations
 
+"""Legacy CS3 orchestration entrypoint kept for backward compatibility.
+
+Paper 1 now prefers single-model-per-config execution via:
+- src.models.classical.train_classical
+- src.models.deep.train_deep_fusion
+- src.models.transformer.train_transformer_fusion
+
+and multimodel aggregation via:
+- src.evaluation.benchmark_runner
+"""
+
 import argparse
 from collections import Counter
 from pathlib import Path
@@ -254,6 +265,9 @@ def _run_ablation_set(
     checkpoint_every = int(training_cfg.get("checkpoint_every", 0))
     checkpoint_dir = _resolve_optional_dir(project_root, str(training_cfg.get("checkpoint_dir", "")))
     ablation_epochs = int(training_cfg.get("ablation_epochs", 14))
+    default_batch_size = int(training_cfg.get("batch_size", 128))
+    deep_batch_size = int(training_cfg.get("deep_batch_size", default_batch_size))
+    transformer_batch_size = int(training_cfg.get("transformer_batch_size", default_batch_size))
 
     if include_classical:
         for spec in _classical_specs(models_cfg):
@@ -298,6 +312,7 @@ def _run_ablation_set(
                 checkpoint_every=checkpoint_every,
                 hidden_layers=tuple(spec["hidden_layers"]),
                 learning_rate_init=float(spec["learning_rate_init"]),
+                batch_size=deep_batch_size,
                 progress_callback=(
                     lambda epoch_row, tracker=tracker, model_id=model_id, spec=spec: tracker.epoch_progress(
                         model_id=model_id,
@@ -354,6 +369,7 @@ def _run_ablation_set(
                     model_id=model_id,
                     hidden_layers=tuple(spec["hidden_layers"]),
                     learning_rate_init=float(spec["learning_rate_init"]),
+                    batch_size=deep_batch_size,
                 )
                 if include_missing_modality
                 else result
@@ -394,6 +410,7 @@ def _run_ablation_set(
                 checkpoint_every=checkpoint_every,
                 hidden_dim=int(spec["hidden_dim"]),
                 alpha=float(spec["alpha"]),
+                batch_size=transformer_batch_size,
                 progress_callback=(
                     lambda epoch_row, tracker=tracker, model_id=model_id, spec=spec: tracker.epoch_progress(
                         model_id=model_id,
@@ -450,6 +467,7 @@ def _run_ablation_set(
                     model_id=model_id,
                     hidden_dim=int(spec["hidden_dim"]),
                     alpha=float(spec["alpha"]),
+                    batch_size=transformer_batch_size,
                 )
                 if include_missing_modality
                 else result
@@ -586,6 +604,7 @@ def _run_ablation_set(
                             model_id=row["model_id"],
                             hidden_layers=tuple(spec["hidden_layers"]),
                             learning_rate_init=float(spec["learning_rate_init"]),
+                            batch_size=deep_batch_size,
                         ).metrics
                     elif row["model_family"] == "transformer":
                         spec = next(spec for spec in _transformer_specs(models_cfg, training_cfg) if spec["name"] == row["algorithm_name"])
@@ -610,6 +629,7 @@ def _run_ablation_set(
                             model_id=row["model_id"],
                             hidden_dim=int(spec["hidden_dim"]),
                             alpha=float(spec["alpha"]),
+                            batch_size=transformer_batch_size,
                         ).metrics
                     else:
                         continue
@@ -762,6 +782,9 @@ def _apply_cli_overrides(config: dict[str, Any], args: argparse.Namespace) -> di
         ("training", "ablation_epochs"): args.ablation_epochs,
         ("training", "checkpoint_every"): args.checkpoint_every,
         ("training", "log_every"): args.log_every,
+        ("training", "batch_size"): args.batch_size,
+        ("training", "deep_batch_size"): args.deep_batch_size,
+        ("training", "transformer_batch_size"): args.transformer_batch_size,
         ("training", "runtime_backend"): args.runtime_backend,
         ("training", "torch_device"): args.torch_device,
         ("outputs", "output_subdir"): args.output_subdir,
@@ -786,6 +809,9 @@ def main() -> None:
     parser.add_argument("--ablation-epochs", type=int, default=None, help="Override ablation epochs from the command line.")
     parser.add_argument("--checkpoint-every", type=int, default=None, help="Override checkpoint frequency from the command line.")
     parser.add_argument("--log-every", type=int, default=None, help="Log training progress every N epochs.")
+    parser.add_argument("--batch-size", type=int, default=None, help="Set batch size for GPU minibatch training.")
+    parser.add_argument("--deep-batch-size", type=int, default=None, help="Set deep-model batch size for GPU minibatch training.")
+    parser.add_argument("--transformer-batch-size", type=int, default=None, help="Set transformer-model batch size for GPU minibatch training.")
     parser.add_argument("--runtime-backend", default=None, help="Choose CPU, GPU, or auto backend for deep and transformer models.")
     parser.add_argument("--torch-device", default=None, help="Torch device such as cpu, cuda, or cuda:0.")
     parser.add_argument("--output-subdir", default=None, help="Write CSV outputs into outputs/csv/cs3/<output-subdir>.")

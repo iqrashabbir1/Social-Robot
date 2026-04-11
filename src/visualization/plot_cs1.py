@@ -99,6 +99,18 @@ def plot_resource_usage(latency_csv: Path, output_base: Path) -> None:
     plt.close(fig)
 
 
+def plot_simulator_vs_playback(comparison_csv: Path, output_base: Path) -> None:
+    df = pd.read_csv(comparison_csv)
+    apply_publication_style(plt.matplotlib)
+    fig, ax = plt.subplots(figsize=(8.5, 5))
+    ax.bar(df["source"], df["mean_latency_ms"], color=[COLOR_PALETTE["navy"], COLOR_PALETTE["orange"]])
+    ax.set_title("CS1 Simulator vs Playback-Grounded Comparison")
+    ax.set_xlabel("Runtime source")
+    ax.set_ylabel("Mean latency (ms)")
+    save_figure_bundle(fig, output_base)
+    plt.close(fig)
+
+
 def generate_cs1_figures(project_root: Path) -> None:
     plot_system_architecture(project_root / "outputs" / "csv" / "cs1" / "interface_spec.csv", project_root / "outputs" / "figures" / "cs1" / "system_architecture_diagram")
     plot_latency_distribution(project_root / "outputs" / "csv" / "cs1" / "latency_metrics.csv", project_root / "outputs" / "figures" / "cs1" / "latency_distribution")

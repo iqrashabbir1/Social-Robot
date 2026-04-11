@@ -1,0 +1,42 @@
+experiment_name: baseline_visual
+case_study: CS3
+seed: 42
+inputs:
+  baseline_visual_log: tests/emotion_log_labeled.csv
+outputs:
+  csv_dir: outputs/csv/cs3/baseline_visual
+  figure_dir: outputs/figures/cs3/baseline_visual
+modalities:
+  selected:
+    - video
+preprocessing:
+  normalization: preserved_repo_baseline
+  missing_modality_strategy: not_applicable
+dataset:
+  name: real_visual_log
+  n_samples: 480
+  test_size: 0.25
+model:
+  family: baseline
+  name: baseline_visual
+  model_id: B0
+  hyperparameters: {}
+training:
+  runtime_backend: cpu
+  torch_device: auto
+  epochs: 0
+  batch_size: 1
+  checkpoint_every: 0
+evaluation:
+  metrics:
+    - accuracy
+    - macro_f1
+    - weighted_f1
+    - uar
+  data_source_type: mixed
+  runtime_type: software_only
+  model_status: fully_runnable
+  evidence_level: benchmark_preliminary
+plot:
+  save_png: true
+  save_svg: true

@@ -68,6 +68,8 @@ def train_and_evaluate_deep_fusion_gpu(
     checkpoint_every: int = 0,
     hidden_layers: tuple[int, ...] = (96, 48),
     learning_rate_init: float = 0.001,
+    batch_size: int = 128,
+    shuffle: bool = True,
     progress_callback: Callable[[dict[str, object]], None] | None = None,
 ) -> DeepFusionGpuResult:
     torch = require_torch()
@@ -87,7 +89,14 @@ def train_and_evaluate_deep_fusion_gpu(
     train_features = torch.tensor(x_train_scaled, dtype=torch.float32, device=device)
     test_features = torch.tensor(x_test_scaled, dtype=torch.float32, device=device)
     train_targets = torch.tensor(encode_labels(labels, y_train.tolist()), dtype=torch.long, device=device)
-    test_targets = torch.tensor(encode_labels(labels, y_test.tolist()), dtype=torch.long, device=device)
+    _ = torch.tensor(encode_labels(labels, y_test.tolist()), dtype=torch.long, device=device)
+
+    effective_batch_size = max(1, min(int(batch_size), len(x_train_scaled)))
+    train_loader = torch.utils.data.DataLoader(
+        torch.utils.data.TensorDataset(train_features, train_targets),
+        batch_size=effective_batch_size,
+        shuffle=shuffle,
+    )
 
     network = _build_network(train_features.shape[1], hidden_layers, len(labels)).to(device)
     optimizer = torch.optim.Adam(network.parameters(), lr=learning_rate_init)
@@ -96,11 +105,14 @@ def train_and_evaluate_deep_fusion_gpu(
     curve_rows: list[dict[str, object]] = []
     for epoch in range(1, epochs + 1):
         network.train()
-        optimizer.zero_grad(set_to_none=True)
-        logits = network(train_features)
-        loss = criterion(logits, train_targets)
-        loss.backward()
-        optimizer.step()
+        batch_losses: list[float] = []
+        for batch_features, batch_targets in train_loader:
+            optimizer.zero_grad(set_to_none=True)
+            logits = network(batch_features)
+            loss = criterion(logits, batch_targets)
+            loss.backward()
+            optimizer.step()
+            batch_losses.append(float(loss.detach().cpu().item()))
 
         network.eval()
         with torch.no_grad():
@@ -122,9 +134,10 @@ def train_and_evaluate_deep_fusion_gpu(
             "val_accuracy": round(val_metrics.accuracy, 4),
             "train_macro_f1": round(train_metrics.macro_f1, 4),
             "val_macro_f1": round(val_metrics.macro_f1, 4),
-            "loss": round(float(loss.detach().cpu().item()), 6),
+            "loss": round(float(sum(batch_losses) / max(len(batch_losses), 1)), 6),
             "runtime_backend": "gpu",
             "device": device,
+            "batch_size": effective_batch_size,
             "evidence_level": "synthetic_placeholder_benchmark",
         }
         curve_rows.append(epoch_row)

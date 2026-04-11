@@ -6,9 +6,9 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from src.common.io_utils import read_yaml, write_dataframe, write_json
+from src.common.config_loader import build_experiment_context
+from src.common.io_utils import write_dataframe, write_json, write_yaml
 from src.common.logging_utils import get_logger
-from src.common.paths import Paper1Paths
 from src.common.reproducibility import set_global_seed
 from src.digital_twin.fault_injection import apply_fault_profile, default_fault_profiles
 from src.digital_twin.metrics import summarize_cs1_latency, summarize_fault_results
@@ -139,55 +139,61 @@ def _simulate_fault_mode(steps: int, rng: np.random.Generator) -> tuple[pd.DataF
 
 
 def run_cs1(project_root: Path, config_path: Path) -> dict[str, str]:
-    config = read_yaml(config_path)
-    seed = int(config.get("seed", 42))
+    context = build_experiment_context(project_root, config_path)
+    config = context.config
+    seed = int(config["seed"])
     steps = int(config.get("simulation", {}).get("steps", 80))
+    mode = str(config.get("simulation", {}).get("mode", "M1")).strip().upper()
+    if mode not in {"M1", "M2", "M3", "M4"}:
+        raise ValueError(f"Unsupported CS1 mode '{mode}'.")
     set_global_seed(seed)
     rng = np.random.default_rng(seed)
+    logger = get_logger(f"paper1.cs1.{context.experiment_name}", context.log_path)
+    logger.info("Running CS1 digital-twin experiment '%s' in mode %s.", context.experiment_name, mode)
+    data_source_type = str(config.get("evaluation", {}).get("data_source_type", "synthetic"))
+    runtime_type = str(config.get("evaluation", {}).get("runtime_type", "software_only"))
+    model_status = str(config.get("evaluation", {}).get("model_status", "fully_runnable"))
+    evidence_level = str(config.get("evaluation", {}).get("evidence_level", "framework_validation"))
 
-    paper1_paths = Paper1Paths.from_project_root(project_root)
-    paper1_paths.ensure()
-    logger = get_logger("paper1.cs1", paper1_paths.outputs_logs / "paper1_cs1.log")
-    logger.info("Running CS1 digital-twin validation.")
-
-    mode_frames: list[pd.DataFrame] = []
-    sync_frames: list[pd.DataFrame] = []
-    for mode in ("M1", "M2", "M3"):
-        event_df, sync_df = _simulate_mode(mode, steps, rng)
-        mode_frames.append(event_df)
-        sync_frames.append(sync_df)
-
-    fault_events, fault_sync = _simulate_fault_mode(steps, rng)
-    mode_frames.append(fault_events)
-    sync_frames.append(fault_sync)
-
-    latency_df = pd.concat(mode_frames, ignore_index=True)
-    sync_df = pd.concat(sync_frames, ignore_index=True)
+    if mode == "M4":
+        latency_df, sync_df = _simulate_fault_mode(steps, rng)
+    else:
+        latency_df, sync_df = _simulate_mode(mode, steps, rng)
     fault_df = summarize_fault_results(latency_df)
     summary_df = summarize_cs1_latency(latency_df)
+    for frame in (latency_df, sync_df, fault_df, summary_df):
+        frame["data_source_type"] = data_source_type
+        frame["runtime_type"] = runtime_type
+        frame["model_status"] = model_status
+        frame["evidence_level"] = evidence_level
 
-    write_dataframe(paper1_paths.outputs_csv_cs1 / "latency_metrics.csv", latency_df)
-    write_dataframe(paper1_paths.outputs_csv_cs1 / "sync_error_timeseries.csv", sync_df)
-    write_dataframe(paper1_paths.outputs_csv_cs1 / "fault_injection_results.csv", fault_df)
-    write_dataframe(paper1_paths.outputs_csv_cs1 / "latency_summary.csv", summary_df)
-    write_dataframe(paper1_paths.outputs_csv_cs1 / "interface_spec.csv", interface_spec_dataframe())
+    write_yaml(context.config_snapshot_path, config)
+    write_dataframe(context.csv_dir / "latency_metrics.csv", latency_df)
+    write_dataframe(context.csv_dir / "sync_error_timeseries.csv", sync_df)
+    write_dataframe(context.csv_dir / "fault_injection_results.csv", fault_df)
+    write_dataframe(context.metrics_csv_path, summary_df)
+    write_dataframe(context.csv_dir / "latency_summary.csv", summary_df)
+    write_dataframe(context.csv_dir / "interface_spec.csv", interface_spec_dataframe())
 
     summary_payload = {
-        "case_study": "CS1",
-        "config_path": str(config_path),
-        "latency_metrics": str(paper1_paths.outputs_csv_cs1 / "latency_metrics.csv"),
-        "sync_error_timeseries": str(paper1_paths.outputs_csv_cs1 / "sync_error_timeseries.csv"),
-        "fault_injection_results": str(paper1_paths.outputs_csv_cs1 / "fault_injection_results.csv"),
+        "experiment_name": context.experiment_name,
+        "case_study": context.case_study,
+        "config_path": str(context.config_path),
+        "latency_metrics": str(context.csv_dir / "latency_metrics.csv"),
+        "sync_error_timeseries": str(context.csv_dir / "sync_error_timeseries.csv"),
+        "fault_injection_results": str(context.csv_dir / "fault_injection_results.csv"),
+        "metrics_csv": str(context.metrics_csv_path),
+        "log_path": str(context.log_path),
     }
-    write_json(paper1_paths.outputs_logs / "paper1_cs1_summary.json", summary_payload)
-    logger.info("CS1 outputs written to %s", paper1_paths.outputs_csv_cs1)
+    write_json(context.summary_json_path, summary_payload)
+    logger.info("CS1 outputs written to %s", context.csv_dir)
     return {key: str(value) for key, value in summary_payload.items()}
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run CS1 ROS2 plus digital twin validation.")
     parser.add_argument("--project-root", default=".")
-    parser.add_argument("--config", default="configs/cs1/default.yaml")
+    parser.add_argument("--config", default="configs/cs1/simulator_only.yaml")
     args = parser.parse_args()
     run_cs1(Path(args.project_root).resolve(), Path(args.config).resolve())
 

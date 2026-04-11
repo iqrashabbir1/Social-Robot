@@ -1,0 +1,8 @@
+dataset_name: emorynlp_broad4_angry
+dataset_root: data/public/EmoryNLP
+labels_csv: data/public/EmoryNLP/labels_broad4_angry.csv
+target_label_set: broad4_angry
+playback_rate_hz: 2.0
+loop: false
+camera_topic: /camera/image_raw
+runtime_type: ros2_dataset_replay

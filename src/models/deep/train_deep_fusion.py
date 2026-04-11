@@ -1,17 +1,24 @@
 from __future__ import annotations
 
+import argparse
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
 
-import numpy as np
 import pandas as pd
 import joblib
+import numpy as np
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
 
+from src.common.config_loader import build_experiment_context
+from src.common.io_utils import write_dataframe, write_json, write_yaml
+from src.common.logging_utils import get_logger
+from src.common.reproducibility import set_global_seed
 from src.evaluation.metrics_classification import compute_metrics, confusion_dataframe
-from src.models.inference_benchmark import assemble_feature_matrix, measure_inference_latency
+from src.models.deep.train_deep_fusion_gpu import train_and_evaluate_deep_fusion_gpu
+from src.models.inference_benchmark import LABELS, assemble_feature_matrix, build_dataset_split, measure_inference_latency
+from src.models.torch_runtime import resolve_torch_runtime
 
 
 @dataclass
@@ -121,3 +128,109 @@ def train_and_evaluate_deep_fusion(
         training_curve=pd.DataFrame(curve_rows),
         predictions=y_pred,
     )
+
+
+def run_deep_experiment(project_root: Path, config_path: Path) -> dict[str, str]:
+    context = build_experiment_context(project_root, config_path)
+    config = context.config
+    if context.case_study != "CS3":
+        raise ValueError(f"Deep trainer only supports CS3 configs, received {context.case_study}.")
+
+    seed = int(config["seed"])
+    set_global_seed(seed)
+    logger = get_logger(f"paper1.cs3.{context.experiment_name}", context.log_path)
+    logger.info("Running deep-fusion CS3 experiment '%s'.", context.experiment_name)
+
+    model_cfg = config.get("model", {})
+    training_cfg = config.get("training", {})
+    modalities = tuple(config.get("modalities", {}).get("selected", ["video", "audio"]))
+    split = build_dataset_split(context.project_root, config.get("dataset", {}), seed)
+    runtime = resolve_torch_runtime(
+        str(training_cfg.get("runtime_backend", "cpu")),
+        str(training_cfg.get("torch_device", "auto")),
+    )
+    checkpoint_every = int(training_cfg.get("checkpoint_every", 0))
+    checkpoint_dir = context.log_dir / "checkpoints" if checkpoint_every > 0 else None
+
+    common_kwargs = {
+        "train_bundle": split["train"],
+        "test_bundle": split["test"],
+        "modalities": modalities,
+        "labels": LABELS,
+        "seed": seed,
+        "epochs": int(training_cfg.get("epochs", 40)),
+        "model_id": str(model_cfg.get("model_id", context.experiment_name)),
+        "checkpoint_dir": checkpoint_dir,
+        "checkpoint_every": checkpoint_every,
+        "hidden_layers": tuple(model_cfg.get("hyperparameters", {}).get("hidden_layers", [96, 48])),
+        "learning_rate_init": float(model_cfg.get("hyperparameters", {}).get("learning_rate_init", 0.001)),
+    }
+    if runtime.active_backend == "gpu":
+        result = train_and_evaluate_deep_fusion_gpu(
+            **common_kwargs,
+            device=runtime.device,
+            batch_size=int(training_cfg.get("batch_size", 128)),
+        )
+    else:
+        result = train_and_evaluate_deep_fusion(**common_kwargs)
+
+    metrics_row = {
+        "experiment_name": context.experiment_name,
+        "case_study": context.case_study,
+        "model_family": str(model_cfg.get("family", "deep")),
+        "algorithm_name": str(model_cfg.get("name", "late_fusion_mlp")),
+        "modality_setting": "_".join(modalities),
+        "seed": seed,
+        "accuracy": result.metrics["accuracy"],
+        "macro_f1": result.metrics["macro_f1"],
+        "weighted_f1": result.metrics["weighted_f1"],
+        "uar": result.metrics["uar"],
+        "inference_latency_ms": result.metrics["inference_latency_ms"],
+        "runtime_backend": runtime.active_backend,
+        "device": runtime.device,
+        "epochs": int(training_cfg.get("epochs", 40)),
+        "data_source_type": str(config.get("evaluation", {}).get("data_source_type", "synthetic")),
+        "runtime_type": str(config.get("evaluation", {}).get("runtime_type", "software_only")),
+        "model_status": str(config.get("evaluation", {}).get("model_status", "fully_runnable")),
+        "evidence_level": str(config.get("evaluation", {}).get("evidence_level", "benchmark_preliminary")),
+        "data_regime": str(config.get("dataset", {}).get("name", "synthetic_aligned_multimodal_windows")),
+    }
+
+    artifact_path = context.log_dir / f"{context.experiment_name}.joblib"
+    joblib.dump({"model": result.model, "modalities": modalities, "labels": LABELS}, artifact_path)
+
+    write_yaml(context.config_snapshot_path, config)
+    write_dataframe(context.metrics_csv_path, pd.DataFrame([metrics_row]))
+    write_dataframe(context.csv_dir / "model_performance_summary.csv", pd.DataFrame([metrics_row]))
+    write_dataframe(context.csv_dir / "confusion_matrix.csv", result.confusion)
+    write_dataframe(context.csv_dir / "training_curves.csv", result.training_curve)
+    write_dataframe(context.csv_dir / "predictions.csv", pd.DataFrame({"prediction": result.predictions}))
+
+    summary = {
+        "experiment_name": context.experiment_name,
+        "case_study": context.case_study,
+        "config_path": str(context.config_path),
+        "summary_json": str(context.summary_json_path),
+        "metrics_csv": str(context.metrics_csv_path),
+        "training_curves_csv": str(context.csv_dir / "training_curves.csv"),
+        "confusion_matrix_csv": str(context.csv_dir / "confusion_matrix.csv"),
+        "artifact_path": str(artifact_path),
+        "log_path": str(context.log_path),
+        "runtime_backend": runtime.active_backend,
+        "device": runtime.device,
+    }
+    write_json(context.summary_json_path, summary)
+    logger.info("Finished deep-fusion CS3 experiment '%s'.", context.experiment_name)
+    return {key: str(value) for key, value in summary.items()}
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Run one deep-fusion CS3 experiment from a single config.")
+    parser.add_argument("--project-root", default=".")
+    parser.add_argument("--config", required=True)
+    args = parser.parse_args()
+    run_deep_experiment(Path(args.project_root).resolve(), Path(args.config).resolve())
+
+
+if __name__ == "__main__":
+    main()

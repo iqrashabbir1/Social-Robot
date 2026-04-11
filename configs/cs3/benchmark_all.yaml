@@ -1,0 +1,18 @@
+benchmark_name: cs3_paper1_primary_benchmark
+case_study: CS3
+config_files:
+  - configs/cs3/baseline_visual.yaml
+  - configs/cs3/svm_video.yaml
+  - configs/cs3/svm_video_audio.yaml
+  - configs/cs3/rf_video_audio.yaml
+  - configs/cs3/xgboost_video_audio_context.yaml
+  - configs/cs3/deep_fusion_video_audio.yaml
+  - configs/cs3/deep_fusion_video_audio_context.yaml
+  - configs/cs3/transformer_video_audio.yaml
+  - configs/cs3/transformer_video_audio_context.yaml
+outputs:
+  master_summary_csv: outputs/tables/cs3_master_model_summary.csv
+  ablation_summary_csv: outputs/tables/cs3_ablation_summary.csv
+  figure_dir: outputs/figures/cs3
+options:
+  continue_on_error: false

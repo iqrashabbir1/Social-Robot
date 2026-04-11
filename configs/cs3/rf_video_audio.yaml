@@ -1,0 +1,46 @@
+experiment_name: rf_video_audio
+case_study: CS3
+seed: 42
+inputs:
+  baseline_visual_log: tests/emotion_log_labeled.csv
+  baseline_audio_dataset: data/speech/speech_dataset_crema.npz
+outputs:
+  csv_dir: outputs/csv/cs3/rf_video_audio
+  figure_dir: outputs/figures/cs3/rf_video_audio
+modalities:
+  selected:
+    - video
+    - audio
+preprocessing:
+  normalization: none
+  missing_modality_strategy: zero_fill
+dataset:
+  name: synthetic_aligned_multimodal_windows
+  n_samples: 480
+  test_size: 0.25
+model:
+  family: classical
+  name: random_forest
+  model_id: B1_RF_VIDEO_AUDIO
+  hyperparameters:
+    n_estimators: 180
+training:
+  runtime_backend: cpu
+  torch_device: auto
+  epochs: 0
+  batch_size: 128
+  checkpoint_every: 0
+evaluation:
+  metrics:
+    - accuracy
+    - macro_f1
+    - weighted_f1
+    - uar
+    - inference_latency_ms
+  data_source_type: synthetic
+  runtime_type: software_only
+  model_status: fully_runnable
+  evidence_level: benchmark_preliminary
+plot:
+  save_png: true
+  save_svg: true

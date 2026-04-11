@@ -1,0 +1,46 @@
+dataset_replay_node:
+  ros__parameters:
+    dataset_root: data/public/RAVDESS
+    labels_csv: data/public/RAVDESS/labels_broad4_angry.csv
+    playback_rate_hz: 2.0
+    loop: false
+    camera_topic: /camera/image_raw
+    event_topic: /event_log
+    frame_id_prefix: dataset_replay
+    dataset_name: ravdess_broad4_angry
+    width: 640
+    height: 480
+    runtime_type: ros2_dataset_replay
+    target_label_set: broad4_angry
+    video_frame_stride: 10
+    max_frames_per_video: 10
+
+robot_state_node:
+  ros__parameters:
+    pose_topic: /robot_pose
+    health_topic: /system_health
+    publish_rate: 5.0
+    frame_id: dataset_replay_base
+    placeholder_label: dataset_replay_context
+    runtime_type: ros2_dataset_replay
+
+digital_twin_node:
+  ros__parameters:
+    sync_publish_rate: 2.0
+    event_topic: /event_log
+    head_cmd_topic: /head_cmd
+    speech_cmd_topic: /speech_cmd
+    runtime_type: ros2_dataset_replay
+
+emotion_inference_node:
+  ros__parameters:
+    enable_audio: false
+    publish_rate: 1.0
+    audio_sample_rate: 16000
+    runtime_type: ros2_dataset_replay
+
+event_logger_node:
+  ros__parameters:
+    output_dir: outputs/logs/ros2_dataset_replay_ravdess
+    runtime_type: ros2_dataset_replay
+    evidence_label: benchmark_preliminary

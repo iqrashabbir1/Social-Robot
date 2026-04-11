@@ -29,6 +29,11 @@ COLOR_PALETTE = {
 
 
 def apply_publication_style(matplotlib_module) -> None:
+    if hasattr(matplotlib_module, "use"):
+        try:
+            matplotlib_module.use("Agg")
+        except Exception:
+            pass
     matplotlib_module.rcParams.update(PLOT_STYLE)
 
 

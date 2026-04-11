@@ -132,6 +132,8 @@ def train_and_evaluate_transformer_fusion_gpu(
     checkpoint_every: int = 0,
     hidden_dim: int = 16,
     alpha: float = 0.0001,
+    batch_size: int = 128,
+    shuffle: bool = True,
     progress_callback: Callable[[dict[str, object]], None] | None = None,
 ) -> TransformerFusionGpuResult:
     torch = require_torch()
@@ -151,7 +153,14 @@ def train_and_evaluate_transformer_fusion_gpu(
     audio_test = torch.tensor(audio_test_np, dtype=torch.float32, device=device)
     context_test = torch.tensor(context_test_np, dtype=torch.float32, device=device)
     train_targets = torch.tensor(encode_labels(labels, y_train.tolist()), dtype=torch.long, device=device)
-    test_targets = torch.tensor(encode_labels(labels, y_test.tolist()), dtype=torch.long, device=device)
+    _ = torch.tensor(encode_labels(labels, y_test.tolist()), dtype=torch.long, device=device)
+
+    effective_batch_size = max(1, min(int(batch_size), len(video_train_np)))
+    train_loader = torch.utils.data.DataLoader(
+        torch.utils.data.TensorDataset(video_train, audio_train, context_train, train_targets),
+        batch_size=effective_batch_size,
+        shuffle=shuffle,
+    )
 
     model = TorchFusionTransformer(
         video_dim=video_train.shape[1],
@@ -166,11 +175,14 @@ def train_and_evaluate_transformer_fusion_gpu(
     curve_rows: list[dict[str, object]] = []
     for epoch in range(1, epochs + 1):
         model.train()
-        optimizer.zero_grad(set_to_none=True)
-        logits = model(video_train, audio_train, context_train)
-        loss = criterion(logits, train_targets)
-        loss.backward()
-        optimizer.step()
+        batch_losses: list[float] = []
+        for batch_video, batch_audio, batch_context, batch_targets in train_loader:
+            optimizer.zero_grad(set_to_none=True)
+            logits = model(batch_video, batch_audio, batch_context)
+            loss = criterion(logits, batch_targets)
+            loss.backward()
+            optimizer.step()
+            batch_losses.append(float(loss.detach().cpu().item()))
 
         model.eval()
         with torch.no_grad():
@@ -192,9 +204,10 @@ def train_and_evaluate_transformer_fusion_gpu(
             "val_accuracy": round(val_metrics.accuracy, 4),
             "train_macro_f1": round(train_metrics.macro_f1, 4),
             "val_macro_f1": round(val_metrics.macro_f1, 4),
-            "loss": round(float(loss.detach().cpu().item()), 6),
+            "loss": round(float(sum(batch_losses) / max(len(batch_losses), 1)), 6),
             "runtime_backend": "gpu",
             "device": device,
+            "batch_size": effective_batch_size,
             "evidence_level": "synthetic_placeholder_benchmark",
         }
         curve_rows.append(epoch_row)

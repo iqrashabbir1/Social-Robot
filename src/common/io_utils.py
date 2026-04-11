@@ -20,6 +20,11 @@ def read_yaml(path: Path) -> dict[str, Any]:
     return data
 
 
+def write_yaml(path: Path, payload: Any) -> None:
+    ensure_parent(path)
+    path.write_text(yaml.safe_dump(payload, sort_keys=False), encoding="utf-8")
+
+
 def write_json(path: Path, payload: Any) -> None:
     ensure_parent(path)
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")

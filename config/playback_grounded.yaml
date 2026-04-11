@@ -1,0 +1,26 @@
+playback_adapter_node:
+  ros__parameters:
+    project_root: .
+    playback_source: outputs/logs/physiology_ros2_bridge.jsonl
+    publish_rate: 10.0
+    seed: 42
+    steps: 60
+
+digital_twin_node:
+  ros__parameters:
+    sync_publish_rate: 2.0
+    event_topic: /event_log
+    head_cmd_topic: /head_cmd
+    speech_cmd_topic: /speech_cmd
+
+emotion_inference_node:
+  ros__parameters:
+    enable_audio: true
+    publish_rate: 1.0
+    audio_sample_rate: 16000
+
+event_logger_node:
+  ros__parameters:
+    output_dir: outputs/logs/ros2_playback_grounded
+    runtime_type: ros2_playback_grounded
+    evidence_label: framework_validation

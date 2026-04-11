@@ -1,0 +1,36 @@
+experiment_name: video_audio_robotstate
+case_study: CS2
+seed: 42
+inputs:
+  source_mode: synthetic_placeholder_streams
+outputs:
+  csv_dir: outputs/csv/cs2/video_audio_robotstate
+  figure_dir: outputs/figures/cs2/video_audio_robotstate
+modalities:
+  selected:
+    - video
+    - audio
+    - context
+  missing_probability:
+    video: 0.05
+    audio: 0.08
+    context: 0.02
+    physiology: 1.0
+preprocessing:
+  alignment_tolerance_ms: 120
+  window_ms: 2000
+  hop_ms: 1000
+evaluation:
+  metrics:
+    - mean_alignment_error_ms
+    - full_modality_window_rate
+    - availability_ratio
+  data_source_type: synthetic
+  runtime_type: software_only
+  model_status: fully_runnable
+  evidence_level: framework_validation
+plot:
+  save_png: true
+  save_svg: true
+session:
+  duration_ms: 24000

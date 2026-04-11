@@ -1,0 +1,58 @@
+seed: 42
+inputs:
+  baseline_visual_log: tests/emotion_log_labeled.csv
+  baseline_audio_dataset: data/speech/speech_dataset_crema.npz
+outputs:
+  output_subdir: single_deep_medium_gpu
+  model_performance_summary: outputs/csv/cs3/single_deep_medium_gpu/model_performance_summary.csv
+  ablation_results: outputs/csv/cs3/single_deep_medium_gpu/ablation_results.csv
+  training_curves: outputs/csv/cs3/single_deep_medium_gpu/training_curves.csv
+dataset:
+  n_samples: 2000
+  test_size: 0.25
+label_space:
+  - happy
+  - sad
+  - neutral
+  - fear
+models:
+  deep_variants:
+    - name: late_fusion_mlp_gpu_medium
+      hidden_layers: [96, 48]
+      learning_rate_init: 0.001
+      epochs: 400
+  hybrid:
+    enabled: false
+training:
+  runtime_backend: gpu
+  torch_device: cuda
+  batch_size: 256
+  deep_batch_size: 256
+  transformer_batch_size: 256
+  deep_epochs: 400
+  transformer_epochs: 1
+  ablation_epochs: 1
+  checkpoint_every: 50
+  log_every: 10
+  checkpoint_dir: outputs/logs/cs3_checkpoints/single_deep_medium_gpu
+execution:
+  include_baseline_b0: false
+  include_classical_b1: false
+  include_deep_b2: true
+  include_transformer_b3: false
+  include_missing_modality: false
+  include_ablations: false
+  main_modalities:
+    - video
+    - audio
+    - context
+  ablation_model_ids: []
+  ablation_names: []
+selection:
+  primary_metric: macro_f1
+  tie_breakers:
+    - weighted_f1
+    - accuracy
+    - inference_latency_ms
+  ascending_metrics:
+    - inference_latency_ms

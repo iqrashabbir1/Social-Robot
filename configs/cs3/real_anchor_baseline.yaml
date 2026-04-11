@@ -1,0 +1,38 @@
+experiment_name: real_anchor_baseline
+case_study: CS3
+seed: 42
+inputs:
+  session_dir: ""
+outputs:
+  csv_dir: outputs/csv/cs3/real_anchor_baseline
+  figure_dir: outputs/figures/cs3/real_anchor_baseline
+modalities:
+  selected:
+    - video
+preprocessing:
+  normalization: preserved_repo_baseline
+  missing_modality_strategy: not_applicable
+dataset:
+  name: pilot_real_anchor_demonstration
+  max_frames: 20
+model:
+  family: baseline
+  name: baseline_visual
+  model_id: B0_REAL_ANCHOR
+  hyperparameters: {}
+training:
+  runtime_backend: cpu
+  torch_device: auto
+  epochs: 0
+  batch_size: 1
+  checkpoint_every: 0
+evaluation:
+  metrics:
+    - predicted_emotion_distribution
+  data_source_type: pilot_real_anchor
+  runtime_type: software_only
+  model_status: partially_runnable
+  evidence_level: pilot_demonstration
+plot:
+  save_png: true
+  save_svg: true

@@ -31,6 +31,23 @@ def build_synthetic_multimodal_dataset(
     }
 
 
+def build_dataset_split(
+    project_root: Path,
+    dataset_cfg: dict[str, object],
+    seed: int,
+) -> dict[str, object]:
+    bundle = build_synthetic_multimodal_dataset(
+        project_root=project_root,
+        seed=seed,
+        n_samples=int(dataset_cfg.get("n_samples", 480)),
+    )
+    return split_feature_bundle(
+        bundle,
+        test_size=float(dataset_cfg.get("test_size", 0.25)),
+        seed=seed,
+    )
+
+
 def split_feature_bundle(bundle: dict[str, np.ndarray | list[str]], test_size: float, seed: int) -> dict[str, object]:
     indices = np.arange(len(bundle["labels"]))
     train_idx, test_idx = train_test_split(
