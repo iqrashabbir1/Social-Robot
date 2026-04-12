@@ -1,8 +1,0 @@
-topic,message_type,producer,consumer,description
-/camera/image_raw,sensor_msgs/Image,camera simulator,sync pipeline,Primary visual sensing stream.
-/audio/stream,audio_common_msgs/AudioData,microphone simulator,sync pipeline,Primary audio sensing stream.
-/robot_pose,geometry_msgs/PoseStamped,robot state estimator,digital twin,Robot pose and context stream.
-/head_cmd,std_msgs/String,control policy,robot head controller,Head orientation or gesture command.
-/speech_cmd,std_msgs/String,dialogue policy,robot TTS controller,Speech command text and intent.
-/event_log,std_msgs/String,event logger,analysis pipeline,Structured experiment event log.
-/system_health,diagnostic_msgs/DiagnosticArray,runtime monitor,analysis pipeline,"CPU, memory, and subsystem health status."

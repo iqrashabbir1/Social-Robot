@@ -1,8 +1,0 @@
-component,metric_focus,value,evidence_level,notes
-Vision baseline,accuracy,0.835,implemented_real_baseline,Derived from labeled vision log in tests/emotion_log_labeled.csv
-Vision baseline,macro_f1,0.8155,implemented_real_baseline,Derived from labeled vision log in tests/emotion_log_labeled.csv
-Speech baseline,accuracy,0.6696,implemented_real_baseline,Re-trained and evaluated on deterministic CREMA-D split
-Speech baseline,macro_f1,0.5912,implemented_real_baseline,Re-trained and evaluated on deterministic CREMA-D split
-Integrated transformer MER,macro_f1,0.821,simulation_based_evaluation,"Simulation-backed target for richer multimodal model, not a claimed field result"
-Health-risk prediction,auroc,0.9958,simulation_based_evaluation,Synthetic multimodal physiology benchmark
-KG plus LLM explainability,faithfulness_score,0.89,simulation_based_evaluation,Graph-grounded explanation scoring on synthetic alert scenarios

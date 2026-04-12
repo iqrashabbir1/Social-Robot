@@ -1,6 +1,0 @@
-metric_id,metric_name,unit,objective_direction,status,current_value,notes
-CS1_M1,topic_latency_ms,ms,lower_is_better,simulation_based_evaluation,,Populate from ROS2 replay logs
-CS1_M2,state_transition_consistency,ratio,higher_is_better,simulation_based_evaluation,,Check twin updates against scenario script
-CS1_M3,replay_determinism,ratio,higher_is_better,simulation_based_evaluation,,Compare repeated runs from same event log
-CS1_M4,override_trigger_correctness,ratio,higher_is_better,simulation_based_evaluation,,Measure policy consistency
-CS1_M5,alert_provenance_completeness,ratio,higher_is_better,simulation_based_evaluation,,Require linked source topics

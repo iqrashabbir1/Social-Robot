@@ -1,5 +1,0 @@
-artifact,status,notes
-baseline_mer,implemented_real_baseline,Baseline description preserved with real speech and vision evaluation data.
-digital_twin_validation,simulation_based_evaluation,Scenario and alert pipeline executed from synthetic multimodal streams.
-kg_dashboard_prototype,simulation_based_evaluation,"Knowledge graph, explanations, and dashboard prototype generated locally."
-pilot_readiness_package,simulation_based_evaluation,Pilot-style validation package generated without fabricating field results.

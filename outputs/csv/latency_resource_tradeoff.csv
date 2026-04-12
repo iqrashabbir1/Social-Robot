@@ -1,6 +1,0 @@
-mode,latency_ms,cpu_percent,memory_mb,clinical_utility_score,evidence_level
-baseline_mer,72,21,230,0.46,implemented_real_baseline
-late_fusion_mer,94,28,315,0.61,simulation_based_evaluation
-transformer_mer,132,35,460,0.73,simulation_based_evaluation
-full_stack_edge,156,48,710,0.84,simulation_based_evaluation
-full_stack_hybrid,188,42,640,0.89,simulation_based_evaluation

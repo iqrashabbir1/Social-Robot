@@ -1,9 +1,0 @@
-module,contribution_score,category
-Speech baseline,0.11,perception
-Vision baseline,0.12,perception
-Physiology risk head,0.18,prediction
-Medication reasoner,0.14,prediction
-Digital twin,0.15,reasoning
-KG plus LLM explainer,0.1,reasoning
-HITL dashboard,0.11,oversight
-Privacy controller,0.09,deployment

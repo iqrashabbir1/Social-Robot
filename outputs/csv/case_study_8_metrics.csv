@@ -1,6 +1,0 @@
-metric_id,metric_name,unit,objective_direction,status,current_value,notes
-CS8_M1,end_to_end_latency_ms,ms,lower_is_better,simulation_based_evaluation,128.4,Measure under edge and hybrid routing
-CS8_M2,edge_resource_usage,score,lower_is_better,simulation_based_evaluation,,CPU and memory budget proxy
-CS8_M3,privacy_utility_index,score,higher_is_better,simulation_based_evaluation,0.5142,Tradeoff derived from sensing profiles
-CS8_M4,telepresence_initiation_delay_sec,seconds,lower_is_better,simulation_based_evaluation,,Escalation handoff metric
-CS8_M5,scenario_completion_rate,ratio,higher_is_better,simulation_based_evaluation,,Closed-loop success under deployment constraints

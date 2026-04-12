@@ -1,2 +1,0 @@
-session_id,duration_ms,video_sampling_ms,audio_sampling_ms,context_sampling_ms,physiology_sampling_ms,window_ms,hop_ms,label_space
-session_A,24000,100,80,200,400,2000,1000,happy|sad|neutral|fear

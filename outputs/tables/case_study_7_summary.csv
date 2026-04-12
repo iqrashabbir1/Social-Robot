@@ -1,2 +1,0 @@
-case_study_id,title,evidence_status,existing_assets,baselines,expected_output
-CS7,KG plus LLM explainability quality and faithfulness analysis,planned_experiment,"architecture scaffold only; no populated KG yet","A6, A7, A8",Grounded explanation evaluation protocol

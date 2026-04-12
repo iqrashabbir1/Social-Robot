@@ -1,2 +1,0 @@
-case_study_id,title,evidence_status,existing_assets,baselines,expected_output
-CS5,Medication adherence reasoning and missed-dose justification,planned_experiment,"response rules, dialogue hooks, architecture scaffold","A2, A6, A8",Closed-loop adherence reasoning evaluation plan

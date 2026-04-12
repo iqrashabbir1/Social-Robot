@@ -1,8 +1,0 @@
-metric,value,evidence_level
-accuracy,0.6696,implemented_real_baseline
-macro_precision,0.5742,implemented_real_baseline
-macro_recall,0.6313,implemented_real_baseline
-macro_f1,0.5912,implemented_real_baseline
-ece,0.07,implemented_real_baseline
-train_size,5952.0,implemented_real_baseline
-test_size,1489.0,implemented_real_baseline

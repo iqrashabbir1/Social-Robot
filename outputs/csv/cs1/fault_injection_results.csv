@@ -1,6 +1,0 @@
-fault_type,severity,task_success_rate,recovery_rate,message_drop_rate,mean_latency_ms
-delay,mild,0.9983,0.0017,0.0,40.4978
-delay,severe,1.0,0.0,0.0,40.4978
-dropout,mild,0.9286,0.068,0.0697,40.4978
-dropout,severe,0.8044,0.1616,0.1956,40.4978
-sensor_noise,moderate,0.9983,0.0017,0.0,40.4978

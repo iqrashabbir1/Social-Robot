@@ -7,10 +7,18 @@ __pycache__/
 .mypy_cache/
 .venv/
 
+data/public/
+data/pilot/sessions/
 data/speech/tmp/
 data/speech/tmp_debug/
+
+outputs/*
+!outputs/logs/
 outputs/logs/*
 !outputs/logs/README.md
+
+!data/pilot/
+!data/pilot/README.md
 
 Thumbs.db
 Desktop.ini
