@@ -57,6 +57,7 @@ These are useful for internal discussion or supplementary material, but should b
 - `docs/paper1/dataset_vs_live_strategy.md`
 - `docs/paper1/figure_manifest.md`
 - `docs/paper1/table_manifest.md`
+- `docs/paper1/final_package/results/README.md`
 
 ## Recommended paper assembly
 
@@ -66,4 +67,3 @@ For the manuscript, the cleanest structure is:
 2. Use `algorithms_and_comparison.md` for the main benchmark section.
 3. Use `detailed_approach.md` for methodology and reproducibility.
 4. Use the primary tables and figures above for the main paper body.
-

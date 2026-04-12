@@ -1,0 +1,8 @@
+algorithm_name,family,selected_best_model,accuracy_external_public_test,accuracy_held_out_validation,accuracy_train_split,epochs_external_public_test,epochs_held_out_validation,epochs_train_split,macro_f1_external_public_test,macro_f1_held_out_validation,macro_f1_train_split,num_samples_external_public_test,num_samples_held_out_validation,num_samples_train_split,unweighted_recall_external_public_test,unweighted_recall_held_out_validation,unweighted_recall_train_split,weighted_f1_external_public_test,weighted_f1_held_out_validation,weighted_f1_train_split
+cnn_batchnorm,deep,False,0.2488,0.9518,0.9984,960,960,1000,0.1409,0.952,0.9984,5386,456,1838,0.252,0.9532,0.9981,0.1417,0.9517,0.9984
+cnn_small,deep,True,0.283,0.9781,0.9995,851,851,1000,0.2507,0.9776,0.9994,5386,456,1838,0.2824,0.9762,0.9994,0.2489,0.978,0.9995
+extra_trees,classical,False,0.2581,0.9013,1.0,,,,0.2117,0.8947,1.0,5386,456,1838,0.2535,0.892,1.0,0.2182,0.8994,1.0
+hybrid_soft_voting,hybrid,False,0.2785,0.9693,,,,,0.2326,0.9685,,5386,456,1838,0.276,0.9666,,0.2311,0.9691,
+logistic_regression,classical,False,0.2655,0.8596,1.0,,,,0.1049,0.8556,1.0,5386,456,1838,0.25,0.8572,1.0,0.1114,0.8584,1.0
+random_forest,classical,False,0.2455,0.8991,1.0,,,,0.1423,0.8954,1.0,5386,456,1838,0.2485,0.8925,1.0,0.1429,0.8983,1.0
+rbf_svm,classical,False,0.2655,0.9232,0.994,,,,0.1049,0.92,0.994,5386,456,1838,0.25,0.9198,0.9934,0.1114,0.9229,0.994

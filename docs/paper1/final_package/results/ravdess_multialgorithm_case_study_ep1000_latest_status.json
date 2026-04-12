@@ -1,0 +1,7 @@
+{
+  "run_type": "multialgorithm_case_study",
+  "status": "completed",
+  "best_algorithm_name": "cnn_small",
+  "paper_table_csv": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\outputs\\tables\\paper1_table_multialgorithm_comparison.csv",
+  "wide_table_csv": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\outputs\\tables\\paper1_table_multialgorithm_wide_comparison.csv"
+}
