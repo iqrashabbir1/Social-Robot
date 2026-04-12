@@ -22,6 +22,13 @@ from src.models.torch_runtime import require_torch
 from src.models.vision.image_emotion_classifier import FrameEmotionDataset, frame_collate_fn
 
 
+def _write_progress_snapshot(progress_dir: Path, status_payload: dict[str, object], progress_rows: list[dict[str, object]]) -> None:
+    progress_dir.mkdir(parents=True, exist_ok=True)
+    write_json(progress_dir / "latest_status.json", status_payload)
+    if progress_rows:
+        write_dataframe(progress_dir / "training_progress_latest.csv", pd.DataFrame(progress_rows))
+
+
 def _extract_feature_matrix(dataframe: pd.DataFrame, image_size: int = 32) -> np.ndarray:
     features: list[np.ndarray] = []
     for row in dataframe.to_dict(orient="records"):
@@ -136,6 +143,8 @@ def _train_deep_model(
     learning_rate: float,
     device: str,
     log_every_epochs: int,
+    progress_dir: Path,
+    progress_rows: list[dict[str, object]],
 ) -> tuple[list[dict[str, object]], dict[str, object], pd.DataFrame]:
     torch = require_torch()
     label_to_index = {label: index for index, label in enumerate(class_labels)}
@@ -232,6 +241,36 @@ def _train_deep_model(
                 "epoch_seconds": round(epoch_seconds, 3),
             }
         )
+        progress_rows.append(
+            {
+                "algorithm_name": algorithm_name,
+                "family": "deep",
+                "epoch": epoch,
+                "total_epochs": epochs,
+                "train_loss": round(sum(train_losses) / max(len(train_losses), 1), 6),
+                "train_accuracy": round(float(train_metrics.accuracy), 4),
+                "train_macro_f1": round(float(train_metrics.macro_f1), 4),
+                "val_accuracy": round(float(val_metrics["accuracy"]), 4),
+                "val_macro_f1": round(float(val_metrics["macro_f1"]), 4),
+                "epoch_seconds": round(epoch_seconds, 3),
+                "device": device,
+            }
+        )
+        _write_progress_snapshot(
+            progress_dir,
+            {
+                "run_type": "multialgorithm_case_study",
+                "current_algorithm": algorithm_name,
+                "family": "deep",
+                "epoch": epoch,
+                "total_epochs": epochs,
+                "train_accuracy": round(float(train_metrics.accuracy), 4),
+                "val_accuracy": round(float(val_metrics["accuracy"]), 4),
+                "val_macro_f1": round(float(val_metrics["macro_f1"]), 4),
+                "status": "running",
+            },
+            progress_rows,
+        )
         if epoch == 1 or epoch % max(log_every_epochs, 1) == 0 or epoch == epochs:
             print(
                 f"[{algorithm_name}] epoch {epoch}/{epochs} "
@@ -327,6 +366,8 @@ def run_multialgorithm_emotion_case_study(
 
     output_dir = paths.outputs_csv_paper1 / output_subdir
     output_dir.mkdir(parents=True, exist_ok=True)
+    progress_dir = project_root / "outputs" / "logs" / "paper1" / output_subdir
+    progress_dir.mkdir(parents=True, exist_ok=True)
 
     train_df = load_dataset_records(
         dataset_root=(project_root / train_dataset_root).resolve() if not train_dataset_root.is_absolute() else train_dataset_root.resolve(),
@@ -389,6 +430,7 @@ def run_multialgorithm_emotion_case_study(
     summary_rows: list[dict[str, object]] = []
     history_rows: list[dict[str, object]] = []
     prediction_frames: list[pd.DataFrame] = []
+    progress_rows: list[dict[str, object]] = []
     validation_probabilities: dict[str, np.ndarray] = {}
     external_probabilities: dict[str, np.ndarray] = {}
     best_classical_name = None
@@ -398,6 +440,16 @@ def run_multialgorithm_emotion_case_study(
 
     for algorithm_name, estimator in classical_models.items():
         print(f"[benchmark] training {algorithm_name}")
+        _write_progress_snapshot(
+            progress_dir,
+            {
+                "run_type": "multialgorithm_case_study",
+                "current_algorithm": algorithm_name,
+                "family": "classical",
+                "status": "running",
+            },
+            progress_rows,
+        )
         started = time.perf_counter()
         estimator.fit(X_train, y_train)
         train_probs = estimator.predict_proba(X_train)
@@ -423,6 +475,35 @@ def run_multialgorithm_emotion_case_study(
                 "val_macro_f1": round(val_metrics["macro_f1"], 4),
                 "test_macro_f1": round(test_metrics["macro_f1"], 4),
             }
+        )
+        progress_rows.append(
+            {
+                "algorithm_name": algorithm_name,
+                "family": "classical",
+                "epoch": "",
+                "total_epochs": "",
+                "train_loss": "",
+                "train_accuracy": round(float(train_metrics["accuracy"]), 4),
+                "train_macro_f1": round(float(train_metrics["macro_f1"]), 4),
+                "val_accuracy": round(float(val_metrics["accuracy"]), 4),
+                "val_macro_f1": round(float(val_metrics["macro_f1"]), 4),
+                "epoch_seconds": round(duration, 3),
+                "device": "cpu_or_native",
+            }
+        )
+        _write_progress_snapshot(
+            progress_dir,
+            {
+                "run_type": "multialgorithm_case_study",
+                "current_algorithm": algorithm_name,
+                "family": "classical",
+                "status": "completed",
+                "val_accuracy": round(float(val_metrics["accuracy"]), 4),
+                "val_macro_f1": round(float(val_metrics["macro_f1"]), 4),
+                "external_accuracy": round(float(test_metrics["accuracy"]), 4),
+                "external_macro_f1": round(float(test_metrics["macro_f1"]), 4),
+            },
+            progress_rows,
         )
         prediction_frames.append(
             pd.DataFrame(
@@ -462,6 +543,8 @@ def run_multialgorithm_emotion_case_study(
             learning_rate=learning_rate,
             device=device,
             log_every_epochs=log_every_epochs,
+            progress_dir=progress_dir,
+            progress_rows=progress_rows,
         )
         history_rows.extend(deep_history)
         prediction_frames.append(pred_df)
@@ -600,7 +683,20 @@ def run_multialgorithm_emotion_case_study(
             "wide_table_csv": str(wide_table_path),
             "predictions_csv": str(predictions_path),
             "history_csv": str(history_path),
+            "latest_status_json": str(progress_dir / "latest_status.json"),
+            "progress_csv": str(progress_dir / "training_progress_latest.csv"),
         },
+    )
+    _write_progress_snapshot(
+        progress_dir,
+        {
+            "run_type": "multialgorithm_case_study",
+            "status": "completed",
+            "best_algorithm_name": best_algorithm_name,
+            "paper_table_csv": str(paper_table_path),
+            "wide_table_csv": str(wide_table_path),
+        },
+        progress_rows,
     )
     return {
         "summary_csv": str(summary_path),
@@ -609,6 +705,8 @@ def run_multialgorithm_emotion_case_study(
         "paper_table_csv": str(paper_table_path),
         "wide_table_csv": str(wide_table_path),
         "manifest_json": str(manifest_path),
+        "latest_status_json": str(progress_dir / "latest_status.json"),
+        "progress_csv": str(progress_dir / "training_progress_latest.csv"),
     }
 
 

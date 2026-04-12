@@ -27,6 +27,10 @@ It does not replace the rest of `docs/paper1`. Instead, it organizes the current
   - the tables and figures to use in the paper
   - which artifacts are primary vs secondary
 
+- `benchmark_1000_epoch/`
+  - dedicated clarification folder for the long comparison run
+  - explains the algorithm families, the 1000-epoch policy, and monitoring
+
 ## Short Paper 1 summary
 
 Paper 1 should be framed as:
@@ -50,4 +54,4 @@ The core evidence is now split into two complementary layers:
 2. `algorithms_and_comparison.md`
 3. `detailed_approach.md`
 4. `artifact_index.md`
-
+5. `benchmark_1000_epoch/README.md`
