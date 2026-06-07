@@ -1,0 +1,8 @@
+{
+  "table4_csv": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\experiments\\results\\paper_tables\\table4_multi_algorithm_benchmark.csv",
+  "table5_csv": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\experiments\\results\\paper_tables\\table5_ablation.csv",
+  "domain_adaptation_csv": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\experiments\\results\\paper_tables\\table_domain_adaptation_results.csv",
+  "figures_dir": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\experiments\\figures\\paper_tables",
+  "latex_dir": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\experiments\\results\\paper_tables\\latex",
+  "markdown_dir": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\experiments\\results\\paper_tables\\markdown"
+}

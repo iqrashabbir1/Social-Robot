@@ -32,7 +32,7 @@ def write_json(path: Path, payload: Any) -> None:
 
 def write_dataframe(path: Path, dataframe: pd.DataFrame) -> None:
     ensure_parent(path)
-    dataframe.to_csv(path, index=False)
+    dataframe.to_csv(path, index=False, encoding="utf-8-sig")
 
 
 def write_rows(path: Path, rows: list[dict[str, Any]]) -> None:

@@ -1,0 +1,6 @@
+﻿Method,RAVDESS Val. Acc. (%),CREMA-D Ext. Acc. (%),Gap (%),epsilon-DP
+Source-only baseline,97.81,28.3,69.51,—
+GRL adaptation,96.42,52.17,44.25,—
+GRL + MMD,96.85,58.43,38.42,—
+GRL + MMD + pseudo-labeling,96.91,64.28,32.63,—
+GRL + MMD + pseudo-labeling + DP-SGD,95.12,62.15,32.97,2.3

@@ -43,6 +43,8 @@ The system is intentionally modular so each component can be benchmarked indepen
 - environment and routine context
 - robot state and action history
 - scenario replay hooks
+- predictive state forecasting over short temporal horizons
+- append-only safety audit replay for incident reconstruction
 
 ### M6. Explainability
 - knowledge graph

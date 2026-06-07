@@ -1,0 +1,5 @@
+﻿confidence_profile,ECE,MCE,acceptable_ece_threshold
+Enhanced PAEMDT,0.041,0.087,0.05
+Source-only baseline,0.089,,0.05
+Overconfident reference,0.128,,0.05
+Underconfident reference,0.058,,0.05

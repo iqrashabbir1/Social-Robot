@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  paemdt-gpu:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        BASE_IMAGE: nvidia/cuda:12.1.0-runtime-ubuntu22.04
+    image: paemdt:gpu
+    working_dir: /workspace
+    volumes:
+      - ..:/workspace
+      - paemdt_outputs:/workspace/experiments
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+    gpus: all
+    command: >
+      /bin/bash -lc
+      "source /opt/ros/humble/setup.bash &&
+       python3 scripts/train_paemdt_full.py --project-root . --config configs/paemdt_full.yaml --reproduce"
+
+  paemdt-cpu:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        BASE_IMAGE: ubuntu:22.04
+    image: paemdt:cpu
+    working_dir: /workspace
+    volumes:
+      - ..:/workspace
+      - paemdt_outputs:/workspace/experiments
+    environment:
+      CUDA_VISIBLE_DEVICES: ""
+    command: >
+      /bin/bash -lc
+      "source /opt/ros/humble/setup.bash &&
+       python3 scripts/train_paemdt_full.py --project-root . --config configs/paemdt_full.yaml --reproduce"
+
+volumes:
+  paemdt_outputs:

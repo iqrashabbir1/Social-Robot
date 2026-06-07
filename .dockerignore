@@ -1,0 +1,14 @@
+.git
+.venv
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+outputs
+experiments
+data/public
+data/pilot
+notebooks
+ros2_ws/build
+ros2_ws/install
+ros2_ws/log

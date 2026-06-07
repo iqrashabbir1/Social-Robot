@@ -178,6 +178,14 @@ The best model is selected from the configured comparison using:
 
 This ranking policy is configurable from the YAML files.
 
+## Enhanced Manuscript Experiments
+
+The enhanced PAEMDT manuscript experiments preserve the original implemented baseline label space as repository-grounded evidence. The RAVDESS/CREMA-D experiments are manuscript-facing domain-adaptation experiments designed to evaluate cross-corpus robustness, not to claim superiority on real synchronized caregiving interactions.
+
+When five-class emotion experiments are used, the label harmonization and preprocessing must be documented alongside the generated outputs. RAVDESS is treated as the source-domain development and held-out validation corpus, while CREMA-D is treated as the external-domain evaluation corpus. This separation supports dataset-based experimental validation but does not constitute clinical validation.
+
+The enhanced results distinguish benchmark datasets from real synchronized multimodal caregiving data. The repository currently includes benchmark-supported experiments, synthetic/scaffolded modality streams, and simulation-supported digital-twin/HITL/privacy modules. It should not claim validated performance on real caregiving interaction data unless such synchronized multimodal data and corresponding prospective validation logs are added.
+
 ## Training and Tracking
 Deep and transformer families now support:
 - command-line epoch overrides

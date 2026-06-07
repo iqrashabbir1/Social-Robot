@@ -1,0 +1,160 @@
+run_name: paemdt_full
+random_seed: 42
+runtime_backend: auto
+device: auto
+
+execution:
+  reuse_existing_artifacts: true
+  rerun_if_missing: true
+  generate_figures: true
+  export_latex_tables: true
+  run_local_edge_smoke: true
+  fail_fast: true
+
+datasets:
+  ravdess_root: data/public/RAVDESS
+  ravdess_labels: data/public/RAVDESS/labels_broad4_angry.csv
+  cremad_root: data/public/CREMA-D
+  cremad_labels: data/public/CREMA-D/labels_broad4_angry.csv
+  target_label_set: broad4_angry
+
+baseline:
+  reuse_existing_artifact: true
+  output_subdir: paemdt_full_baseline
+  epochs: 1000
+  batch_size: 64
+  learning_rate: 0.001
+  image_size: 128
+  reference_validation_accuracy: 0.9781
+  reference_external_accuracy: 0.2830
+  reference_macro_f1_validation: 0.9776
+  reference_macro_f1_external: 0.2507
+
+domain_adaptation:
+  reuse_existing_artifact: false
+  output_subdir: paemdt_full_domain_adaptation
+  epochs: 50
+  batch_size: 64
+  learning_rate: 0.0001
+  image_size: 128
+  lambda_domain: 0.5
+  lambda_mmd: 0.1
+  pseudo_label_weight: 0.2
+  warmup_epochs: 10
+  reference_validation_accuracy: 0.9685
+  reference_external_accuracy: 0.5843
+  reference_gap: 0.3842
+
+domain_adaptation_privacy:
+  output_subdir: paemdt_full_domain_adaptation_dp
+  epochs: 50
+  batch_size: 64
+  learning_rate: 0.0001
+  image_size: 128
+  lambda_domain: 0.5
+  lambda_mmd: 0.1
+  pseudo_label_weight: 0.2
+  warmup_epochs: 10
+  noise_multiplier: 1.1
+  max_grad_norm: 1.0
+  delta: 1.0e-5
+  target_epsilon: 2.3
+  reference_validation_accuracy: 0.9512
+  reference_external_accuracy: 0.6215
+  reference_gap: 0.3297
+
+cross_validation:
+  reuse_existing_artifact: true
+  n_splits: 5
+  n_repeats: 10
+  batch_size: 64
+  image_size: 128
+  deep_epochs: 3
+  deep_learning_rate: 0.001
+  deep_patience: 2
+  video_frame_stride: 30
+  max_frames_per_video: 1
+
+missing_modalities:
+  reuse_existing_artifact: true
+  output_subdir: missing_modality_robustness
+  n_samples: 960
+
+edge_benchmarks:
+  benchmark_local_smoke: true
+  local_platform_id: generic_local_cpu
+  aggregate_known_platforms: true
+  warmup_runs: 10
+  test_runs: 100
+
+paper_reference:
+  ablation_rows:
+    - ablation_id: ABL0
+      label: Full PAEMDT
+      validation_accuracy: 0.978
+      kg_faithfulness: 0.890
+      hitl_routing_precision: 0.944
+      safety_note: baseline
+    - ablation_id: ABL1
+      label: No KG grounding
+      validation_accuracy: 0.978
+      kg_faithfulness: 0.270
+      hitl_routing_precision: 0.910
+      safety_note: explanation degradation
+    - ablation_id: ABL2
+      label: No speech branch
+      validation_accuracy: 0.901
+      kg_faithfulness: 0.890
+      hitl_routing_precision: 0.910
+      safety_note: reduced affect evidence
+    - ablation_id: ABL4
+      label: No cross-attention
+      validation_accuracy: 0.944
+      kg_faithfulness: 0.890
+      hitl_routing_precision: 0.890
+      safety_note: weaker fusion
+    - ablation_id: ABL5
+      label: No HITL gate
+      validation_accuracy: 0.978
+      kg_faithfulness: 0.890
+      hitl_routing_precision: 0.000
+      safety_note: 6.3% urgent cases unrouted
+    - ablation_id: ABL6
+      label: Privacy gate enabled
+      validation_accuracy: 0.978
+      kg_faithfulness: 0.890
+      hitl_routing_precision: 0.940
+      safety_note: privacy utility trade-off
+  evidence_maturity_rows:
+    - module: Core multimodal benchmark
+      implementation: green
+      validation: green
+      translational_readiness: yellow
+    - module: Domain adaptation
+      implementation: green
+      validation: yellow
+      translational_readiness: yellow
+    - module: Differential privacy
+      implementation: green
+      validation: yellow
+      translational_readiness: yellow
+    - module: Digital twin predictive replay
+      implementation: green
+      validation: green
+      translational_readiness: yellow
+    - module: Missing modality robustness
+      implementation: green
+      validation: green
+      translational_readiness: yellow
+    - module: Edge deployment
+      implementation: green
+      validation: yellow
+      translational_readiness: yellow
+    - module: Physical robot deployment
+      implementation: red
+      validation: red
+      translational_readiness: red
+    - module: Clinical validation
+      implementation: red
+      validation: red
+      translational_readiness: red

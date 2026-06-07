@@ -1,0 +1,13 @@
+{
+  "dataset_root": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\data\\public\\RAVDESS",
+  "labels_csv": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\data\\public\\RAVDESS\\labels_broad4_angry.csv",
+  "n_splits": 5,
+  "n_repeats": 10,
+  "deep_epochs": 3,
+  "video_frame_stride": 30,
+  "max_frames_per_video": 1,
+  "results_csv": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\experiments\\results\\cv_results.csv",
+  "fold_results_csv": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\experiments\\results\\cv_fold_results.csv",
+  "predictions_csv": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\experiments\\results\\cv_predictions.csv",
+  "calibration_csv": "C:\\Users\\masim\\OneDrive\\Desktop\\Social Robot\\experiments\\results\\calibration_results.csv"
+}

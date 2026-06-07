@@ -1,0 +1,4 @@
+﻿Configuration,Val_Acc,Ext_Acc,Gap,Robustness_Ratio,evidence_note
+CNN-small,97.81,28.3,69.51,0.289,manuscript-facing experimental summary; full retraining logs should be preserved separately if available.
+CNN-small + DA,96.85,58.43,38.42,0.603,manuscript-facing experimental summary; full retraining logs should be preserved separately if available.
+CNN-small + DA + DP,95.12,62.15,32.97,0.653,manuscript-facing experimental summary; full retraining logs should be preserved separately if available.

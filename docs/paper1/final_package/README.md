@@ -27,6 +27,12 @@ It does not replace the rest of `docs/paper1`. Instead, it organizes the current
   - the tables and figures to use in the paper
   - which artifacts are primary vs secondary
 
+- `digital_twin_predictive_validation.md`
+  - manuscript-ready update for the upgraded digital twin
+  - Section 3.3 equation wording
+  - Table 2 synchronization row
+  - new Section 4.10 predictive-validation text
+
 - `benchmark_1000_epoch/`
   - dedicated clarification folder for the long comparison run
   - explains the algorithm families, the 1000-epoch policy, and monitoring
@@ -55,3 +61,8 @@ The core evidence is now split into two complementary layers:
 3. `detailed_approach.md`
 4. `artifact_index.md`
 5. `benchmark_1000_epoch/README.md`
+## Latest Manuscript Companion
+
+For the easiest Section 4-6 review with the generated plots embedded in context, start here:
+
+- `docs/paper1/final_package/manuscript_sections_4_6_with_plots.md`

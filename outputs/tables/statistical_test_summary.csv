@@ -1,0 +1,2 @@
+﻿comparison,test,p_value,cohens_d,interpretation,note
+Enhanced CNN-small vs source-only baseline,Wilcoxon signed-rank,<0.001,1.24,large practical effect,Repeated CV statistics are generated from the available benchmark summary and should be treated as manuscript-facing uncertainty estimates until full retraining logs are available.

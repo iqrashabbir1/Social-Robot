@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering
+\caption{Multi-algorithm benchmark with domain-adaptation extensions.}
+\label{tab:paemdt_table4}
+\small
+\begin{tabular}{llllllll}
+\toprule
+Algorithm & Family & Val Acc & Ext Acc & Val mF1 & Ext mF1 & Composite & Gap % \\
+\midrule
+CNN-small & Deep & \textbf{97.81} & 28.3 & \textbf{0.978} & 0.251 & 0.71 & 69.51 \\
+CNN-small + DA & Deep & 96.85 & 58.43 & 0.965 & 0.541 & \textbf{0.78} & 38.42 \\
+CNN-small + DA+DP & Deep & 95.12 & \textbf{62.15} & 0.948 & \textbf{0.589} & 0.76 & \textbf{32.97} \\
+\bottomrule
+\end{tabular}
+\\[2pt]\footnotesize{Best values are bolded. Gap denotes validation-to-external accuracy drop in percentage points.}
+\end{table}

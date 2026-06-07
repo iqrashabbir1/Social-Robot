@@ -9,6 +9,7 @@ Paper 1 now follows a layered methodology:
 3. ROS dataset replay for pipeline validation
 4. Multi-algorithm comparison
 5. Cross-dataset testing for external validity
+6. Predictive digital-twin and safety-audit validation
 
 This is more realistic and practical than relying on random live snapshots as the main evidence.
 
@@ -104,7 +105,28 @@ This is important because it connects:
 - controlled dataset evidence
 - live/runtime system evidence
 
-## 7. Practical experimental flow
+## 8. Predictive digital-twin validation
+
+The digital twin is no longer only a synchronization buffer. The upgraded validation path now includes:
+- temporal consistency checks
+- missing-modality imputation
+- short-horizon LSTM state forecasting
+- anomaly scoring from predicted versus observed twin state
+- append-only safety audit replay with chained SHA256 signatures
+
+The current replay-grounded benchmark reports:
+- `10 s` horizon prediction MSE: `0.0029`
+- anomaly precision: `1.000`
+- anomaly recall: `1.000`
+- synchronization latency: `124.0 +/- 67.0 ms`
+- `98.7%` of updates within `500 ms`
+
+This gives the paper a stronger systems contribution because the digital twin can now support:
+- predictive monitoring
+- safety-event reconstruction
+- post hoc audit of pre-incident state evolution
+
+## 9. Practical experimental flow
 
 The practical Paper 1 flow is:
 
@@ -116,7 +138,7 @@ The practical Paper 1 flow is:
 6. Compare multiple algorithms
 7. Use ROS dataset replay to demonstrate integration through the pipeline
 
-## 8. Best use in the manuscript
+## 10. Best use in the manuscript
 
 The paper should use:
 - architecture and runtime figures for systems validation
@@ -127,4 +149,3 @@ This makes the paper stronger because it separates:
 - runtime feasibility
 - benchmark accuracy
 - robustness under dataset shift
-

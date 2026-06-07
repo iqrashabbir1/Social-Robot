@@ -1,0 +1,2 @@
+﻿Metric,Mean_ms,Std_ms,Interpretation
+digital_twin_synchronization_error,124.0,67.0,"technical synchronization measurement, not clinical validation"

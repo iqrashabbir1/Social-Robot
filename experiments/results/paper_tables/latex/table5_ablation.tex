@@ -1,0 +1,20 @@
+\begin{table}[t]
+\centering
+\caption{Component-wise ablation analysis of PAEMDT.}
+\label{tab:paemdt_table5}
+\small
+\begin{tabular}{llllll}
+\toprule
+Config & Removed & Val Acc & KG Faith. & HITL Prec. & Finding \\
+\midrule
+ABL0 & None & \textbf{97.81} & \textbf{0.89} & \textbf{0.94} & Baseline \\
+ABL1 & KG grounding & 97.78 & 0.27 & 0.91 & Faithfulness collapses \\
+ABL2 & Speech & 90.12 & \textbf{0.89} & 0.91 & 7.7pp drop \\
+ABL3 & Digital twin & 97.8 & \textbf{0.89} & 0.87 & Routing degrades \\
+ABL4 & Cross-attention & 94.41 & \textbf{0.89} & 0.89 & 3.4pp drop \\
+ABL5 & HITL gate & 97.78 & \textbf{0.89} & UNSAFE & 6.3\% urgent unrouted \\
+ABL6 & Privacy gate & 97.79 & \textbf{0.89} & \textbf{0.94} & Privacy violated \\
+\bottomrule
+\end{tabular}
+\\[2pt]\footnotesize{HITL Prec. marked as UNSAFE indicates operationally unacceptable routing behavior.}
+\end{table}

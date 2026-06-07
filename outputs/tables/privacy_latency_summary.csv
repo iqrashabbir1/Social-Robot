@@ -1,0 +1,5 @@
+﻿Configuration,Val_Acc,Ext_Acc,Privacy,Epsilon,Delta,Raspberry_Pi_4_Latency_ms,FPS,Edge_Target
+Source-only CNN-small,97.81,28.3,none,,,,,
+Domain-adapted CNN-small,96.85,58.43,none,,,,,
+DA + pseudo-labeling,96.91,64.28,none,,,,,
+DA + DP-SGD,95.12,62.15,DP-SGD,2.3,1e-5,47.3,21.0,sub-100 ms

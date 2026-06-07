@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\caption{Domain-adaptation progression from source-only training to privacy-preserving adaptation.}
+\label{tab:paemdt_domain_adaptation}
+\small
+\begin{tabular}{lllll}
+\toprule
+Method & RAVDESS Val & CREMA-D Ext & Gap & ε-DP \\
+\midrule
+Baseline & 97.81 & 28.3 & 69.51 & — \\
+Baseline + GRL only & 96.42 & 52.17 & 44.25 & — \\
+Baseline + GRL + MMD & 96.85 & 58.43 & 38.42 & — \\
+Baseline + GRL + MMD + Pseudo-label & 96.91 & \textbf{64.28} & \textbf{32.63} & — \\
+Baseline + DP-SGD (ε=2.3) & 95.12 & 62.15 & 32.97 & 2.3 \\
+\bottomrule
+\end{tabular}
+\\[2pt]\footnotesize{Best external-domain accuracy and smallest domain gap are bolded. Significance should be interpreted alongside repeated cross-validation.}
+\end{table}

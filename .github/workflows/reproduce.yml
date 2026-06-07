@@ -1,0 +1,67 @@
+name: reproduce-paper-results
+
+on:
+  push:
+    branches:
+      - paper-results
+  workflow_dispatch:
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build CPU reproducibility image
+        run: docker build --build-arg BASE_IMAGE=ubuntu:22.04 -t paemdt-ci .
+
+      - name: Run full reproducibility pipeline
+        run: |
+          mkdir -p artifacts/results artifacts/figures
+          docker run --name paemdt-repro paemdt-ci
+          docker cp paemdt-repro:/workspace/experiments/results/paemdt_full artifacts/results/paemdt_full
+          docker cp paemdt-repro:/workspace/experiments/results/paper_tables artifacts/results/paper_tables
+          docker cp paemdt-repro:/workspace/experiments/figures/paper_tables artifacts/figures/paper_tables
+          docker rm paemdt-repro
+
+      - name: Validate paper metrics within tolerance
+        run: |
+          python - <<'PY'
+          import pandas as pd
+          from pathlib import Path
+
+          table4 = pd.read_csv(Path("artifacts/results/paper_tables/table4_multi_algorithm_benchmark.csv"))
+          expected = {
+              "CNN-small": {"Val Acc": 97.81, "Ext Acc": 28.30},
+              "CNN-small + DA": {"Val Acc": 96.85, "Ext Acc": 58.43},
+              "CNN-small + DA+DP": {"Val Acc": 95.12, "Ext Acc": 62.15},
+          }
+          tolerance = 2.0
+          failures = []
+          for algorithm, metrics in expected.items():
+              row = table4.loc[table4["Algorithm"] == algorithm]
+              if row.empty:
+                  failures.append(f"Missing algorithm row: {algorithm}")
+                  continue
+              for key, target in metrics.items():
+                  observed = float(row.iloc[0][key])
+                  if abs(observed - target) > tolerance:
+                      failures.append(f"{algorithm} {key}: observed={observed} target={target} tolerance={tolerance}")
+          if failures:
+              raise SystemExit("\n".join(failures))
+          print("Metric validation passed within +/-2.0 percentage-point tolerance.")
+          PY
+
+      - name: Upload reproducibility artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: paemdt-paper-results
+          path: artifacts

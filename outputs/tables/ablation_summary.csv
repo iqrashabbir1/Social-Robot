@@ -1,0 +1,8 @@
+﻿Config,Removed component,Val. Acc. (%),KG Faith.,HITL Prec.,Main finding
+ABL0,None,97.81,0.89,0.94,Full-system baseline
+ABL1,KG grounding,97.78,0.27,0.91,Explanation faithfulness collapses
+ABL2,Speech stream,90.12,0.89,0.91,Predictive performance drops
+ABL3,Digital twin,97.80,0.89,0.87,Routing precision degrades
+ABL4,Cross-attention fusion,94.41,0.89,0.89,Multimodal contextual fusion weakens
+ABL5,HITL gate,97.78,0.89,Unsafe,6.3% urgent cases unrouted
+ABL6,Privacy gate,97.79,0.89,0.94,Privacy constraints violated
