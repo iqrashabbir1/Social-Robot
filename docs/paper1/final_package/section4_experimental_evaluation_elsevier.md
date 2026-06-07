@@ -22,7 +22,7 @@ Figure 4 reports the robustness ratio, defined as the ratio between external-dom
 
 Figure 4. Robustness ratio comparison across baseline and enhanced PAEMDT configurations. The robustness ratio is computed as external-domain accuracy divided by validation accuracy. Higher values indicate stronger cross-domain stability and lower sensitivity to RAVDESS-to-CREMA-D distribution shift.
 
-Table 4 summarizes the benchmark performance of the main evaluated configurations. The source-only CNN-small model remains the strongest internal benchmark, while the enhanced domain-adapted variants provide substantially better external-domain utility. The privacy-enhanced configuration slightly reduces validation accuracy but maintains strong external-domain performance while introducing formal privacy protection.
+Table 4 summarizes the benchmark performance of the main evaluated configurations. The source-only CNN-small model remains the strongest internal benchmark, while the enhanced domain-adapted variants provide substantially better external-domain utility. The privacy-enhanced configuration slightly reduces validation accuracy but maintains strong external-domain performance while introducing a DP-accounted privacy mechanism.
 
 Table 4b provides the staged domain-adaptation progression. The combination of gradient reversal, multi-kernel MMD, and progressive pseudo-labeling produced the strongest non-private external-domain result, reaching 64.28% accuracy on CREMA-D. The DP-SGD configuration retained 62.15% external accuracy while enforcing epsilon = 2.3, showing that privacy-preserving training can be incorporated with only moderate utility loss.
 
@@ -98,7 +98,7 @@ Overall, calibration should be interpreted alongside accuracy, robustness, priva
 
 ## 4.8 Robustness Under Missing Modalities
 
-The robustness analysis was extended from a simple macro-F1 comparison into a deployment-governed missing-modality study. The escalation thresholds were defined as follows: `Macro-F1 >= 0.85` supports autonomous action, `0.70 <= Macro-F1 < 0.85` requires caregiver review, and `Macro-F1 < 0.70` would trigger emergency escalation.
+The robustness analysis was extended from a simple macro-F1 comparison into a deployment-governed missing-modality study. The escalation thresholds were defined as follows: `Macro-F1 >= 0.85` supports autonomous action, `0.70 <= Macro-F1 < 0.85` requires caregiver review, and `Macro-F1 < 0.70` would trigger simulated urgent-escalation routing.
 
 Under full input, the system achieved macro-F1 0.956 with 5.4% escalation. Visual dropout reduced macro-F1 to 0.850, speech removal to 0.938, physio removal to 0.891, crowded-room audio at 5 dB to 0.927, low-light operation to 0.861, two-modality dropout to 0.887, and three-modality dropout to 0.858. These conditions remained within the autonomous band or near its boundary, which indicates that isolated degradation can be tolerated when residual modalities remain informative.
 

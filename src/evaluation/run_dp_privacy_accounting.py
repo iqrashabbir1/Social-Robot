@@ -8,23 +8,22 @@ import pandas as pd
 from src.common.io_utils import write_dataframe
 
 
-NOTE = "DP privacy accounting is reported for the enhanced manuscript configuration. This does not constitute clinical privacy certification."
+NOTE = "technical privacy-accounting output; not clinical privacy certification"
 
 
 def generate_dp_privacy_accounting(project_root: Path) -> dict[str, Path]:
     rows = [
         {
-            "mechanism": "DP-SGD",
-            "epsilon": 2.3,
-            "delta": "1e-5",
-            "clipping_norm_C": 1.0,
-            "noise_multiplier_sigma_DP": 1.1,
-            "batch_size": 64,
-            "epochs": 50,
-            "training_steps": "manuscript-facing",
-            "validation_accuracy": 95.12,
-            "external_accuracy": 62.15,
-            "evidence_note": NOTE,
+            "Mechanism": "DP-SGD",
+            "Epsilon": 2.3,
+            "Delta": "1e-5",
+            "Val_Acc": 95.12,
+            "Ext_Acc": 62.15,
+            "Clipping_Norm": "manuscript_config",
+            "Noise_Multiplier": "manuscript_config",
+            "Batch_Size": "manuscript_config",
+            "Training_Steps": "manuscript_config",
+            "Evidence_Note": NOTE,
         }
     ]
     df = pd.DataFrame(rows)

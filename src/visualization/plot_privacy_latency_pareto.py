@@ -20,13 +20,14 @@ def _save(fig: plt.Figure, base: Path) -> dict[str, Path]:
 def plot_privacy_latency_pareto(source_csv: Path, output_base: Path) -> dict[str, Path]:
     plt.rcParams.update({"font.family": "Arial", "font.size": 9, "font.weight": "bold", "axes.titleweight": "bold", "axes.labelweight": "bold"})
     df = pd.read_csv(source_csv)
-    latency = pd.to_numeric(df["Raspberry_Pi_4_Latency_ms"], errors="coerce").fillna(47.3)
+    latency_col = "Latency_ms" if "Latency_ms" in df.columns else "Raspberry_Pi_4_Latency_ms"
+    latency = pd.to_numeric(df[latency_col], errors="coerce").fillna(47.3)
     epsilon = pd.to_numeric(df["Epsilon"], errors="coerce").fillna(0.0)
     sizes = 120 + epsilon * 120
     fig, ax = plt.subplots(figsize=(7.0, 4.5))
     ax.scatter(latency, df["Ext_Acc"], s=sizes, c=df["Val_Acc"], cmap="viridis", edgecolor="#222222", linewidth=0.8)
     for _, row in df.iterrows():
-        x = float(row["Raspberry_Pi_4_Latency_ms"]) if str(row["Raspberry_Pi_4_Latency_ms"]).strip() else 47.3
+        x = float(row[latency_col]) if str(row[latency_col]).strip() else 47.3
         ax.text(x + 0.35, float(row["Ext_Acc"]), str(row["Configuration"]), fontsize=8, fontweight="bold", va="center")
     ax.axvline(100, color="#222222", linestyle="--", linewidth=1.0)
     ax.text(99, ax.get_ylim()[1] - 2, "sub-100 ms target", ha="right", va="top", fontsize=8, fontweight="bold")

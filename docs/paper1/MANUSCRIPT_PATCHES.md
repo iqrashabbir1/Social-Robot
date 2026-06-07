@@ -1,6 +1,8 @@
 # Manuscript Patches for PAEMDT Paper 1
 
-These patches provide Word-ready replacement text for the PAEMDT manuscript. The equations should be pasted into Word using MathType or Word Equation Editor, not as plain text.
+These patches provide Word-ready replacement text for the PAEMDT manuscript.
+
+Paste equations into Word using MathType or Word Equation Editor. Do not paste as plain text.
 
 ## Abstract Boundary Sentence
 
@@ -182,6 +184,18 @@ $$
 The experimental evidence in this study is organized according to dataset evidence and module evidence. RAVDESS is used for internal development and held-out validation, whereas CREMA-D is reserved for external-domain evaluation. This separation prevents optimistic reuse of the same dataset for model development and generalization claims. The reported results should therefore be interpreted as dataset-based technical and experimental validation rather than clinical validation.
 
 At the module level, PAEMDT distinguishes implemented components, benchmark-supported enhanced experiments, simulation-supported components, prototype modules, and future translational requirements. Core benchmarking, domain adaptation, differential privacy, calibration analysis, missing-modality testing, digital-twin replay, and edge profiling provide technical evidence. Physical robot deployment, prospective human-subject testing, and clinical validation remain future work.
+
+Table 2 summarizes the module-level evidence status of PAEMDT and distinguishes implemented, benchmark-supported, simulation-supported, prototype, and future translational components.
+
+## Manuscript Language Replacements
+
+- Replace "source-domain production baseline" with "source-domain reference baseline".
+- Replace "clinical-grade caregiving robots" with "clinically motivated caregiving systems".
+- Replace "IRB-ready validation roadmap" with "IRB-oriented validation roadmap".
+- Replace "formal privacy protection" with "DP-accounted privacy mechanism" when DP accounting output exists; otherwise use "privacy-aware training configuration".
+- Replace "emergency escalation" with "urgent escalation" or "simulated urgent-escalation routing" unless clinically validated.
+- Replace "Table 2 remains structurally unchanged" with "Table 2 summarizes the module-level evidence status of PAEMDT and distinguishes implemented, benchmark-supported, simulation-supported, prototype, and future translational components."
+- Replace "This section remains unchanged" with final journal-style prose.
 
 ## Discussion Subsection: Repository Evidence Boundary
 

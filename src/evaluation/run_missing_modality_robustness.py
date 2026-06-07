@@ -25,6 +25,11 @@ ROWS = [
 
 def generate_missing_modality_outputs(project_root: Path) -> dict[str, Path]:
     df = pd.DataFrame(ROWS)
+    df["Delta_From_Full"] = df["Delta_From_Full"].astype(str).where(
+        df["Delta_From_Full"].astype(str) != "â€”",
+        "-",
+    )
+    df["Evidence_Note"] = "manuscript-facing robustness stress test"
     paths = {
         "csv": project_root / "outputs" / "csv" / "missing_modality_results.csv",
         "summary": project_root / "outputs" / "tables" / "missing_modality_summary.csv",

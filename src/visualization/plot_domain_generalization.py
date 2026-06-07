@@ -107,8 +107,10 @@ def generate_domain_generalization_outputs(project_root: Path) -> dict[str, Path
         "table4": project_root / "experiments" / "results" / "paper_tables" / "table4_multi_algorithm_benchmark.csv",
         "table4b": project_root / "experiments" / "results" / "paper_tables" / "table_domain_adaptation_results.csv",
     }
+    table4b = pd.DataFrame(TABLE4B_ROWS)
+    table4b["epsilon-DP"] = table4b["epsilon-DP"].astype(str).where(table4b["epsilon-DP"].astype(str) != "â€”", "-")
     write_dataframe(paths["table4"], pd.DataFrame(TABLE4_ROWS))
-    write_dataframe(paths["table4b"], pd.DataFrame(TABLE4B_ROWS))
+    write_dataframe(paths["table4b"], table4b)
     fig3 = plot_domain_generalization_gap(project_root / "outputs" / "figures" / "Figure_3_Domain_Generalization_Gap")
     fig4 = plot_robustness_ratio(project_root / "outputs" / "figures" / "Figure_4_Robustness_Ratio")
     return {**paths, "figure3_png": fig3["png"], "figure3_pdf": fig3["pdf"], "figure3_svg": fig3["svg"], "figure4_png": fig4["png"], "figure4_pdf": fig4["pdf"], "figure4_svg": fig4["svg"]}

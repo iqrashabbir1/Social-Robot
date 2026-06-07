@@ -24,9 +24,10 @@ def _save(fig: plt.Figure, base: Path) -> dict[str, Path]:
 def plot_calibration_analysis(source_csv: Path, output_base: Path) -> dict[str, Path]:
     _style()
     df = pd.read_csv(source_csv)
+    profile_col = "Profile" if "Profile" in df.columns else "confidence_profile"
     fig, ax = plt.subplots(figsize=(7.0, 3.8))
     colors = ["#228833", "#4477AA", "#CC6677", "#CCBB44"]
-    bars = ax.bar(df["confidence_profile"], df["ECE"], color=colors, edgecolor="#222222", linewidth=0.8)
+    bars = ax.bar(df[profile_col], df["ECE"], color=colors, edgecolor="#222222", linewidth=0.8)
     threshold = 0.05
     ax.axhline(threshold, color="#222222", linestyle="--", linewidth=1.2)
     ax.text(0.03, threshold + 0.003, "Acceptable ECE threshold = 0.05", transform=ax.get_yaxis_transform(), ha="left", va="bottom", fontsize=8, fontweight="bold", bbox={"facecolor": "white", "edgecolor": "none", "alpha": 0.9, "pad": 2})

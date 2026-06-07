@@ -210,11 +210,12 @@ def generate_ablation_outputs(project_root: Path) -> dict[str, Path]:
     summary_table = pd.DataFrame(
         {
             "Config": CONFIGS,
-            "Removed component": REMOVED,
+            "Removed_Component": REMOVED,
             "Val_Acc": [f"{value:.2f}" for value in VAL_ACC],
             "KG_Faith": [f"{value / 100.0:.2f}" for value in KG_FAITH],
             "HITL_Prec": ["UNSAFE" if value is None else f"{value:.2f}" for value in HITL_PREC],
-            "Main finding": MAIN_FINDINGS,
+            "Main_Finding": MAIN_FINDINGS,
+            "Evidence_Note": ["manuscript-facing ablation summary"] * len(CONFIGS),
         }
     )
     table_paths = {

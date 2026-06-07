@@ -1,12 +1,12 @@
-﻿Condition,Macro_F1,Delta_From_Full,Escalation_Percent,Safety_Region,HITL_Action
-Full input,0.956,—,5.4,Safe,Autonomous
-Visual dropout,0.938,-0.018,9.2,Safe,Autonomous
-Speech removal,0.938,-0.018,9.2,Safe,Autonomous
-Physiological removal,0.891,-0.063,9.2,Safe,Autonomous
-Crowded room SNR=10 dB,0.953,-0.004,5.4,Safe,Autonomous
-Crowded room SNR=5 dB,0.927,-0.03,7.1,Safe,Autonomous
-Crowded room SNR=0 dB,0.911,-0.045,8.3,Safe,Autonomous
-Night monitoring,0.861,-0.095,6.7,Safe,Autonomous
-Multi-sensor dropout 2/5 missing,0.887,-0.069,12.5,Safe,Autonomous
-Multi-sensor dropout 3/5 missing,0.858,-0.098,16.2,Safe,Autonomous
-All sensors noisy,0.76,-0.196,35.0,Marginal,Caregiver review
+﻿Condition,Macro_F1,Delta_From_Full,Escalation_Percent,Safety_Region,HITL_Action,Evidence_Note
+Full input,0.956,—,5.4,Safe,Autonomous,manuscript-facing robustness stress test
+Visual dropout,0.938,-0.018,9.2,Safe,Autonomous,manuscript-facing robustness stress test
+Speech removal,0.938,-0.018,9.2,Safe,Autonomous,manuscript-facing robustness stress test
+Physiological removal,0.891,-0.063,9.2,Safe,Autonomous,manuscript-facing robustness stress test
+Crowded room SNR=10 dB,0.953,-0.004,5.4,Safe,Autonomous,manuscript-facing robustness stress test
+Crowded room SNR=5 dB,0.927,-0.03,7.1,Safe,Autonomous,manuscript-facing robustness stress test
+Crowded room SNR=0 dB,0.911,-0.045,8.3,Safe,Autonomous,manuscript-facing robustness stress test
+Night monitoring,0.861,-0.095,6.7,Safe,Autonomous,manuscript-facing robustness stress test
+Multi-sensor dropout 2/5 missing,0.887,-0.069,12.5,Safe,Autonomous,manuscript-facing robustness stress test
+Multi-sensor dropout 3/5 missing,0.858,-0.098,16.2,Safe,Autonomous,manuscript-facing robustness stress test
+All sensors noisy,0.76,-0.196,35.0,Marginal,Caregiver review,manuscript-facing robustness stress test

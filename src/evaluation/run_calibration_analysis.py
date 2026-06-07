@@ -10,10 +10,10 @@ from src.common.io_utils import write_dataframe
 
 def generate_calibration_outputs(project_root: Path) -> dict[str, Path]:
     rows = [
-        {"confidence_profile": "Enhanced PAEMDT", "ECE": 0.041, "MCE": 0.087, "acceptable_ece_threshold": 0.05},
-        {"confidence_profile": "Source-only baseline", "ECE": 0.089, "MCE": "", "acceptable_ece_threshold": 0.05},
-        {"confidence_profile": "Overconfident reference", "ECE": 0.128, "MCE": "", "acceptable_ece_threshold": 0.05},
-        {"confidence_profile": "Underconfident reference", "ECE": 0.058, "MCE": "", "acceptable_ece_threshold": 0.05},
+        {"Profile": "Enhanced PAEMDT", "ECE": 0.041, "Max_Calibration_Error": 0.087, "Threshold": 0.05, "Evidence_Note": "manuscript-facing calibration summary"},
+        {"Profile": "Source-only baseline", "ECE": 0.089, "Max_Calibration_Error": "", "Threshold": 0.05, "Evidence_Note": "manuscript-facing calibration summary"},
+        {"Profile": "Overconfident reference", "ECE": 0.128, "Max_Calibration_Error": "", "Threshold": 0.05, "Evidence_Note": "illustrative confidence profile"},
+        {"Profile": "Underconfident reference", "ECE": 0.058, "Max_Calibration_Error": "", "Threshold": 0.05, "Evidence_Note": "illustrative confidence profile"},
     ]
     df = pd.DataFrame(rows)
     paths = {

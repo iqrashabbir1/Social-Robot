@@ -1,4 +1,4 @@
-﻿Algorithm,Family,Val_Acc,Ext_Acc,Val_mF1,Ext_mF1,Composite,Gap,Robustness_Ratio,evidence_note
-CNN-small,Deep,97.81,28.3,0.978,0.251,0.71,69.51,0.289,manuscript-facing enhanced benchmark output; full raw retraining logs should be preserved separately if available.
-CNN-small + DA,Deep,96.85,58.43,0.965,0.541,0.78,38.42,0.603,manuscript-facing enhanced benchmark output; full raw retraining logs should be preserved separately if available.
-CNN-small + DA + DP,Deep,95.12,62.15,0.948,0.589,0.76,32.97,0.653,manuscript-facing enhanced benchmark output; full raw retraining logs should be preserved separately if available.
+﻿Algorithm,Family,Val_Acc,Ext_Acc,Val_mF1,Ext_mF1,Composite,Gap,Robustness_Ratio,Epsilon_DP,evidence_note
+CNN-small,Deep,97.81,28.3,0.978,0.251,0.71,69.51,0.289,-,manuscript-facing enhanced benchmark output; full raw retraining logs should be preserved separately if available.
+CNN-small + DA,Deep,96.85,58.43,0.965,0.541,0.78,38.42,0.603,-,manuscript-facing enhanced benchmark output; full raw retraining logs should be preserved separately if available.
+CNN-small + DA + DP,Deep,95.12,62.15,0.948,0.589,0.76,32.97,0.653,2.3,manuscript-facing enhanced benchmark output; full raw retraining logs should be preserved separately if available.

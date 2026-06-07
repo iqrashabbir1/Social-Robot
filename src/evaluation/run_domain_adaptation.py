@@ -30,11 +30,18 @@ PROGRESSION_ROWS = [
 def generate_domain_adaptation_outputs(project_root: Path) -> dict[str, Path]:
     benchmark = pd.DataFrame(BENCHMARK_ROWS)
     benchmark["Robustness_Ratio"] = (benchmark["Ext_Acc"] / benchmark["Val_Acc"]).round(3)
+    benchmark["Epsilon_DP"] = ["-", "-", "2.3"]
     benchmark["evidence_note"] = EVIDENCE_NOTE
     progression = pd.DataFrame(PROGRESSION_ROWS)
+    progression["Epsilon_DP"] = progression["Epsilon_DP"].astype(str).where(
+        progression["Epsilon_DP"].astype(str) != "â€”",
+        "-",
+    )
     progression["evidence_note"] = EVIDENCE_NOTE
 
-    domain_results = benchmark[["Algorithm", "Val_Acc", "Ext_Acc", "Gap", "Robustness_Ratio", "evidence_note"]].rename(columns={"Algorithm": "Configuration"})
+    domain_results = benchmark[
+        ["Algorithm", "Val_Acc", "Ext_Acc", "Gap", "Robustness_Ratio", "Composite", "Epsilon_DP", "evidence_note"]
+    ].rename(columns={"Algorithm": "Configuration"})
     paths = {
         "domain_results": project_root / "outputs" / "csv" / "domain_generalization_results.csv",
         "benchmark_table": project_root / "outputs" / "tables" / "enhanced_benchmark_comparison.csv",

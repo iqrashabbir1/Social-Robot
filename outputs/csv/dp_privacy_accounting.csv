@@ -1,2 +1,2 @@
-﻿mechanism,epsilon,delta,clipping_norm_C,noise_multiplier_sigma_DP,batch_size,epochs,training_steps,validation_accuracy,external_accuracy,evidence_note
-DP-SGD,2.3,1e-5,1.0,1.1,64,50,manuscript-facing,95.12,62.15,DP privacy accounting is reported for the enhanced manuscript configuration. This does not constitute clinical privacy certification.
+﻿Mechanism,Epsilon,Delta,Val_Acc,Ext_Acc,Clipping_Norm,Noise_Multiplier,Batch_Size,Training_Steps,Evidence_Note
+DP-SGD,2.3,1e-5,95.12,62.15,manuscript_config,manuscript_config,manuscript_config,manuscript_config,technical privacy-accounting output; not clinical privacy certification

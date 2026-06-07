@@ -29,4 +29,6 @@ The dashboard, ROS2/digital-twin scaffold, and evidence-maturity view are protot
 
 ## Appropriate Interpretation
 
+The repository is a reproducibility and validation package for a technical PAEMDT research framework. It is not evidence of clinical efficacy or autonomous clinical deployment.
+
 The repository should be described as a technical and experimental platform for PAEMDT research. Field deployment and clinical validation remain future work.

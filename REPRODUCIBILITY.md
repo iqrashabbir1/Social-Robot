@@ -31,6 +31,7 @@ python -m src.evaluation.run_privacy_latency_analysis --project-root .
 python -m src.evaluation.run_digital_twin_sync_analysis --project-root .
 python -m src.evaluation.run_evidence_maturity --project-root .
 python -m src.visualization.generate_all_figures --project-root .
+python -m src.evaluation.validate_paper1_artifacts --project-root .
 python -m src.dashboard.build_dashboard --project-root .
 python -m src.orchestration.run_full_local_pipeline --project-root .
 ```
@@ -58,6 +59,7 @@ python -m src.orchestration.run_full_local_pipeline --project-root .
 
 - `outputs/tables/enhanced_benchmark_comparison.csv`
 - `outputs/tables/domain_adaptation_progression.csv`
+- `outputs/tables/ablation_summary.csv`
 - `outputs/tables/repeated_cv_summary.csv`
 - `outputs/tables/statistical_test_summary.csv`
 - `outputs/tables/privacy_accounting_summary.csv`

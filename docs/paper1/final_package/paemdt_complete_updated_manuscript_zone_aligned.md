@@ -182,15 +182,15 @@ From a model-selection perspective, the enhanced scores also change the deployme
 
 ### 4.2 Dataset Evidence Levels
 
-This section remains unchanged in its core role. RAVDESS is treated as the internal development and held-out validation dataset, whereas CREMA-D is reserved for external-domain evaluation only. This separation prevents optimistic reuse of the same data source for both model development and generalization claims. The resulting evidence should therefore be interpreted as dataset-based experimental validation, not as clinical validation.
+RAVDESS is treated as the internal development and held-out validation dataset, whereas CREMA-D is reserved for external-domain evaluation only. This separation prevents optimistic reuse of the same data source for both model development and generalization claims. The resulting evidence should therefore be interpreted as dataset-based experimental validation, not as clinical validation.
 
 ### 4.3 Module Specifications
 
-Table 2 remains structurally unchanged, with one important update: module M9 should now explicitly report the privacy layer as experimentally instantiated with differential privacy at epsilon = 2.3 and delta = 1e-5. This addition matters because privacy protection is no longer only a design objective but an implemented and evaluated system component.
+Table 2 summarizes the module-level evidence status of PAEMDT and distinguishes implemented, benchmark-supported, simulation-supported, prototype, and future translational components. Module M9 should explicitly report the privacy layer as experimentally instantiated with a DP-accounted privacy mechanism at epsilon = 2.3 and delta = 1e-5. This addition matters because privacy protection is no longer only a design objective but an implemented and evaluated system component.
 
 ### 4.4 Baseline Emotion Pipeline
 
-The baseline emotion pipeline remains the same in architectural role: CNN-small serves as the source-domain production baseline and the reference point for ablation and enhancement comparisons. However, the revised results make clear that the source-only baseline should be understood as a strong internal benchmark rather than as the final deployable configuration, because external-domain performance alone would be insufficient for reliable real-world transfer.
+The baseline emotion pipeline remains the same in architectural role: CNN-small serves as the source-domain reference baseline and the reference point for ablation and enhancement comparisons. However, the revised results make clear that the source-only baseline should be understood as a strong internal benchmark rather than as the final deployable configuration, because external-domain performance alone would be insufficient for reliable real-world transfer.
 
 ### 4.5 Multi-Algorithm Comparison
 
@@ -242,7 +242,7 @@ Overall, calibration should be interpreted alongside accuracy, robustness, priva
 
 ### 4.9 Robustness Under Missing Modalities
 
-The missing-modality robustness analysis was expanded beyond raw macro-F1 to include escalation logic and operational interpretation. In the revised framing, the green zone corresponds to macro-F1 >= 0.85 and supports autonomous action, the yellow zone corresponds to 0.70 <= macro-F1 < 0.85 and requires caregiver review, and the red zone corresponds to macro-F1 < 0.70 and triggers emergency escalation.
+The missing-modality robustness analysis was expanded beyond raw macro-F1 to include escalation logic and operational interpretation. In the revised framing, the green zone corresponds to macro-F1 >= 0.85 and supports autonomous action, the yellow zone corresponds to 0.70 <= macro-F1 < 0.85 and requires caregiver review, and the red zone corresponds to macro-F1 < 0.70 and triggers simulated urgent-escalation routing.
 
 Under single-modality degradation, the system remained relatively stable. Visual dropout, speech removal, and low-light conditions reduced performance but typically remained within a controlled operating band. More severe multimodal corruption, especially compound noisy conditions and multiple simultaneous sensor failures, produced larger degradation and materially increased escalation frequency. This shows that the missing-modality mask and fallback logic help contain degradation, but they do not eliminate the need for human oversight under severe corruption.
 
@@ -252,7 +252,7 @@ Under single-modality degradation, the system remained relatively stable. Visual
 
 ### 4.10 Privacy-Utility-Latency Trade-off
 
-The original conceptual trade-off discussion is now supported by measured deployment-oriented evidence. The privacy-enhanced domain-adapted model achieved 95.12% validation accuracy while enforcing differential privacy at epsilon = 2.3 and delta = 1e-5. This demonstrates that formal privacy protection can be incorporated with only a modest reduction in source-domain performance, while still preserving strong external-domain utility compared with the source-only baseline.
+The original conceptual trade-off discussion is now supported by measured deployment-oriented evidence. The privacy-enhanced domain-adapted model achieved 95.12% validation accuracy while using a DP-accounted privacy mechanism at epsilon = 2.3 and delta = 1e-5. This demonstrates that privacy-aware training can be incorporated with only a modest reduction in source-domain performance, while still preserving strong external-domain utility compared with the source-only baseline.
 
 The edge benchmark adds a second practical layer to this result. Raspberry Pi 4 latency of 47.3 ms satisfies the sub-100 ms real-time constraint required for safe human-robot interaction. This shows that the enhanced privacy-aware model remains feasible for edge operation instead of requiring cloud-only inference.
 

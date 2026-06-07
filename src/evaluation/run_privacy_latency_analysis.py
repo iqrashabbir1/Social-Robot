@@ -9,10 +9,10 @@ from src.common.io_utils import write_dataframe
 
 
 ROWS = [
-    {"Configuration": "Source-only CNN-small", "Val_Acc": 97.81, "Ext_Acc": 28.30, "Privacy": "none", "Epsilon": "", "Delta": "", "Raspberry_Pi_4_Latency_ms": "", "FPS": "", "Edge_Target": ""},
-    {"Configuration": "Domain-adapted CNN-small", "Val_Acc": 96.85, "Ext_Acc": 58.43, "Privacy": "none", "Epsilon": "", "Delta": "", "Raspberry_Pi_4_Latency_ms": "", "FPS": "", "Edge_Target": ""},
-    {"Configuration": "DA + pseudo-labeling", "Val_Acc": 96.91, "Ext_Acc": 64.28, "Privacy": "none", "Epsilon": "", "Delta": "", "Raspberry_Pi_4_Latency_ms": "", "FPS": "", "Edge_Target": ""},
-    {"Configuration": "DA + DP-SGD", "Val_Acc": 95.12, "Ext_Acc": 62.15, "Privacy": "DP-SGD", "Epsilon": 2.3, "Delta": "1e-5", "Raspberry_Pi_4_Latency_ms": 47.3, "FPS": 21.0, "Edge_Target": "sub-100 ms"},
+    {"Configuration": "Source-only CNN-small", "Val_Acc": 97.81, "Ext_Acc": 28.30, "Privacy_Mode": "None", "Epsilon": "", "Delta": "", "Latency_ms": "", "FPS": "", "Deployment_Note": "strong internal benchmark; weak external transfer", "Evidence_Note": "manuscript-facing deployment summary"},
+    {"Configuration": "Domain-adapted CNN-small", "Val_Acc": 96.85, "Ext_Acc": 58.43, "Privacy_Mode": "None", "Epsilon": "", "Delta": "", "Latency_ms": "", "FPS": "", "Deployment_Note": "better external utility; no DP", "Evidence_Note": "manuscript-facing deployment summary"},
+    {"Configuration": "DA + pseudo-labeling", "Val_Acc": 96.91, "Ext_Acc": 64.28, "Privacy_Mode": "None", "Epsilon": "", "Delta": "", "Latency_ms": "", "FPS": "", "Deployment_Note": "best non-private external utility", "Evidence_Note": "manuscript-facing deployment summary"},
+    {"Configuration": "DA + DP-SGD", "Val_Acc": 95.12, "Ext_Acc": 62.15, "Privacy_Mode": "DP-SGD", "Epsilon": 2.3, "Delta": "1e-5", "Latency_ms": 47.3, "FPS": 21.0, "Deployment_Note": "best privacy-aware deployment candidate", "Evidence_Note": "manuscript-facing deployment summary"},
 ]
 
 
