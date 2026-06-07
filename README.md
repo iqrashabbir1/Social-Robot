@@ -85,7 +85,29 @@ Core paper-alignment scripts:
 - `src/evaluation/run_privacy_latency_analysis.py`
 - `src/evaluation/run_digital_twin_sync_analysis.py`
 - `src/evaluation/run_evidence_maturity.py`
+- `src/evaluation/validate_paper1_artifacts.py`
 - `src/visualization/generate_all_figures.py`
+
+Core figure scripts:
+- `src/visualization/plot_domain_generalization.py`
+- `src/visualization/plot_ablation_analysis.py`
+- `src/visualization/plot_statistical_significance.py`
+- `src/visualization/plot_calibration_analysis.py`
+- `src/visualization/plot_missing_modality_robustness.py`
+- `src/visualization/plot_privacy_latency_pareto.py`
+- `src/visualization/plot_evidence_maturity.py`
+
+Generated Paper 1 outputs:
+- CSV outputs: `outputs/csv/`
+- Table outputs: `outputs/tables/`
+- Publication figures: `outputs/figures/Figure_3_*` through `outputs/figures/Figure_10_*`
+- Manuscript support files: `docs/paper1/`
+
+Regenerate Figures 3-10 and validate the traceability package:
+```bash
+python -m src.visualization.generate_all_figures --project-root .
+python -m src.evaluation.validate_paper1_artifacts --project-root .
+```
 
 The repository distinguishes implemented real baselines, benchmark-supported experimental modules, simulation-supported modules, prototype modules, and planned clinical validation. Some paper-aligned values are manuscript-facing experimental summaries when full repeated retraining logs or hardware-specific runs are not present locally; these rows are marked with evidence notes in the generated CSV files.
 

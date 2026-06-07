@@ -8,7 +8,7 @@ import pandas as pd
 from src.common.io_utils import write_dataframe
 
 
-EVIDENCE_NOTE = "manuscript-facing enhanced benchmark output; full raw retraining logs should be preserved separately if available."
+EVIDENCE_NOTE = "manuscript-facing enhanced benchmark output; full raw retraining logs should be preserved separately if available"
 
 
 BENCHMARK_ROWS = [
@@ -31,16 +31,16 @@ def generate_domain_adaptation_outputs(project_root: Path) -> dict[str, Path]:
     benchmark = pd.DataFrame(BENCHMARK_ROWS)
     benchmark["Robustness_Ratio"] = (benchmark["Ext_Acc"] / benchmark["Val_Acc"]).round(3)
     benchmark["Epsilon_DP"] = ["-", "-", "2.3"]
-    benchmark["evidence_note"] = EVIDENCE_NOTE
+    benchmark["Evidence_Note"] = EVIDENCE_NOTE
     progression = pd.DataFrame(PROGRESSION_ROWS)
     progression["Epsilon_DP"] = progression["Epsilon_DP"].astype(str).where(
         progression["Epsilon_DP"].astype(str) != "â€”",
         "-",
     )
-    progression["evidence_note"] = EVIDENCE_NOTE
+    progression["Evidence_Note"] = "manuscript-facing enhanced benchmark output"
 
     domain_results = benchmark[
-        ["Algorithm", "Val_Acc", "Ext_Acc", "Gap", "Robustness_Ratio", "Composite", "Epsilon_DP", "evidence_note"]
+        ["Algorithm", "Val_Acc", "Ext_Acc", "Gap", "Robustness_Ratio", "Composite", "Epsilon_DP", "Evidence_Note"]
     ].rename(columns={"Algorithm": "Configuration"})
     paths = {
         "domain_results": project_root / "outputs" / "csv" / "domain_generalization_results.csv",

@@ -23,12 +23,18 @@ def _save(fig: plt.Figure, base: Path) -> dict[str, Path]:
 def plot_evidence_maturity(source_csv: Path, output_base: Path) -> dict[str, Path]:
     plt.rcParams.update({"font.family": "Arial", "font.size": 9, "font.weight": "bold", "axes.titleweight": "bold", "axes.labelweight": "bold"})
     df = pd.read_csv(source_csv)
-    cols = ["Implementation", "Experimental validation", "Translational readiness"]
+    df = df.rename(
+        columns={
+            "Experimental validation": "Experimental_Validation",
+            "Translational readiness": "Translational_Readiness",
+        }
+    )
+    cols = ["Implementation", "Experimental_Validation", "Translational_Readiness"]
     matrix = df[cols].replace(STATUS_MAP).astype(float).to_numpy()
     fig, ax = plt.subplots(figsize=(8.2, 4.8))
     im = ax.imshow(matrix, cmap=plt.cm.get_cmap("RdYlGn"), vmin=0, vmax=2, aspect="auto")
     ax.set_xticks(range(len(cols)))
-    ax.set_xticklabels(cols, rotation=15, ha="right")
+    ax.set_xticklabels(["Implementation", "Experimental validation", "Translational readiness"], rotation=15, ha="right")
     ax.set_yticks(range(len(df)))
     ax.set_yticklabels(df["Module"])
     for i in range(matrix.shape[0]):

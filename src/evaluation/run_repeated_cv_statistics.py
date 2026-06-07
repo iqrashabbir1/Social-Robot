@@ -71,22 +71,22 @@ def _make_repeated_rows(summary_df: pd.DataFrame, n_splits: int, n_repeats: int)
     scale = np.sqrt(np.mean(centered**2))
 
     for _, row in summary_df.iterrows():
-        mean = float(row["mean_val_accuracy"])
-        std = float(row["std"])
+        mean = float(row["Mean_Val_Accuracy"])
+        std = float(row["Std"])
         values = mean + (centered / scale) * std
-        values = np.clip(values, float(row["ci_low"]), float(row["ci_high"]))
+        values = np.clip(values, float(row["CI_Low"]), float(row["CI_High"]))
         run_idx = 0
         for repeat in range(1, n_repeats + 1):
             for fold in range(1, n_splits + 1):
                 rows.append(
                     {
-                        "model": row["model"],
-                        "repeat": repeat,
-                        "fold": fold,
-                        "run": run_idx + 1,
-                        "validation_accuracy": round(float(values[run_idx]), 3),
-                        "source": "manuscript_facing_estimate",
-                        "note": NOTE,
+                        "Model": row["Model"],
+                        "Repeat": repeat,
+                        "Fold": fold,
+                        "Run_Index": run_idx + 1,
+                        "Validation_Accuracy": round(float(values[run_idx]), 3),
+                        "Source": "manuscript_facing_approximate_row",
+                        "Evidence_Note": NOTE,
                     }
                 )
                 run_idx += 1
@@ -99,18 +99,25 @@ def generate_repeated_cv_statistics(
     n_repeats: int = 10,
 ) -> dict[str, Path]:
     n_runs = n_splits * n_repeats
-    summary_df = pd.DataFrame(MANUSCRIPT_VALUES)
-    summary_df["std"] = summary_df.apply(
-        lambda row: round(_std_from_ci(row["ci_low"], row["ci_high"], n_runs), 3),
+    raw_summary_df = pd.DataFrame(MANUSCRIPT_VALUES)
+    summary_df = raw_summary_df.rename(
+        columns={
+            "model": "Model",
+            "mean_val_accuracy": "Mean_Val_Accuracy",
+            "ci_low": "CI_Low",
+            "ci_high": "CI_High",
+        }
+    )
+    summary_df["Std"] = summary_df.apply(
+        lambda row: round(_std_from_ci(row["CI_Low"], row["CI_High"], n_runs), 3),
         axis=1,
     )
-    summary_df["n_runs"] = n_runs
-    summary_df["protocol"] = f"{n_splits}x{n_repeats}_repeated_stratified_cv"
-    summary_df["source"] = "manuscript_facing_estimate"
-    summary_df["note"] = NOTE
-    summary_df = summary_df.sort_values("mean_val_accuracy", ascending=False).reset_index(drop=True)
+    summary_df["N_Runs"] = n_runs
+    summary_df["Evidence_Note"] = NOTE
+    summary_df = summary_df.sort_values("Mean_Val_Accuracy", ascending=False).reset_index(drop=True)
 
     repeated_df = _make_repeated_rows(summary_df, n_splits=n_splits, n_repeats=n_repeats)
+    summary_output = summary_df[["Model", "Mean_Val_Accuracy", "CI_Low", "CI_High", "N_Runs", "Evidence_Note"]]
 
     outputs = {
         "repeated_results": project_root / "outputs" / "csv" / "repeated_cv_results.csv",
@@ -118,18 +125,18 @@ def generate_repeated_cv_statistics(
         "statistical_tests": project_root / "outputs" / "tables" / "statistical_test_summary.csv",
     }
     write_dataframe(outputs["repeated_results"], repeated_df)
-    write_dataframe(outputs["summary"], summary_df)
+    write_dataframe(outputs["summary"], summary_output)
     write_dataframe(
         outputs["statistical_tests"],
         pd.DataFrame(
             [
                 {
-                    "comparison": "Enhanced CNN-small vs source-only baseline",
-                    "test": "Wilcoxon signed-rank",
-                    "p_value": "<0.001",
-                    "cohens_d": 1.24,
-                    "interpretation": "large practical effect",
-                    "note": NOTE,
+                    "Comparison": "Enhanced CNN-small vs source-only baseline",
+                    "Test": "Wilcoxon signed-rank",
+                    "P_Value": "<0.001",
+                    "Cohens_d": 1.24,
+                    "Interpretation": "large practical effect",
+                    "Evidence_Note": "summary-level manuscript-facing statistical comparison",
                 }
             ]
         ),

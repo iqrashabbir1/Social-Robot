@@ -1,6 +1,6 @@
-﻿Method,RAVDESS_Val_Acc,CREMA_D_Ext_Acc,Gap,Epsilon_DP,evidence_note
-Source-only baseline,97.81,28.3,69.51,—,manuscript-facing enhanced benchmark output; full raw retraining logs should be preserved separately if available.
-GRL adaptation,96.42,52.17,44.25,—,manuscript-facing enhanced benchmark output; full raw retraining logs should be preserved separately if available.
-GRL + MMD,96.85,58.43,38.42,—,manuscript-facing enhanced benchmark output; full raw retraining logs should be preserved separately if available.
-GRL + MMD + pseudo-labeling,96.91,64.28,32.63,—,manuscript-facing enhanced benchmark output; full raw retraining logs should be preserved separately if available.
-GRL + MMD + pseudo-labeling + DP-SGD,95.12,62.15,32.97,2.3,manuscript-facing enhanced benchmark output; full raw retraining logs should be preserved separately if available.
+﻿Method,RAVDESS_Val_Acc,CREMA_D_Ext_Acc,Gap,Epsilon_DP,Evidence_Note
+Source-only baseline,97.81,28.3,69.51,—,manuscript-facing enhanced benchmark output
+GRL adaptation,96.42,52.17,44.25,—,manuscript-facing enhanced benchmark output
+GRL + MMD,96.85,58.43,38.42,—,manuscript-facing enhanced benchmark output
+GRL + MMD + pseudo-labeling,96.91,64.28,32.63,—,manuscript-facing enhanced benchmark output
+GRL + MMD + pseudo-labeling + DP-SGD,95.12,62.15,32.97,2.3,manuscript-facing enhanced benchmark output

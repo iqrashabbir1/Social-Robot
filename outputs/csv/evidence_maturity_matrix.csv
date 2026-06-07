@@ -1,9 +1,9 @@
-﻿Module,Implementation,Experimental validation,Translational readiness
-Core multimodal benchmark,Implemented,Implemented,Partial
-Domain adaptation,Implemented,Implemented,Partial
-Differential privacy,Implemented,Partial,Partial
-Digital-twin predictive replay,Implemented,Implemented,Partial
-Missing-modality robustness,Implemented,Implemented,Partial
-Edge deployment,Implemented,Partial,Partial
-Physical robot deployment,Future required,Future required,Future required
-Clinical validation,Future required,Future required,Future required
+﻿Module,Implementation,Experimental_Validation,Translational_Readiness,Evidence_Note
+Core multimodal benchmark,Implemented,Implemented,Partial,benchmark-supported technical evidence
+Domain adaptation,Implemented,Implemented,Partial,manuscript-facing enhanced benchmark evidence
+Differential privacy,Implemented,Partial,Partial,DP-accounted manuscript configuration
+Digital-twin predictive replay,Implemented,Implemented,Partial,replay-grounded technical validation
+Missing-modality robustness,Implemented,Implemented,Partial,stress-test technical validation
+Edge deployment,Implemented,Partial,Partial,Raspberry Pi 4 latency measurement
+Physical robot deployment,Future required,Future required,Future required,no real-world deployment yet
+Clinical validation,Future required,Future required,Future required,no prospective clinical validation yet

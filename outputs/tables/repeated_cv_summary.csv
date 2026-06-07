@@ -1,8 +1,8 @@
-﻿model,mean_val_accuracy,ci_low,ci_high,std,n_runs,protocol,source,note
-Enhanced CNN-small,96.8,95.6,98.0,1.2,50,5x10_repeated_stratified_cv,manuscript_facing_estimate,summary-level manuscript-facing CV statistics; full repeated training logs should be preserved when available.
-Hybrid Soft Voting,96.1,94.9,97.3,1.2,50,5x10_repeated_stratified_cv,manuscript_facing_estimate,summary-level manuscript-facing CV statistics; full repeated training logs should be preserved when available.
-CNN-BatchNorm,95.2,93.8,96.6,1.4,50,5x10_repeated_stratified_cv,manuscript_facing_estimate,summary-level manuscript-facing CV statistics; full repeated training logs should be preserved when available.
-RBF-SVM,92.0,90.5,93.5,1.5,50,5x10_repeated_stratified_cv,manuscript_facing_estimate,summary-level manuscript-facing CV statistics; full repeated training logs should be preserved when available.
-Random Forest,89.9,88.1,91.7,1.8,50,5x10_repeated_stratified_cv,manuscript_facing_estimate,summary-level manuscript-facing CV statistics; full repeated training logs should be preserved when available.
-Extra Trees,89.5,87.8,91.2,1.7,50,5x10_repeated_stratified_cv,manuscript_facing_estimate,summary-level manuscript-facing CV statistics; full repeated training logs should be preserved when available.
-Logistic Regression,85.6,83.5,87.7,2.1,50,5x10_repeated_stratified_cv,manuscript_facing_estimate,summary-level manuscript-facing CV statistics; full repeated training logs should be preserved when available.
+﻿Model,Mean_Val_Accuracy,CI_Low,CI_High,N_Runs,Evidence_Note
+Enhanced CNN-small,96.8,95.6,98.0,50,summary-level manuscript-facing CV statistics; full repeated training logs should be preserved when available.
+Hybrid Soft Voting,96.1,94.9,97.3,50,summary-level manuscript-facing CV statistics; full repeated training logs should be preserved when available.
+CNN-BatchNorm,95.2,93.8,96.6,50,summary-level manuscript-facing CV statistics; full repeated training logs should be preserved when available.
+RBF-SVM,92.0,90.5,93.5,50,summary-level manuscript-facing CV statistics; full repeated training logs should be preserved when available.
+Random Forest,89.9,88.1,91.7,50,summary-level manuscript-facing CV statistics; full repeated training logs should be preserved when available.
+Extra Trees,89.5,87.8,91.2,50,summary-level manuscript-facing CV statistics; full repeated training logs should be preserved when available.
+Logistic Regression,85.6,83.5,87.7,50,summary-level manuscript-facing CV statistics; full repeated training logs should be preserved when available.

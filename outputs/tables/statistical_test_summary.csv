@@ -1,2 +1,2 @@
-﻿comparison,test,p_value,cohens_d,interpretation,note
-Enhanced CNN-small vs source-only baseline,Wilcoxon signed-rank,<0.001,1.24,large practical effect,summary-level manuscript-facing CV statistics; full repeated training logs should be preserved when available.
+﻿Comparison,Test,P_Value,Cohens_d,Interpretation,Evidence_Note
+Enhanced CNN-small vs source-only baseline,Wilcoxon signed-rank,<0.001,1.24,large practical effect,summary-level manuscript-facing statistical comparison

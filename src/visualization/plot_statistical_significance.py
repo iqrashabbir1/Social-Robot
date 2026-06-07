@@ -17,6 +17,13 @@ def _save_all(fig: plt.Figure, output_base: Path) -> None:
 
 def plot_repeated_cv_confidence_intervals(summary_csv: Path, output_base: Path) -> dict[str, Path]:
     df = pd.read_csv(summary_csv)
+    rename_map = {
+        "Model": "model",
+        "Mean_Val_Accuracy": "mean_val_accuracy",
+        "CI_Low": "ci_low",
+        "CI_High": "ci_high",
+    }
+    df = df.rename(columns={key: value for key, value in rename_map.items() if key in df.columns})
     required = {"model", "mean_val_accuracy", "ci_low", "ci_high"}
     missing = required - set(df.columns)
     if missing:

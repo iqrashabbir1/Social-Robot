@@ -9,14 +9,14 @@ from src.common.io_utils import write_dataframe
 
 
 ROWS = [
-    {"Module": "Core multimodal benchmark", "Implementation": "Implemented", "Experimental validation": "Implemented", "Translational readiness": "Partial"},
-    {"Module": "Domain adaptation", "Implementation": "Implemented", "Experimental validation": "Implemented", "Translational readiness": "Partial"},
-    {"Module": "Differential privacy", "Implementation": "Implemented", "Experimental validation": "Partial", "Translational readiness": "Partial"},
-    {"Module": "Digital-twin predictive replay", "Implementation": "Implemented", "Experimental validation": "Implemented", "Translational readiness": "Partial"},
-    {"Module": "Missing-modality robustness", "Implementation": "Implemented", "Experimental validation": "Implemented", "Translational readiness": "Partial"},
-    {"Module": "Edge deployment", "Implementation": "Implemented", "Experimental validation": "Partial", "Translational readiness": "Partial"},
-    {"Module": "Physical robot deployment", "Implementation": "Future required", "Experimental validation": "Future required", "Translational readiness": "Future required"},
-    {"Module": "Clinical validation", "Implementation": "Future required", "Experimental validation": "Future required", "Translational readiness": "Future required"},
+    {"Module": "Core multimodal benchmark", "Implementation": "Implemented", "Experimental_Validation": "Implemented", "Translational_Readiness": "Partial", "Evidence_Note": "benchmark-supported technical evidence"},
+    {"Module": "Domain adaptation", "Implementation": "Implemented", "Experimental_Validation": "Implemented", "Translational_Readiness": "Partial", "Evidence_Note": "manuscript-facing enhanced benchmark evidence"},
+    {"Module": "Differential privacy", "Implementation": "Implemented", "Experimental_Validation": "Partial", "Translational_Readiness": "Partial", "Evidence_Note": "DP-accounted manuscript configuration"},
+    {"Module": "Digital-twin predictive replay", "Implementation": "Implemented", "Experimental_Validation": "Implemented", "Translational_Readiness": "Partial", "Evidence_Note": "replay-grounded technical validation"},
+    {"Module": "Missing-modality robustness", "Implementation": "Implemented", "Experimental_Validation": "Implemented", "Translational_Readiness": "Partial", "Evidence_Note": "stress-test technical validation"},
+    {"Module": "Edge deployment", "Implementation": "Implemented", "Experimental_Validation": "Partial", "Translational_Readiness": "Partial", "Evidence_Note": "Raspberry Pi 4 latency measurement"},
+    {"Module": "Physical robot deployment", "Implementation": "Future required", "Experimental_Validation": "Future required", "Translational_Readiness": "Future required", "Evidence_Note": "no real-world deployment yet"},
+    {"Module": "Clinical validation", "Implementation": "Future required", "Experimental_Validation": "Future required", "Translational_Readiness": "Future required", "Evidence_Note": "no prospective clinical validation yet"},
 ]
 
 
