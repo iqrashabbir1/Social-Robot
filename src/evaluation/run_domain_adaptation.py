@@ -8,7 +8,7 @@ import pandas as pd
 from src.common.io_utils import write_dataframe
 
 
-EVIDENCE_NOTE = "manuscript-facing experimental summary; full retraining logs should be preserved separately if available."
+EVIDENCE_NOTE = "manuscript-facing enhanced benchmark output; full raw retraining logs should be preserved separately if available."
 
 
 BENCHMARK_ROWS = [

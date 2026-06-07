@@ -37,7 +37,7 @@ ABSTRACT = (
     "ECE = 0.041, digital-twin synchronization is measured at 124.0 +/- 67.0 ms, and "
     "Raspberry Pi 4 edge inference satisfies the real-time constraint at 47.3 ms "
     "latency (approximately 21 FPS). These results constitute technical and experimental "
-    "validation rather than clinical proof, but they establish a reproducible, "
+    "validation rather than clinical deployment evidence, but they establish a reproducible, "
     "privacy-aware, and deployment-conscious foundation for future cognitive "
     "caregiving robot studies."
 )

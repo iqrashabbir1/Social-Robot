@@ -23,8 +23,13 @@ On Windows PowerShell:
 ```bash
 python -m src.evaluation.run_benchmarks --project-root .
 python -m src.evaluation.run_domain_adaptation --project-root .
-python -m src.evaluation.run_repeated_cv_statistics --project-root .
 python -m src.evaluation.run_dp_privacy_accounting --project-root .
+python -m src.evaluation.run_repeated_cv_statistics --project-root .
+python -m src.evaluation.run_calibration_analysis --project-root .
+python -m src.evaluation.run_missing_modality_robustness --project-root .
+python -m src.evaluation.run_privacy_latency_analysis --project-root .
+python -m src.evaluation.run_digital_twin_sync_analysis --project-root .
+python -m src.evaluation.run_evidence_maturity --project-root .
 python -m src.visualization.generate_all_figures --project-root .
 python -m src.dashboard.build_dashboard --project-root .
 python -m src.orchestration.run_full_local_pipeline --project-root .
@@ -78,3 +83,5 @@ Figures 3-10 are regenerated as PNG, PDF, and SVG under `outputs/figures/`:
 ## Evidence Boundary
 
 The current repository supports implemented real baselines, benchmark-supported enhanced experiments, simulation-supported robustness and digital-twin analyses, and prototype dashboard artifacts. It does not yet provide clinical deployment, ethics approval, live wearable integration, assisted-living pilot execution, or clinician-validated prospective outcomes.
+
+The current repository supports PAEMDT as a technical and experimental research framework. It does not provide clinical deployment evidence, ethics approval, live wearable integration, or clinician-validated pilot evaluation.

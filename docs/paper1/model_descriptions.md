@@ -182,9 +182,11 @@ This ranking policy is configurable from the YAML files.
 
 The enhanced PAEMDT manuscript experiments preserve the original implemented baseline label space as repository-grounded evidence. The RAVDESS/CREMA-D experiments are manuscript-facing domain-adaptation experiments designed to evaluate cross-corpus robustness, not to claim superiority on real synchronized caregiving interactions.
 
+The preserved implemented repository baseline remains the four-class label space: `happy`, `sad`, `neutral`, and `fear`. The enhanced manuscript-facing RAVDESS/CREMA-D experiments are a separate benchmark layer and may use a five-class harmonized label space: `calm`, `happy`, `sad`, `fearful`, and `angry`. These two evidence layers should not be conflated. The four-class baseline documents implemented repository evidence, while the five-class RAVDESS/CREMA-D layer documents manuscript-facing benchmark-supported domain adaptation.
+
 When five-class emotion experiments are used, the label harmonization and preprocessing must be documented alongside the generated outputs. RAVDESS is treated as the source-domain development and held-out validation corpus, while CREMA-D is treated as the external-domain evaluation corpus. This separation supports dataset-based experimental validation but does not constitute clinical validation.
 
-The enhanced results distinguish benchmark datasets from real synchronized multimodal caregiving data. The repository currently includes benchmark-supported experiments, synthetic/scaffolded modality streams, and simulation-supported digital-twin/HITL/privacy modules. It should not claim validated performance on real caregiving interaction data unless such synchronized multimodal data and corresponding prospective validation logs are added.
+The enhanced results distinguish benchmark datasets from real synchronized multimodal caregiving data. The B1/B2/B3/H1 multimodal families remain scaffolded or benchmark-facing unless real synchronized caregiving data are added. The repository currently includes benchmark-supported experiments, synthetic/scaffolded modality streams, and simulation-supported digital-twin/HITL/privacy modules. It should not claim validated performance on real caregiving interaction data unless such synchronized multimodal data and corresponding prospective validation logs are added.
 
 ## Training and Tracking
 Deep and transformer families now support:

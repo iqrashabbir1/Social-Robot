@@ -207,12 +207,23 @@ def plot_ablation_analysis(output_base: Path) -> dict[str, Path]:
 
 def generate_ablation_outputs(project_root: Path) -> dict[str, Path]:
     table = ablation_table()
+    summary_table = pd.DataFrame(
+        {
+            "Config": CONFIGS,
+            "Removed component": REMOVED,
+            "Val_Acc": [f"{value:.2f}" for value in VAL_ACC],
+            "KG_Faith": [f"{value / 100.0:.2f}" for value in KG_FAITH],
+            "HITL_Prec": ["UNSAFE" if value is None else f"{value:.2f}" for value in HITL_PREC],
+            "Main finding": MAIN_FINDINGS,
+        }
+    )
     table_paths = {
         "summary_table": project_root / "outputs" / "tables" / "ablation_summary.csv",
         "outputs_table": project_root / "outputs" / "tables" / "paper1_table_ablation_summary.csv",
         "paper_table": project_root / "experiments" / "results" / "paper_tables" / "table5_ablation.csv",
     }
-    for path in table_paths.values():
+    write_dataframe(table_paths["summary_table"], summary_table)
+    for path in [table_paths["outputs_table"], table_paths["paper_table"]]:
         write_dataframe(path, table)
     figure_paths = plot_ablation_analysis(project_root / "outputs" / "figures" / "Figure_5_Ablation_Analysis")
     return {**table_paths, **figure_paths}

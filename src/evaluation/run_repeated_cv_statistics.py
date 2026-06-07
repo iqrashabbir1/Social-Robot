@@ -9,11 +9,7 @@ import pandas as pd
 from src.common.io_utils import write_dataframe
 
 
-NOTE = (
-    "Repeated CV statistics are generated from the available benchmark summary and "
-    "should be treated as manuscript-facing uncertainty estimates until full "
-    "retraining logs are available."
-)
+NOTE = "summary-level manuscript-facing CV statistics; full repeated training logs should be preserved when available."
 
 
 MANUSCRIPT_VALUES = [
