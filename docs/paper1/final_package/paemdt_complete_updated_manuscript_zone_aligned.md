@@ -24,7 +24,7 @@ The mathematical formulation in the next section makes this architecture explici
 
 ## 3. Mathematical Formulation Aligned with the PAEMDT Architecture
 
-This section formalizes the information flow of PAEMDT according to the five architecture zones. The formulation is intentionally modular and evidence-aware, so that repository-implemented, simulation-supported, and future clinical-validation components can be distinguished without collapsing them into a single undifferentiated claim. The output of each zone is defined explicitly and then used as the input to the next zone, thereby preserving the closed-loop logic of the PAEMDT framework.
+This section formalizes the information flow of PAEMDT according to the five architecture zones. The formulation is intentionally modular and evidence-aware, so that repository-implemented, simulation-supported, and future clinically validated components can be distinguished without collapsing them into a single undifferentiated claim. The output of each zone is defined explicitly and then used as the input to the next zone, thereby preserving the closed-loop logic of the PAEMDT framework.
 
 ### 3.1 Zone 1 -- Multimodal Perception and Modality Encoding
 
@@ -198,39 +198,47 @@ The multi-algorithm comparison should now be interpreted in two layers. First, t
 
 Among the original seven models, CNN-small remained the strongest held-out validation performer with 97.81% validation accuracy and 0.978 validation macro-F1. However, its source-only CREMA-D performance remained weak at 28.30% accuracy and 0.251 external macro-F1. Once domain adaptation was introduced, external accuracy improved to 58.43%, and the staged GRL + MMD + pseudo-labeling path reached 64.28%. The privacy-enhanced variant retained 62.15% external accuracy while enforcing epsilon = 2.3 differential privacy. This pattern demonstrates that model choice in PAEMDT must be guided by a multi-criteria perspective: validation performance, external robustness, privacy cost, calibration quality, and latency feasibility.
 
-### 4.6 Ablation
+### 4.6 Ablation and Component Contribution Analysis
 
-The ablation analysis remains central for showing that the full PAEMDT stack is not a collection of interchangeable modules. KG grounding primarily affects explanation faithfulness, speech and fusion affect predictive robustness, the digital twin affects routing quality, and HITL removal creates a safety-critical failure mode. The privacy-gate interpretation extends this logic: predictive performance can remain high when privacy controls are removed, but the resulting system no longer satisfies its intended data-protection requirements. This makes privacy not only an optimization variable but a deployment constraint.
+A component-wise ablation analysis was conducted to quantify the contribution of the main PAEMDT modules to predictive performance, explanation faithfulness, and safety-oriented routing. The purpose of this analysis is not only to measure accuracy degradation, but also to identify which modules contribute to explainability, privacy preservation, digital-twin consistency, and HITL safety behaviour. Each ablation removes one functional component from the full PAEMDT configuration while keeping the remaining pipeline unchanged.
 
-![Figure 5a: Predictive and explainability ablation](../../../experiments/figures/paper_tables/figure5a_ablation_predictive_explainability.png)
+Figure 5(a) reports the effect of component removal on validation accuracy and KG-grounded explanation faithfulness. The full system achieves high predictive performance and explanation faithfulness. Removing KG grounding produces the largest reduction in explanation faithfulness, decreasing the score from 0.89 to 0.27, while validation accuracy remains nearly unchanged. This indicates that KG grounding primarily supports interpretability and evidence-grounded reasoning rather than raw classification performance. Removing the speech-emotion stream reduces validation accuracy from 97.81% to 90.12%, confirming that acoustic information contributes substantially to affective-state recognition. Removing the cross-attention component reduces accuracy to 94.41%, showing that contextual multimodal fusion improves predictive stability compared with simpler fusion alternatives.
 
-**Figure 5a.** Ablation view emphasizing predictive performance and explainability-related component contribution.
+Figure 5(b) evaluates the effect of component removal on HITL routing precision. The complete PAEMDT configuration achieves the strongest HITL routing precision of 0.94. Removing the digital-twin layer reduces routing precision to 0.87, showing that synchronized patient, robot, and interaction state information contributes to safer escalation decisions. Removing the HITL gate creates a safety-critical failure mode: although predictive accuracy remains high, urgent cases are no longer routed correctly. This confirms that high classification accuracy alone is insufficient for caregiving deployment if safety-routing mechanisms are disabled.
 
-![Figure 5b: HITL routing contribution](../../../experiments/figures/paper_tables/figure5b_hitl_routing_contribution.png)
+The privacy-gate ablation further shows that predictive performance can remain nearly unchanged even when privacy controls are removed. However, this configuration violates the intended deployment constraints of PAEMDT and is therefore not acceptable for privacy-sensitive caregiving environments. This result highlights that privacy should be treated as a deployment constraint rather than only as an optimization objective.
 
-**Figure 5b.** HITL routing contribution under component removal, highlighting the operational impact of gating and digital-twin support.
+Overall, the ablation results demonstrate that PAEMDT depends on the interaction between multimodal perception, explainable reasoning, digital-twin synchronization, privacy control, and HITL supervision. Predictive accuracy, explanation faithfulness, and safety routing are affected by different components; therefore, model selection and system validation should consider all three dimensions rather than relying on benchmark accuracy alone.
 
-### 4.7 Statistical Significance
+![Figure 5: Component-wise ablation analysis](../../../outputs/figures/Figure_5_Ablation_Analysis.png)
 
-To improve statistical rigor beyond a single train-validation split, repeated stratified cross-validation was performed using a 5 x 10 protocol, yielding 50 total runs per evaluated model. This repeated-resampling design provides a more stable estimate of expected validation behavior and enables paired statistical comparison between benchmark configurations.
+Figure 5. Component-wise ablation analysis of the PAEMDT framework. (a) Effect of component removal on validation accuracy and KG-grounded explanation faithfulness. (b) Effect of component removal on HITL routing precision. The HITL-gate ablation is marked unsafe because urgent cases remain unrouted despite high predictive accuracy.
 
-For the enhanced CNN-small configuration, the repeated evaluation produced a high mean validation performance together with a 95% confidence interval of [95.6%, 98.0%]. This indicates that the reported source-domain performance is not merely the result of a favorable single split. Pairwise comparison using the Wilcoxon signed-rank test showed that the enhanced domain-adapted configuration significantly outperformed the baseline on the repeated evaluation benchmark (p < 0.001). Effect-size analysis yielded Cohen's d = 1.24, corresponding to a large practical effect.
+### 4.7 Statistical Significance and Confidence Intervals
 
-Figure 6 should be interpreted as the uncertainty-aware counterpart to the point-estimate benchmark tables. It shows that performance improvements are not only numerically visible but also statistically stable across resampling.
+To improve statistical rigor beyond a single train-validation split, repeated stratified cross-validation was performed using a 5 x 10 protocol, yielding 50 evaluation runs for each model. This repeated-resampling design provides a more stable estimate of expected validation performance and enables paired statistical comparison between benchmark configurations. Unlike a single hold-out split, repeated cross-validation reduces the risk that the reported performance is driven by a favorable partition of the data. Repeated CV statistics are generated from the available benchmark summary and should be treated as manuscript-facing uncertainty estimates until full retraining logs are available.
 
-![Figure 6: Cross-validation confidence intervals](../../../experiments/figures/paper_tables/figure6_confidence_intervals.png)
+For the enhanced CNN-small configuration, the repeated evaluation produced a high mean validation performance with a 95% confidence interval of [95.6%, 98.0%]. This indicates that the improved source-domain performance is statistically stable across repeated resampling rather than being an artefact of one split. Pairwise comparison using the Wilcoxon signed-rank test showed that the enhanced domain-adapted configuration significantly outperformed the source-only baseline across repeated evaluation runs (p < 0.001). Effect-size analysis yielded Cohen's d = 1.24, corresponding to a large practical effect.
 
-**Figure 6.** Repeated cross-validation performance distributions with confidence intervals across benchmark models.
+Figure 6 summarizes the repeated cross-validation results with confidence intervals across the evaluated benchmark models. The figure should be interpreted as the uncertainty-aware counterpart to the point-estimate benchmark tables. Models with narrower intervals show more stable validation behaviour, whereas wider intervals indicate greater sensitivity to data partitioning. Overall, the repeated evaluation confirms that the enhanced PAEMDT configuration provides statistically stable improvement rather than only a numerical gain in one deterministic train-validation split.
 
-### 4.8 Calibration
+![Figure 6: Repeated cross-validation confidence intervals](../../../outputs/figures/Figure_6_Repeated_CV_Confidence_Intervals.png)
 
-Calibration analysis was updated to reflect the enhanced model. The improved configuration achieved an expected calibration error of 0.041, compared with 0.089 for the baseline, indicating substantially better agreement between predicted confidence and empirical correctness. The maximum calibration error was 0.087, showing that worst-case bin-level deviation remained bounded.
+**Figure 6.** Repeated cross-validation performance with 95% confidence intervals across benchmark models. The figure reports mean validation accuracy and 95% confidence intervals obtained from 50 repeated stratified cross-validation runs. Narrower intervals indicate more stable validation performance. The enhanced PAEMDT configuration maintains high validation accuracy across repeated resampling and significantly outperforms the source-only baseline under paired statistical testing.
 
-The updated reliability diagram should be interpreted alongside the benchmark accuracy results rather than separately. A highly accurate but poorly calibrated model may still behave unsafely under semi-autonomous routing if confidence is systematically overstated. The enhanced PAEMDT configuration reduces this overconfidence risk by following the ideal calibration line more closely across confidence bins.
+### 4.8 Calibration and Uncertainty Analysis
 
-![Figure 7: Reliability calibration analysis](../../../experiments/figures/paper_tables/figure7_calibration_ece.png)
+Calibration analysis was conducted to evaluate whether the confidence scores produced by the enhanced PAEMDT emotion-recognition model are reliable enough to support safety-aware decision routing. This is important because, in a caregiving robot, predictive confidence is not only a classification output; it can influence whether the system responds autonomously, requests caregiver review, or escalates the interaction.
 
-**Figure 7.** Reliability calibration analysis comparing confidence fidelity and expected calibration error across evaluated configurations.
+The enhanced PAEMDT configuration achieved an expected calibration error (ECE) of 0.041, compared with 0.089 for the source-only baseline. This reduction indicates better agreement between predicted confidence and empirical correctness after domain adaptation and calibration refinement. The maximum calibration error was 0.087, showing that the largest bin-level deviation remained bounded. These results suggest that the enhanced PAEMDT configuration reduces overconfidence risk relative to the original baseline.
+
+Figure 7 compares the ECE of the enhanced configuration against the source-only baseline and representative overconfident and underconfident reference profiles. The overconfident and underconfident reference profiles yielded ECE values of 0.128 and 0.058, respectively. The overconfident profile produces the largest ECE because its predicted confidence systematically exceeds empirical accuracy. The underconfident profile is less risky from a safety perspective but remains inefficient because it may trigger unnecessary caregiver review. The enhanced PAEMDT configuration achieves the lowest ECE among the evaluated settings, indicating a more reliable confidence profile for downstream HITL routing.
+
+Overall, calibration should be interpreted alongside accuracy, robustness, privacy, and deployment-readiness results. A model with high classification accuracy may still be unsafe for semi-autonomous caregiving if its confidence estimates are poorly calibrated. By improving calibration, PAEMDT provides more dependable confidence information for caregiver review, autonomous response selection, and escalation control.
+
+![Figure 7: Expected calibration error comparison](../../../experiments/figures/paper_tables/Figure_7_ECE_Comparison.png)
+
+**Figure 7.** Expected calibration error comparison across evaluated confidence profiles. Lower ECE indicates better agreement between predicted confidence and empirical accuracy. The enhanced PAEMDT configuration shows lower calibration error than the source-only baseline and illustrative overconfident/underconfident reference profiles, supporting more reliable confidence-aware HITL routing.
 
 ### 4.9 Robustness Under Missing Modalities
 
