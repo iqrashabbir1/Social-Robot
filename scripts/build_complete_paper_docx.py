@@ -72,10 +72,9 @@ FRAMEWORK_ARCHITECTURE = [
     (
         "PAEMDT is organized as a modular multimodal architecture in which sensing, "
         "synchronization, benchmarking, privacy controls, and digital-twin services are "
-        "explicitly separated but operationally linked. The retained Figure 2a and "
-        "Figure 2b should remain in their original positions and continue to illustrate "
-        "the high-level system view and the interaction between perception, digital-twin, "
-        "and decision-support layers."
+        "explicitly separated but operationally linked. Figure 2a and Figure 2b "
+        "illustrate the high-level system view and the interaction between perception, "
+        "digital-twin, and decision-support layers."
     ),
     (
         "At runtime, the framework uses ROS2-compatible topic interfaces such as "
@@ -309,17 +308,23 @@ TABLE_SPECS = {
     "4.1": [
         (
             "Table 4. Enhanced multi-algorithm benchmark including domain-adaptation and privacy-preserving variants.",
-            PROJECT_ROOT / "experiments" / "results" / "paper_tables" / "table4_multi_algorithm_benchmark.csv",
+            PROJECT_ROOT / "outputs" / "tables" / "enhanced_benchmark_comparison.csv",
         ),
         (
             "Table 4b. Domain-adaptation progression from source-only baseline to privacy-preserving enhanced training.",
-            PROJECT_ROOT / "experiments" / "results" / "paper_tables" / "table_domain_adaptation_results.csv",
+            PROJECT_ROOT / "outputs" / "tables" / "domain_adaptation_progression.csv",
         ),
     ],
-    "4.6": [
+    "4.5": [
         (
             "Table 5. Component-wise ablation analysis of the PAEMDT framework.",
-            PROJECT_ROOT / "experiments" / "results" / "paper_tables" / "table5_ablation.csv",
+            PROJECT_ROOT / "outputs" / "tables" / "ablation_summary.csv",
+        ),
+    ],
+    "4.8": [
+        (
+            "Table 6. Missing-modality robustness and HITL escalation summary.",
+            PROJECT_ROOT / "outputs" / "tables" / "missing_modality_summary.csv",
         ),
     ],
 }
