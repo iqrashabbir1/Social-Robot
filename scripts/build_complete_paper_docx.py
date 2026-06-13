@@ -305,23 +305,37 @@ MATHEMATICAL_FORMULATION = [
 ]
 
 TABLE_SPECS = {
-    "4.1": [
+    "table2": [
+        (
+            "Table 2. Module-level evidence status of PAEMDT.",
+            PROJECT_ROOT / "outputs" / "tables" / "manuscript_table2_module_evidence_status.csv",
+        ),
+    ],
+    "table3": [
+        (
+            "Table 3. Harmonized RAVDESS class distribution used for the benchmark.",
+            PROJECT_ROOT / "outputs" / "tables" / "manuscript_table3_ravdess_class_distribution.csv",
+        ),
+    ],
+    "table4": [
         (
             "Table 4. Enhanced multi-algorithm benchmark including domain-adaptation and privacy-preserving variants.",
             PROJECT_ROOT / "outputs" / "tables" / "enhanced_benchmark_comparison.csv",
         ),
+    ],
+    "table4b": [
         (
             "Table 4b. Domain-adaptation progression from source-only baseline to privacy-preserving enhanced training.",
             PROJECT_ROOT / "outputs" / "tables" / "domain_adaptation_progression.csv",
         ),
     ],
-    "4.5": [
+    "table5": [
         (
             "Table 5. Component-wise ablation analysis of the PAEMDT framework.",
             PROJECT_ROOT / "outputs" / "tables" / "ablation_summary.csv",
         ),
     ],
-    "4.8": [
+    "table6": [
         (
             "Table 6. Missing-modality robustness and HITL escalation summary.",
             PROJECT_ROOT / "outputs" / "tables" / "missing_modality_summary.csv",
@@ -430,6 +444,11 @@ def parse_blocks(lines: list[str]) -> list[tuple[str, str]]:
             flush_paragraph()
             blocks.append(("image", match.group("path")))
             continue
+        if line.startswith("{{TABLE:") and line.endswith("}}"):
+            flush_paragraph()
+            table_key = line.removeprefix("{{TABLE:").removesuffix("}}").strip().lower()
+            blocks.append(("table", table_key))
+            continue
         if line.startswith("**Figure "):
             flush_paragraph()
             caption_text = re.sub(r"\*\*(Figure\s+\d+\.?)\*\*", r"\1", line).strip()
@@ -481,6 +500,33 @@ def add_image(doc: Document, image_rel_path: str) -> None:
 
 
 def write_complete_markdown(lines_4_6: list[str]) -> None:
+    def markdown_table_from_csv(caption: str, csv_path: Path) -> list[str]:
+        if not csv_path.exists():
+            return []
+        with csv_path.open("r", encoding="utf-8-sig", newline="") as handle:
+            rows = list(csv.reader(handle))
+        if not rows:
+            return []
+        header = rows[0]
+        body = rows[1:]
+        rendered = [caption, ""]
+        rendered.append("| " + " | ".join(header) + " |")
+        rendered.append("| " + " | ".join(["---"] * len(header)) + " |")
+        for row in body:
+            padded = row + [""] * (len(header) - len(row))
+            rendered.append("| " + " | ".join(padded[: len(header)]) + " |")
+        return rendered + [""]
+
+    expanded_lines_4_6: list[str] = []
+    for line in lines_4_6:
+        stripped = line.strip()
+        if stripped.startswith("{{TABLE:") and stripped.endswith("}}"):
+            table_key = stripped.removeprefix("{{TABLE:").removesuffix("}}").strip().lower()
+            for caption, csv_path in TABLE_SPECS.get(table_key, []):
+                expanded_lines_4_6.extend(markdown_table_from_csv(caption, csv_path))
+            continue
+        expanded_lines_4_6.append(line)
+
     output_lines: list[str] = [
         f"# {TITLE}",
         "",
@@ -500,7 +546,7 @@ def write_complete_markdown(lines_4_6: list[str]) -> None:
     for item in MATHEMATICAL_FORMULATION:
         output_lines.append(item)
         output_lines.append("")
-    output_lines.extend(lines_4_6)
+    output_lines.extend(expanded_lines_4_6)
     OUTPUT_MD.write_text("\n".join(output_lines).strip() + "\n", encoding="utf-8")
 
 
@@ -524,23 +570,13 @@ def build_docx() -> None:
     add_structured_blocks(doc, MATHEMATICAL_FORMULATION)
 
     blocks = parse_blocks(lines_4_6)
-    current_subsection: str | None = None
-    inserted_tables: set[str] = set()
-
     for block_type, payload in blocks:
         if block_type.startswith("heading"):
             heading_level = int(block_type.replace("heading", ""))
-            if current_subsection and current_subsection in TABLE_SPECS and current_subsection not in inserted_tables:
-                for caption, csv_path in TABLE_SPECS[current_subsection]:
-                    add_csv_table(doc, caption, csv_path)
-                inserted_tables.add(current_subsection)
-
             if heading_level == 2:
                 add_heading(doc, payload, level=1)
             elif heading_level == 3:
                 add_heading(doc, payload, level=2)
-                subsection_match = re.match(r"^(\d+\.\d+)", payload)
-                current_subsection = subsection_match.group(1) if subsection_match else None
             else:
                 add_heading(doc, payload, level=min(heading_level, 3))
         elif block_type == "paragraph":
@@ -554,10 +590,9 @@ def build_docx() -> None:
             run = caption.add_run(payload)
             run.italic = True
             caption.paragraph_format.space_after = Pt(8)
-
-    if current_subsection and current_subsection in TABLE_SPECS and current_subsection not in inserted_tables:
-        for caption, csv_path in TABLE_SPECS[current_subsection]:
-            add_csv_table(doc, caption, csv_path)
+        elif block_type == "table":
+            for caption, csv_path in TABLE_SPECS.get(payload, []):
+                add_csv_table(doc, caption, csv_path)
 
     OUTPUT_DOCX.parent.mkdir(parents=True, exist_ok=True)
     doc.save(OUTPUT_DOCX)

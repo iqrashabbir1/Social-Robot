@@ -1,0 +1,9 @@
+Module,Repository/Evidence Status,Manuscript Interpretation
+Core perception benchmark,Repository-implemented baseline and benchmark-supported enhanced experiments,Supports source-domain and external-domain technical evaluation
+Domain adaptation,Benchmark-supported enhanced manuscript experiment,Supports RAVDESS-to-CREMA-D external-domain robustness analysis
+Differential privacy,DP-accounted manuscript configuration,Reports epsilon = 2.3 and delta = 1e-5 as technical privacy-accounting evidence
+Missing-modality robustness,Simulation-supported stress-test evidence,Evaluates graceful degradation and HITL escalation under unreliable sensing
+Digital-twin synchronization,Technical synchronization measurement,Reports 124.0 +/- 67.0 ms synchronization error as runtime evidence
+Edge deployment profiling,Deployment-oriented technical benchmark,Reports Raspberry Pi 4 latency = 47.3 ms and approximately 21 FPS
+Physical robot deployment,Future translational requirement,No real-world clinical deployment evidence yet
+Clinical validation,Future translational requirement,No ethics-approved clinician-validated pilot evaluation yet

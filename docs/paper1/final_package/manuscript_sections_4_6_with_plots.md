@@ -1,108 +1,112 @@
-# PAEMDT Manuscript Sections 4-6, Repository-Aligned Final Version
+# PAEMDT Manuscript Sections 4-6, Repository-Aligned Zone Version
 
-## 4. Case Study
+## 4. Repository-Aligned Case Study: Implementation and Evidence Evaluation
 
-This section presents the repository-aligned case study for PAEMDT after the integration of domain adaptation, DP-accounted privacy analysis, repeated cross-validation, calibration analysis, missing-modality robustness testing, digital-twin synchronization analysis, and edge-latency profiling. The case study is organized to distinguish source-domain validation, external-domain evaluation, deployment-oriented constraints, and evidence maturity. Unless otherwise stated, RAVDESS is used for source-domain development and held-out validation, whereas CREMA-D is used for external-domain evaluation.
+The mathematical formulation in Section 3 defines PAEMDT as a five-zone information pipeline: multimodal observations are encoded, fused, synchronized with a digital twin, interpreted through explainable and privacy-aware reasoning, and converted into tiered caregiving actions. The purpose of this section is to translate that mathematical model into a repository-aligned implementation and evidence evaluation. Instead of presenting results as disconnected module outputs, the case study follows the same zone logic used in the formulation. This allows each result to answer three questions: which module is being evaluated, why it is important for caregiving robotics, and how the evidence confirms its contribution.
 
-### 4.1 Benchmarking
+This study was conducted because conventional benchmark accuracy is insufficient for cognitive caregiving robots. A model can perform well on the source dataset but fail under external-domain shift, sensor degradation, poor calibration, privacy constraints, or edge-device limitations. In a caregiving context, these failures can reduce caregiver trust and may lead to unsupported autonomous decisions. Therefore, PAEMDT is evaluated not only through accuracy but also through external robustness, privacy accounting, calibration, missing-modality behaviour, digital-twin synchronization, latency, and evidence maturity.
 
-Table 3 reports the RAVDESS class distribution used for the harmonized benchmark. Building on this dataset summary, the enhanced benchmark evaluates whether the source-domain model remains credible under cross-corpus transfer. The source-only CNN-small model achieved 97.81% validation accuracy on RAVDESS but only 28.30% external accuracy on CREMA-D, corresponding to a 69.51 percentage-point domain gap. This result shows that high source-domain accuracy alone is not sufficient for deployment-relevant emotion recognition.
+The main benefit of the proposed approach is that it converts a source-domain emotion-recognition benchmark into an evidence-aware caregiving-robot validation workflow. The source-only CNN-small model achieved high RAVDESS validation accuracy but weak CREMA-D transfer. After domain adaptation, CREMA-D external accuracy improved from 28.30% to 64.28%, reducing the domain gap from 69.51 to 32.63 percentage points. The privacy-enhanced variant retained 62.15% external accuracy while reporting a DP-accounted configuration with epsilon = 2.3 and delta = 1e-5. These results show that PAEMDT improves external-domain robustness while preserving privacy-aware deployment feasibility. The remaining analyses then examine whether these gains remain meaningful under uncertainty, missing modalities, synchronization constraints, and edge-deployment requirements.
 
-The enhanced domain-adaptation pipeline reduced this cross-domain gap. The CNN-small + domain-adaptation configuration achieved 96.85% validation accuracy and 58.43% external accuracy, reducing the gap to 38.42 percentage points. The privacy-enhanced domain-adapted configuration achieved 95.12% validation accuracy and 62.15% external accuracy, reducing the gap to 32.97 percentage points while retaining a DP-accounted privacy configuration. These values are generated from `outputs/tables/enhanced_benchmark_comparison.csv` and `outputs/csv/domain_generalization_results.csv`.
+### 4.1 Dataset Setup and Evidence Protocol
+
+The evaluation uses RAVDESS as the source-domain dataset for model development and held-out validation, while CREMA-D is used as the external-domain evaluation dataset. This separation is important because it prevents the same corpus from being used for both model development and generalization claims. RAVDESS validation performance measures whether the model can learn the source-domain task, whereas CREMA-D external performance measures whether the learned affective representation transfers to a different dataset with different speakers, recording conditions, and emotional expression patterns.
+
+Table 3 reports the harmonized RAVDESS class distribution used in the benchmark. The preserved repository baseline supports the implemented four-class label space documented in the repository model-description file, while the enhanced RAVDESS/CREMA-D results are treated as benchmark-supported manuscript experiments. Any extended label harmonization should therefore be documented through explicit preprocessing scripts and label-mapping files.
+
+The experimental evidence is organized according to two complementary dimensions: dataset evidence and module evidence. At the dataset level, RAVDESS supports source-domain development and held-out validation, whereas CREMA-D supports external-domain testing. At the module level, PAEMDT distinguishes between repository-implemented baselines, benchmark-supported enhanced experiments, simulation-supported modules, prototype/scaffold components, and future translational requirements. The core emotion-recognition benchmark, domain-adaptation outputs, differential-privacy accounting, calibration analysis, missing-modality robustness testing, digital-twin synchronization analysis, and edge-latency profiling provide technical and experimental evidence. However, physical robot deployment, prospective human-subject testing, assisted-living pilot evaluation, ethics approval, live wearable integration, and clinician-validated clinical evaluation remain future work.
+
+Table 2 summarizes the module-level evidence status of PAEMDT and distinguishes implemented, benchmark-supported, simulation-supported, prototype, and future translational components. The privacy layer is represented through a DP-accounted manuscript configuration with epsilon = 2.3 and delta = 1e-5, and its utility impact is reported through the privacy-utility-latency analysis. This should still be interpreted as technical privacy-accounting evidence, not as clinical privacy certification.
+
+{{TABLE:table2}}
+
+{{TABLE:table3}}
+
+The case-study protocol follows the five PAEMDT zones. Zone 1 evaluates perception and external-domain emotion recognition. Zone 2 evaluates fusion robustness under missing or degraded modalities. Zone 3 evaluates digital-twin synchronization and edge feasibility. Zone 4 evaluates explainability, privacy accounting, calibration, and HITL reasoning. Zone 5 integrates these results into deployment-oriented model selection and evidence maturity. This structure avoids a sudden jump from mathematical formulation to final results and makes the evidence chain explicit.
+
+### 4.2 Zone 1: Perception Benchmark and Cross-Domain Adaptation
+
+Zone 1 evaluates whether the emotion-recognition pipeline can produce affective-state representations that remain useful beyond the source dataset. The source-only CNN-small model achieved 97.81% validation accuracy and 0.978 validation macro-F1 on RAVDESS. However, when evaluated externally on CREMA-D, its accuracy dropped to 28.30% with an external macro-F1 of 0.251. This 69.51 percentage-point domain gap confirms that high source-domain accuracy alone is not sufficient for deployment-oriented caregiving robotics.
+
+The domain-adapted configuration substantially improved external-domain transfer. CNN-small + domain adaptation achieved 96.85% validation accuracy and 58.43% external accuracy, reducing the gap to 38.42 percentage points. The staged GRL + MMD + pseudo-labeling configuration achieved the strongest non-private external result, reaching 64.28% CREMA-D accuracy and reducing the gap to 32.63 percentage points. The privacy-enhanced domain-adapted variant achieved 95.12% validation accuracy and 62.15% external accuracy, showing that privacy-aware training can be included with moderate utility loss.
+
+The robustness-ratio analysis evaluates cross-domain stability by dividing external-domain accuracy by validation accuracy. The source-only model achieved a robustness ratio of 0.289, while the domain-adapted and privacy-enhanced variants achieved 0.603 and 0.653, respectively. This confirms that the enhanced configurations retain a larger fraction of source-domain performance under external-domain evaluation.
+
+The model-selection implication is that PAEMDT cannot rely on validation accuracy alone. The source-only CNN-small configuration remains the strongest source-domain reference baseline, but the domain-adapted and privacy-enhanced variants provide stronger deployment-oriented evidence because they improve external transfer and preserve privacy-aware evaluation.
 
 ![Figure 3: Domain generalization gap comparison](../../../outputs/figures/Figure_3_Domain_Generalization_Gap.png)
 
 **Figure 3.** Domain-generalization gap across baseline and enhanced PAEMDT configurations. The figure compares RAVDESS validation accuracy and CREMA-D external accuracy for the source-only CNN-small baseline, domain-adapted CNN-small, and privacy-enhanced domain-adapted CNN-small. Domain adaptation substantially reduces the external-domain performance gap.
 
-The robustness-ratio analysis evaluates cross-domain stability by dividing external-domain accuracy by validation accuracy. The source-only CNN-small model achieved a robustness ratio of 0.289, whereas the domain-adapted and privacy-enhanced adapted variants achieved 0.603 and 0.653, respectively. This indicates that the enhanced configurations retain a substantially larger fraction of their source-domain performance when evaluated on CREMA-D.
-
 ![Figure 4: Robustness ratio comparison](../../../outputs/figures/Figure_4_Robustness_Ratio.png)
 
 **Figure 4.** Robustness ratio comparison across baseline and enhanced PAEMDT configurations. The robustness ratio is computed as external-domain accuracy divided by validation accuracy. Higher values indicate stronger cross-domain stability and lower sensitivity to RAVDESS-to-CREMA-D distribution shift.
 
-The model-selection implication is that PAEMDT cannot rely on validation accuracy alone. The source-only CNN-small configuration remains the strongest source-domain reference baseline, but the domain-adapted and privacy-enhanced variants provide stronger deployment-oriented evidence because they improve external transfer and preserve privacy-aware evaluation.
+{{TABLE:table4}}
 
-### 4.2 Dataset and Module Evidence Levels
+{{TABLE:table4b}}
 
-The experimental evidence in this study is organized according to two complementary dimensions: dataset evidence and module evidence. At the dataset level, RAVDESS is used for source-domain development and held-out validation, whereas CREMA-D is reserved for external-domain evaluation. This separation prevents optimistic reuse of the same corpus for both model development and generalization claims. The resulting evidence should therefore be interpreted as dataset-based technical validation rather than clinical validation.
+### 4.3 Zone 2: Fusion Logic and Missing-Modality Robustness
 
-At the module level, PAEMDT distinguishes between repository-implemented baselines, benchmark-supported enhanced experiments, simulation-supported modules, prototype/scaffold components, and future translational requirements. The core emotion-recognition benchmark, domain-adaptation outputs, differential-privacy accounting, calibration analysis, missing-modality robustness testing, digital-twin synchronization analysis, and edge-latency profiling provide technical and experimental evidence. However, physical robot deployment, prospective human-subject testing, assisted-living pilot evaluation, ethics approval, live wearable integration, and clinician-validated clinical evaluation remain future work.
+Zone 2 evaluates whether PAEMDT remains stable when sensing channels are degraded or unavailable. This is important because caregiving robots operate in uncontrolled environments where speech may be noisy, faces may be occluded, physiological sensors may drop out, and multimodal streams may become asynchronous. The missing-modality mask and fallback logic therefore provide a mechanism for graceful degradation instead of unsupported autonomous action.
 
-Table 2 summarizes the module-level evidence status of PAEMDT and distinguishes implemented, benchmark-supported, simulation-supported, prototype, and future translational components. In the revised repository, the privacy layer is no longer treated only as a design objective. It is represented through a DP-accounted manuscript configuration with epsilon = 2.3 and delta = 1e-5, and its utility impact is reported through the privacy-utility-latency analysis. This should still be interpreted as technical privacy-accounting evidence, not as clinical privacy certification.
+Under full input, PAEMDT achieved macro-F1 = 0.956 with a HITL escalation rate of 5.4%. Under single-modality degradation, performance remained above the autonomous-operation threshold. Visual dropout and speech removal each reduced macro-F1 to 0.938, while physiological removal reduced macro-F1 to 0.891. These results indicate that the framework can tolerate moderate single-channel degradation.
 
-This evidence-level distinction is important because PAEMDT combines repository-implemented modules, benchmark-supported experiments, simulation-supported components, and planned translational stages. Explicitly separating these categories prevents benchmark results from being overstated as real-world clinical evidence.
-
-### 4.3 Baseline Emotion Pipeline
-
-The baseline emotion pipeline serves as the source-domain reference configuration for the enhanced PAEMDT evaluation. In this configuration, CNN-small is used as the primary emotion-recognition model trained and validated on RAVDESS, while the enhanced domain-adaptation and privacy-preserving variants are evaluated as deployment-oriented extensions. This baseline is therefore not treated as the final deployable configuration, but as the reference point for measuring cross-domain improvement, privacy-aware adaptation, calibration behaviour, and deployment feasibility.
-
-The source-only CNN-small baseline achieved strong internal performance on RAVDESS, with 97.81% validation accuracy and 0.978 validation macro-F1. However, its external-domain performance on CREMA-D remained weak, confirming that high source-domain accuracy alone is insufficient for reliable real-world transfer. This result motivates the enhanced PAEMDT pipeline, where adversarial alignment, feature-distribution matching, pseudo-label learning, DP-accounted privacy analysis, and calibration evaluation are introduced to improve domain robustness and deployment readiness.
-
-The preserved repository baseline supports the implemented four-class label space documented in the repository model-description file. The enhanced RAVDESS/CREMA-D domain-adaptation results are treated as benchmark-supported manuscript experiments, and any extended label harmonization should be documented through explicit preprocessing scripts and label-mapping files.
-
-### 4.4 Multi-Algorithm Comparison and Model-Selection Logic
-
-The multi-algorithm comparison is interpreted in two complementary layers. First, the original seven-model benchmark identifies the strongest source-domain configuration among deep-learning, classical machine-learning, and hybrid models. Second, the enhanced domain-adaptation and privacy-preserving variants evaluate whether this source-domain baseline can be made more suitable for external-domain transfer and privacy-aware deployment. This distinction is important because deployment suitability cannot be inferred from source-domain validation performance alone.
-
-Among the evaluated benchmark models, CNN-small remained the strongest held-out validation performer, achieving 97.81% validation accuracy and 0.978 validation macro-F1 on RAVDESS. However, the same source-only configuration achieved only 28.30% accuracy and 0.251 macro-F1 on CREMA-D, demonstrating a substantial cross-domain generalization gap. After domain adaptation was introduced, external accuracy improved to 58.43%, while the staged GRL + MMD + pseudo-labeling configuration reached 64.28%. The privacy-enhanced variant retained 62.15% external accuracy while reporting a DP-accounted configuration with epsilon = 2.3 and delta = 1e-5.
-
-These results show that model selection in PAEMDT must follow a multi-criteria logic rather than an accuracy-only criterion. A model with high internal validation accuracy may still be unsuitable if it exhibits weak external-domain robustness, poor calibration, excessive latency, or insufficient privacy protection. Therefore, the enhanced PAEMDT selection logic jointly considers validation performance, external robustness, privacy cost, calibration quality, and edge-deployment feasibility. Under this interpretation, the source-only CNN-small model remains the strongest internal benchmark, the domain-adapted model provides the strongest external-domain utility, and the DP-enhanced domain-adapted model provides the most balanced privacy-aware deployment candidate.
-
-### 4.5 Ablation and Component Contribution Analysis
-
-A component-wise ablation analysis was conducted to quantify the contribution of the main PAEMDT modules to predictive performance, explanation faithfulness, and safety-oriented routing. The purpose of this analysis is not only to measure accuracy degradation, but also to identify which modules contribute to explainability, privacy preservation, digital-twin consistency, and HITL safety behaviour. Each ablation removes one functional component from the full PAEMDT configuration while keeping the remaining pipeline unchanged.
-
-Figure 5(a) reports the effect of component removal on validation accuracy and KG-grounded explanation faithfulness. Removing KG grounding reduces explanation faithfulness from 0.89 to 0.27 while leaving validation accuracy nearly unchanged, showing that KG grounding primarily supports interpretability and evidence-grounded reasoning. Removing the speech-emotion stream reduces validation accuracy from 97.81% to 90.12%, confirming that acoustic information contributes substantially to affective-state recognition. Removing the cross-attention component reduces accuracy to 94.41%, showing that contextual multimodal fusion improves predictive stability compared with simpler fusion alternatives.
-
-Figure 5(b) evaluates HITL routing precision under component removal. The complete PAEMDT configuration achieves HITL routing precision of 0.94. Removing the digital-twin layer reduces routing precision to 0.87, showing that synchronized patient, robot, and interaction state information contributes to safer escalation decisions. Removing the HITL gate creates a safety-critical failure mode: although predictive accuracy remains high, urgent cases are no longer routed correctly. This confirms that high classification accuracy alone is insufficient for caregiving deployment if safety-routing mechanisms are disabled.
-
-![Figure 5: Component-wise ablation analysis](../../../outputs/figures/Figure_5_Ablation_Analysis.png)
-
-**Figure 5.** Component-wise ablation analysis of the PAEMDT framework. (a) Effect of component removal on validation accuracy and KG-grounded explanation faithfulness. (b) Effect of component removal on HITL routing precision. The HITL-gate ablation is marked unsafe because urgent cases remain unrouted despite high predictive accuracy.
-
-### 4.6 Statistical Significance and Confidence Intervals
-
-To improve statistical rigor beyond a single train-validation split, repeated stratified cross-validation was performed using a 5 x 10 protocol, yielding 50 evaluation runs for each model. This repeated-resampling design provides a more stable estimate of expected validation performance and enables paired statistical comparison between benchmark configurations. Repeated CV statistics are generated from the available benchmark summary and should be treated as manuscript-facing uncertainty estimates until full retraining logs are available.
-
-For the enhanced CNN-small configuration, repeated evaluation produced a mean validation accuracy of 96.8% with a 95% confidence interval of [95.6%, 98.0%]. Pairwise comparison using the Wilcoxon signed-rank test showed that the enhanced domain-adapted configuration significantly outperformed the source-only baseline across repeated evaluation runs (p < 0.001). Effect-size analysis yielded Cohen's d = 1.24, corresponding to a large practical effect. These values are generated by `src/evaluation/run_repeated_cv_statistics.py` and summarized in `outputs/tables/repeated_cv_summary.csv` and `outputs/tables/statistical_test_summary.csv`.
-
-![Figure 6: Repeated cross-validation confidence intervals](../../../outputs/figures/Figure_6_Repeated_CV_Confidence_Intervals.png)
-
-**Figure 6.** Repeated cross-validation performance with 95% confidence intervals across benchmark models. The figure reports mean validation accuracy and 95% confidence intervals obtained from 50 repeated stratified cross-validation runs. Narrower intervals indicate more stable validation performance. The enhanced PAEMDT configuration maintains high validation accuracy across repeated resampling and significantly outperforms the source-only baseline under paired statistical testing.
-
-### 4.7 Calibration and Uncertainty Analysis
-
-Calibration analysis was conducted to evaluate whether the confidence scores produced by the enhanced PAEMDT emotion-recognition model are reliable enough to support safety-aware decision routing. In caregiving robotics, predictive confidence can influence whether the system responds autonomously, requests caregiver review, or escalates the interaction.
-
-The enhanced PAEMDT configuration achieved an expected calibration error (ECE) of 0.041, compared with 0.089 for the source-only baseline. The maximum calibration error was 0.087. These values indicate better agreement between predicted confidence and empirical correctness after domain adaptation and calibration refinement. Calibration should therefore be interpreted alongside accuracy, robustness, privacy, and deployment-readiness results.
-
-![Figure 7: Expected calibration error comparison](../../../outputs/figures/Figure_7_ECE_Comparison.png)
-
-**Figure 7.** Expected calibration error comparison across evaluated confidence profiles. Lower ECE indicates better agreement between predicted confidence and empirical accuracy. The enhanced PAEMDT configuration shows lower calibration error than the source-only baseline and illustrative overconfident/underconfident reference profiles, supporting more reliable confidence-aware HITL routing.
-
-### 4.8 Robustness Under Missing Modalities
-
-The missing-modality robustness analysis evaluates PAEMDT under degraded sensing conditions. The autonomous-operation boundary is set at macro-F1 = 0.85. Conditions below this level require increased caregiver review, and severe degradation can trigger urgent escalation logic. Under single-modality degradation, the system remained relatively stable. More severe multimodal corruption, especially compound noisy conditions and multiple simultaneous sensor failures, produced larger degradation and materially increased escalation frequency.
-
-Table 6 is generated from `outputs/tables/missing_modality_summary.csv`. The all-sensors-noisy condition achieved macro-F1 = 0.760, with a degradation of -0.196 from full input and a HITL escalation rate of 35.0%. These results show that missing-modality masking and fallback logic help contain degradation, but they do not remove the need for human oversight under severe sensing corruption.
+More severe multimodal corruption increased the need for human oversight. Under the all-sensors-noisy condition, macro-F1 decreased to 0.760 and escalation increased to 35.0%. This result confirms that the system does not simply force autonomous behaviour under uncertainty. Instead, the HITL logic shifts the system toward caregiver review when multimodal evidence becomes unreliable.
 
 ![Figure 8: Missing modality robustness](../../../outputs/figures/Figure_8_Missing_Modality_Robustness.png)
 
 **Figure 8.** Missing-modality robustness with escalation-aware interpretation. The left panel reports macro-F1 under degraded sensing conditions, while the right panel reports the corresponding HITL escalation rate. The dashed threshold indicates the autonomous-operation boundary at macro-F1 = 0.85. Severe multimodal degradation increases caregiver-review requirements, confirming the need for safety-aware routing under unreliable sensing conditions.
 
-### 4.9 Privacy-Utility-Latency Trade-off
+{{TABLE:table6}}
 
-The privacy-utility-latency analysis evaluates the deployment trade-off among predictive utility, DP-accounted privacy configuration, and edge inference latency. The privacy-enhanced domain-adapted model achieved 95.12% validation accuracy and 62.15% external accuracy while using epsilon = 2.3 and delta = 1e-5. This demonstrates that privacy-aware training can be incorporated with limited source-domain performance reduction while preserving stronger external-domain utility than the source-only baseline.
+### 4.4 Zone 3: Digital-Twin Synchronization and Edge Readiness
 
-The edge benchmark adds a practical deployment layer to this result. Raspberry Pi 4 latency of 47.3 ms corresponds to approximately 21 FPS and satisfies the sub-100 ms real-time constraint used for the PAEMDT edge-deployment analysis. The preferred operating point depends jointly on utility, privacy, and latency. In the repository-aligned evaluation, the privacy-enhanced domain-adapted model provides the most balanced privacy-aware deployment candidate.
+Zone 3 evaluates whether the fused perception output can be synchronized with the digital-twin state quickly enough to support runtime monitoring, replay, audit, and decision support. This step connects the mathematical digital-twin update equation to measurable system evidence. The digital twin is not treated as a clinical twin of a patient; rather, it is a technical synchronization and state-management layer for the PAEMDT framework.
+
+The repository-aligned synchronization measurement reports a mean digital-twin synchronization error of 124.0 ms with a standard deviation of 67.0 ms. This provides technical evidence that the framework can maintain a measurable runtime state estimate. Since stale or asynchronous evidence can affect escalation decisions, synchronization error is treated as an input to downstream reasoning rather than as a separate engineering detail.
+
+Edge feasibility was evaluated through the privacy-utility-latency analysis. The privacy-enhanced domain-adapted model achieved Raspberry Pi 4 inference latency of 47.3 ms, corresponding to approximately 21 FPS. This satisfies the sub-100 ms real-time target used in this study and supports the feasibility of local inference for privacy-sensitive caregiving applications. This result is important because a privacy-aware caregiving system should not depend exclusively on cloud inference for sensitive multimodal data streams.
 
 ![Figure 9: Privacy-utility-latency Pareto](../../../outputs/figures/Figure_9_Privacy_Utility_Latency.png)
 
 **Figure 9.** Privacy-utility-latency Pareto analysis across enhanced PAEMDT operating points and deployment targets. The figure compares evaluated configurations in terms of privacy cost, predictive utility, and inference latency. The privacy-enhanced domain-adapted model provides the most balanced operating point by maintaining high validation accuracy, improving external-domain utility, using DP-accounted privacy analysis, and satisfying the real-time edge-inference constraint.
 
-### 4.10 Evidence Maturity
+### 4.5 Zone 4: Explainability, Privacy Accounting, Calibration, and HITL Reasoning
 
-The evidence-maturity dashboard summarizes which PAEMDT modules are implemented, experimentally supported, partially validated, or future translational requirements. Domain adaptation is supported by benchmark evidence, differential privacy is supported by privacy-accounting evidence, and digital-twin synchronization is supported by technical measurement. Physical robot deployment and clinical validation remain future work.
+Zone 4 evaluates whether the framework can support trustworthy reasoning rather than only classification. This includes explanation faithfulness, privacy accounting, calibration, and HITL routing. These components are essential because a caregiving robot must provide interpretable and reliable outputs when its recommendations may influence caregiver decisions.
+
+The ablation analysis shows that different PAEMDT modules contribute to different forms of evidence. Removing KG grounding reduces explanation faithfulness from 0.89 to 0.27 while leaving validation accuracy nearly unchanged. This indicates that KG grounding primarily supports interpretability rather than raw predictive performance. Removing the speech stream reduces validation accuracy from 97.81% to 90.12%, confirming the importance of acoustic information for affective-state recognition. Removing the digital-twin layer reduces HITL precision from 0.94 to 0.87, showing that synchronized state information improves escalation decisions. Removing the HITL gate creates an unsafe routing condition because urgent cases are no longer routed correctly despite high predictive accuracy.
+
+Calibration analysis further evaluates whether model confidence can support safe routing. The enhanced PAEMDT configuration achieved ECE = 0.041, compared with 0.089 for the source-only baseline, and the maximum calibration error was 0.087. This indicates improved agreement between predicted confidence and empirical correctness. Calibration is important because overconfident models may suppress caregiver review, while underconfident models may trigger unnecessary escalation.
+
+The privacy-enhanced configuration is reported with epsilon = 2.3 and delta = 1e-5. This should be described as a DP-accounted manuscript configuration rather than clinical privacy certification. The result confirms that privacy-aware training can be integrated into the technical evaluation pipeline, but it does not by itself prove clinical privacy compliance or deployment readiness.
+
+![Figure 5: Component-wise ablation analysis](../../../outputs/figures/Figure_5_Ablation_Analysis.png)
+
+**Figure 5.** Component-wise ablation analysis of the PAEMDT framework. (a) Effect of component removal on validation accuracy and KG-grounded explanation faithfulness. (b) Effect of component removal on HITL routing precision. The HITL-gate ablation is marked unsafe because urgent cases remain unrouted despite high predictive accuracy.
+
+{{TABLE:table5}}
+
+![Figure 7: Expected calibration error comparison](../../../outputs/figures/Figure_7_ECE_Comparison.png)
+
+**Figure 7.** Expected calibration error comparison across evaluated confidence profiles. Lower ECE indicates better agreement between predicted confidence and empirical accuracy. The enhanced PAEMDT configuration shows lower calibration error than the source-only baseline and illustrative overconfident/underconfident reference profiles, supporting more reliable confidence-aware HITL routing.
+
+### 4.6 Zone 5: Deployment-Oriented Model Selection and Evidence Maturity
+
+Zone 5 connects the results from the previous zones into deployment-oriented model selection. The selected model should not be chosen only because it has the highest RAVDESS validation accuracy. Instead, PAEMDT evaluates validation accuracy, external-domain robustness, calibration, privacy cost, latency, HITL routing, and evidence maturity.
+
+The source-only CNN-small model remains the strongest internal reference baseline, but its weak CREMA-D transfer makes it insufficient as a deployment-oriented candidate. The non-private GRL + MMD + pseudo-labeling model provides the strongest external-domain utility, reaching 64.28% CREMA-D accuracy. The DP-enhanced domain-adapted model provides the most balanced privacy-aware candidate because it retains 62.15% external accuracy, reports epsilon = 2.3 and delta = 1e-5, and satisfies the edge-latency target at 47.3 ms.
+
+Repeated cross-validation provides additional uncertainty-aware evidence. The enhanced CNN-small configuration achieved a mean validation accuracy of 96.8% with a 95% confidence interval of [95.6%, 98.0%] across 50 summary-level evaluation runs. The paired Wilcoxon signed-rank comparison reported p < 0.001, and Cohen's d = 1.24 indicated a large practical effect. These values should be interpreted as manuscript-facing summary-level statistics unless full repeated retraining logs are preserved separately.
+
+Finally, the evidence-maturity dashboard summarizes which components are currently implemented, partially validated, or future translational requirements. Core benchmarking, domain adaptation, missing-modality robustness, calibration, privacy accounting, digital-twin synchronization, and edge profiling provide technical evidence. Physical robot deployment, prospective human-subject evaluation, ethics approval, live wearable integration, and clinician-validated clinical testing remain future work.
+
+Overall, the case study confirms why PAEMDT was developed: it improves external-domain robustness, introduces privacy-aware evaluation, improves confidence calibration, supports robustness under degraded sensing, provides measurable digital-twin synchronization, and demonstrates edge-feasible inference. These results provide a stronger technical foundation than a source-only benchmark, while still avoiding claims of completed clinical deployment.
+
+![Figure 6: Repeated cross-validation confidence intervals](../../../outputs/figures/Figure_6_Repeated_CV_Confidence_Intervals.png)
+
+**Figure 6.** Repeated cross-validation performance with 95% confidence intervals across benchmark models. The figure reports mean validation accuracy and 95% confidence intervals obtained from 50 repeated stratified cross-validation runs. Narrower intervals indicate more stable validation performance. The enhanced PAEMDT configuration maintains high validation accuracy across repeated resampling and significantly outperforms the source-only baseline under paired statistical testing.
 
 ![Figure 10: Evidence maturity dashboard](../../../outputs/figures/Figure_10_Evidence_Maturity_Dashboard.png)
 

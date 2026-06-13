@@ -1,0 +1,7 @@
+Emotion Class,Original Labels,Train N,Val N,Train %
+Calm,calm + neutral,398,100,21.7
+Happy,happy,192,48,10.5
+Sad,sad,192,48,10.5
+Fearful,fearful + surprised,384,96,20.9
+Angry,angry + disgust,672,164,36.6
+Total,-,1838,456,100.0
